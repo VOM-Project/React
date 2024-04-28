@@ -1,0 +1,28 @@
+:root {
+    --background: rgba(245, 225, 225, 1);
+    --balck-60: rgba(0, 0, 0, 0.6);
+    --black-80: rgba(0, 0, 0, 0.8);
+    --body-md-semibold-font-family: "Pretendard", Helvetica;
+    --body-md-semibold-font-size: 16px;
+    --body-md-semibold-font-style: normal;
+    --body-md-semibold-font-weight: 600;
+    --body-md-semibold-letter-spacing: -0.48px;
+    --body-md-semibold-line-height: 120.00000476837158%;
+    --brown: rgba(84, 69, 73, 1);
+    --brown-30: rgba(84, 69, 73, 0.3);
+    --graydisabled-50: rgba(196, 200, 212, 0.5);
+    --main: rgba(236, 129, 144, 1);
+    --medium-12-font-family: "Pretendard", Helvetica;
+    --medium-12-font-size: 12px;
+    --medium-12-font-style: normal;
+    --medium-12-font-weight: 500;
+    --medium-12-letter-spacing: -0.36px;
+    --medium-12-line-height: 150%;
+    --sub-20: rgba(247, 204, 212, 0.2);
+    --sub-60: rgba(247, 204, 212, 0.6);
+    --third-40: rgba(244, 234, 230, 0.4);
+    --title: rgba(22, 24, 29, 1);
+    --white: rgba(255, 255, 255, 1);
+    --whitewhite: rgba(255, 255, 255, 1);
+    --x: rgba(128, 218, 235, 1);
+}
