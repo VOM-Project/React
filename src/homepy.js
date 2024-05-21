@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import axios from "axios";
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
-import Toast from "./components/Toast";
-import Profile from "./components/Profile";
+// import Toast from "./components/Toast";
+import Profile from "./components/Profile.js";
 // import SVGInline from 'react-svg-inline'
 
 import Search from "./assets/search.svg";
@@ -11,7 +9,7 @@ import Ph_bell_light from "./assets/ph-bell-light.svg";
 import Icon from "./assets/icon-50.svg";
 
 
-export default function main() {
+export default function Homepy() {
 
     return (
         <div className="main">
