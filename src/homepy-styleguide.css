@@ -8,9 +8,17 @@
     --body-md-semibold-font-weight: 600;
     --body-md-semibold-letter-spacing: -0.48px;
     --body-md-semibold-line-height: 120.00000476837158%;
+    --body-sm-regular-font-family: "Pretendard", Helvetica;
+    --body-sm-regular-font-size: 14px;
+    --body-sm-regular-font-style: normal;
+    --body-sm-regular-font-weight: 400;
+    --body-sm-regular-letter-spacing: -0.42px;
+    --body-sm-regular-line-height: 120.00000476837158%;
     --brown: rgba(84, 69, 73, 1);
     --brown-30: rgba(84, 69, 73, 0.3);
+    --graydisabled: rgba(196, 200, 212, 1);
     --graydisabled-50: rgba(196, 200, 212, 0.5);
+    --graysubtitle: rgba(67, 73, 86, 1);
     --main: rgba(236, 129, 144, 1);
     --medium-12-font-family: "Pretendard", Helvetica;
     --medium-12-font-size: 12px;
