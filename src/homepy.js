@@ -1,6 +1,7 @@
 import React from 'react'
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
+import Toast from "./components/Toast";
 // import SVGInline from 'react-svg-inline'
 
 import Search from "./assets/search.svg";
@@ -13,7 +14,6 @@ import Mingcute_location from "./assets/mingcute-location-line.svg";
 import Mdi_heart from "./assets/mdi-heart.svg";
 import Ic_baseline_people_white from "./assets/ic-baseline-people-white.svg";
 import Icon from "./assets/icon-50.svg";
-import Icon_24 from "./assets/icon_24.svg";
 
 
 export default function main() {
@@ -52,62 +52,6 @@ export default function main() {
                                 </p>
                             </div>
                         </div>
-
-
-
-
-                        <div className="toast">
-                            <div className="frame-toast">
-                                <img className="mdi-heart-toast" alt="Mdi heart" src={Mdi_heart} />
-                                <div className="div-wrapper-toast">
-                                    <div className="text-wrapper-2-toast">박서현 님에게 관심을 보냈습니다</div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
-                        <div className="modal">
-                            <div className="text-wrapper-modal">봄봄 신청</div>
-                            <img className="icon-modal" alt="Icon" src={Icon_24} />
-                            <div className="div-modal">박서현 님에게 봄봄을 신청할까요?</div>
-                            <button className="button-modal">
-                                <div className="text-wrapper-2-modal">신청</div>
-                            </button>
-                            <button className="div-wrapper-modal">
-                                <div className="text-wrapper-3-modal">취소</div>
-                            </button>
-                        </div>
-
-
-
-
-
-                        <div className="frame-vomvom">
-                            <div className="overlap-group-vomvom">
-                                <div className="menu-vomvom">
-                                    <div className="menu-item-vomvom">
-                                        <div className="div-vomvom">
-                                            <img className="ellipse-vomvom" alt="Ellipse" src={require("./assets/ellipse-1495.png")} />
-                                            <div className="text-wrapper-vomvom">오수아</div>
-                                        </div>
-                                    </div>
-                                    <div className="menu-item-vomvom">
-                                        <div className="div-vomvom">
-                                            <img className="ellipse-vomvom" alt="Ellipse" src={require("./assets/ellipse-1496.png")} />
-                                            <div className="text-wrapper-vomvom">최수빈</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="rectangle-vomvom" />
-                            </div>
-                        </div>
-
-
-
-
                         <div className="frame-6">
                             <div className="text-wrapper-3">관심 키워드</div>
                             <div className="frame-7">
