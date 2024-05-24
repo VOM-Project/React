@@ -2,6 +2,7 @@ import "./homepy-style.css";
 import "./homepy-styleguide.css";
 // import Toast from "./components/Toast";
 import Profile from "./components/Profile.js";
+import Greeting from "./components/Greeting.js";
 // import SVGInline from 'react-svg-inline'
 
 import Search from "./assets/search.svg";
@@ -31,21 +32,11 @@ export default function Homepy() {
                 </header>
                 <div className="frame-2">
                     <div className="frame-3">
-                        <div className="frame-4">
-                            <div className="div-wrapper">
-                                <div className="text-wrapper-2">인사말</div>
-                            </div>
-                            <div className="frame-5">
-                                <p className="p">
-                                    안녕하세요 저는 대학교 다니는 박서현이에요!!
-                                    <br />
-                                    화상 채팅 좋아요
-                                    <br />콕 찌르기도 좋아요 ^_^
-                                    <br />
-                                    봄봄 걸어주세요~~~
-                                </p>
-                            </div>
-                        </div>
+
+
+                        <Greeting />
+
+
                         <div className="frame-6">
                             <div className="text-wrapper-3">관심 키워드</div>
                             <div className="frame-7">
