@@ -3,6 +3,7 @@ import "./homepy-styleguide.css";
 // import Toast from "./components/Toast";
 import Profile from "./components/Profile.js";
 import Greeting from "./components/Greeting.js";
+import Try from "./components/Greeting copy.js";
 // import SVGInline from 'react-svg-inline'
 
 import Search from "./assets/search.svg";
@@ -32,11 +33,8 @@ export default function Homepy() {
                 </header>
                 <div className="frame-2">
                     <div className="frame-3">
-
-
-                        <Greeting />
-
-
+                        {/* <Greeting /> */}
+                        <Try />
                         <div className="frame-6">
                             <div className="text-wrapper-3">관심 키워드</div>
                             <div className="frame-7">

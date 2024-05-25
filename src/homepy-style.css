@@ -165,6 +165,14 @@
     overflow: hidden;
     position: relative;
     width: 1288px;
+    justify-content: flex-end;
+    display: flex;
+}
+
+.main .frame-greeting {
+    display: flex;
+    flex: 0 0 auto;
+    margin-right: 30px;
 }
 
 .main .text-wrapper-2 {
@@ -186,6 +194,21 @@
     height: 156px;
     position: relative;
     width: 1288px;
+}
+
+.main .textarea {
+    background-color: var(--third-40);
+    border-radius: 0px 0px 8px 8px;
+    height: 156px;
+    position: relative;
+    color: var(--black-80);
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.48px;
+    line-height: 24px;
+    width: 99.5%;
+    height: 95%;
 }
 
 .main .p {

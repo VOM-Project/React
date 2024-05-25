@@ -4,10 +4,11 @@ import axios from "axios";
 import "../homepy-style.css";
 import "../homepy-styleguide.css";
 
-export default function Profile() {
+import mingcute_edit_line from "../assets/mingcute_edit-line.svg";
+
+export default function Greeting() {
 
     const [user_greeting, setUser_greeting] = useState();
-
 
     useEffect(() => {
         getUser();
@@ -18,7 +19,7 @@ export default function Profile() {
             .get("/api/homepy/1/greeting")
             .then(response => {
                 console.log(response.data);
-                setUser_greeting(response.data);
+                setUser_greeting(response.data.greeting);
             })
             .catch((error) => {
                 console.log(error);
@@ -31,6 +32,9 @@ export default function Profile() {
                 <div className="frame-4">
                     <div className="div-wrapper">
                         <div className="text-wrapper-2">인사말</div>
+                        <div classnane="frame-greeting">
+                            <img className="mingcute_edit_line" alt="mingcute_edit_line" src={mingcute_edit_line} />
+                        </div>
                     </div>
                     <div className="frame-5">
                         <p className="p">
