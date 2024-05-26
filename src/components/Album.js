@@ -77,6 +77,7 @@ export default function Album() {
     //         })
     // }
 
+    // 상태 관리: 이미지 목록
     const [images, setImages] = useState([]);
 
     useEffect(() => {
@@ -88,6 +89,19 @@ export default function Album() {
                 console.error('Error fetching the images:', error);
             });
     }, []);
+
+    // 이미지 삭제 핸들러
+    const handleDelete = (id) => {
+        axios.delete(`/api/album/1/${id}/delete`)
+            .then(response => {
+                // 서버 응답이 성공적이면 상태 업데이트
+                const updatedImages = images.filter(image => image.id !== id);
+                setImages(updatedImages);
+            })
+            .catch(error => {
+                console.error("There was an error deleting the image!", error);
+            });
+    };
 
 
     return (
@@ -110,9 +124,9 @@ export default function Album() {
                 </div>
                 <div className="frame-wrapper">
                     <div className="frame-10">
-                        {images.map((image, index) => (
-                            <div key={index} className="unsplash-wrapper">
-                                <img src={image.img_url} alt={`Image ${index + 1}`} className="unsplash" />
+                        {images.map((image) => (
+                            <div key={image.id} className="unsplash-wrapper">
+                                <img src={image.img_url} alt={`Image ${image.id}`} className="unsplash" onClick={() => handleDelete(image.id)} />
                             </div>
                         ))}
                         {/* <div className="unsplash-wrapper">
