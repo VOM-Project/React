@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import "../homepy-style.css";
-import "../homepy-styleguide.css";
+import "../../pages/homepy-style.css";
+import "../../pages/homepy-styleguide.css";
 
-import mingcute_edit_line from "../assets/mingcute_edit-line.svg";
-import tabler_checkbox from "../assets/tabler_checkbox.svg";
+import mingcute_edit_line from "../../assets/mingcute_edit-line.svg";
+import tabler_checkbox from "../../assets/tabler_checkbox.svg";
 
 export default function Greeting() {
 

@@ -1,14 +1,14 @@
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
 // import Toast from "./components/Toast";
-import Profile from "./components/Profile.js";
-import Greeting from "./components/Greeting.js";
-import Album from "./components/Album.js";
+import Profile from "../components/HomepyPage/Profile.js";
+import Greeting from "../components/HomepyPage/Greeting.js";
+import Album from "../components/HomepyPage/Album.js";
 // import SVGInline from 'react-svg-inline'
 
-import Search from "./assets/search.svg";
-import Ph_bell_light from "./assets/ph-bell-light.svg";
-import Icon from "./assets/icon-50.svg";
+import Search from "../assets/search.svg";
+import Ph_bell_light from "../assets/ph-bell-light.svg";
+import Icon from "../assets/icon-50.svg";
 
 
 export default function Homepy() {
@@ -27,7 +27,7 @@ export default function Homepy() {
                         <div className="input-no-label-3">
                             <img className="img" alt="Ph bell light" src={Ph_bell_light} />
                         </div>
-                        <img className="mask-group" alt="Mask group" src={require("./assets/Mask-group.png")} />
+                        <img className="mask-group" alt="Mask group" src={require("../assets/Mask-group.png")} />
                     </div>
                     <div className="text-wrapper">VOM</div>
                 </header>
