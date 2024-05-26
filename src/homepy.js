@@ -3,6 +3,7 @@ import "./homepy-styleguide.css";
 // import Toast from "./components/Toast";
 import Profile from "./components/Profile.js";
 import Greeting from "./components/Greeting.js";
+import Album from "./components/Album.js";
 // import SVGInline from 'react-svg-inline'
 
 import Search from "./assets/search.svg";
@@ -72,24 +73,7 @@ export default function Homepy() {
                                 </div>
                             </div>
                         </div>
-                        <div className="frame-9">
-                            <div className="div-wrapper">
-                                <div className="text-wrapper-2">앨범</div>
-                            </div>
-                            <div className="frame-wrapper">
-                                <div className="frame-10">
-                                    <div className="unsplash-wrapper">
-                                        <img className="unsplash" alt="Unsplash" src={require("./assets/unsplash-oqHYQyGD9Po.png")} />
-                                    </div>
-                                    <div className="unsplash-wrapper">
-                                        <img className="unsplash" alt="Unsplash" src={require("./assets/unsplash-r2nJPbEYuSQ.png")} />
-                                    </div>
-                                    <div className="unsplash-wrapper">
-                                        <img className="unsplash" alt="Unsplash" src={require("./assets/unsplash-KMn4VEeEPR8.png")} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <Album />
                     </div>
                     <button className="button">
                         <img className="img-2" alt="Icon" src={Icon} />

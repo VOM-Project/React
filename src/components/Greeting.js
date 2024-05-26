@@ -7,7 +7,7 @@ import "../homepy-styleguide.css";
 import mingcute_edit_line from "../assets/mingcute_edit-line.svg";
 import tabler_checkbox from "../assets/tabler_checkbox.svg";
 
-export default function Try() {
+export default function Greeting() {
 
     const [isEdit, setIsEdit] = useState(false);
     const [user_greeting, setUser_greeting] = useState();
@@ -65,7 +65,7 @@ export default function Try() {
                 <div className="frame-4">
                     <div className="div-wrapper">
                         <div className="text-wrapper-2">인사말</div>
-                        <div classnane="frame-greeting">
+                        <div className="frame-a">
                             <img className="tabler_checkbox" alt="tabler_checkbox" src={tabler_checkbox} onClick={() => setGreeting()} />
                         </div>
                     </div>
@@ -82,7 +82,7 @@ export default function Try() {
                     <div className="frame-4">
                         <div className="div-wrapper">
                             <div className="text-wrapper-2">인사말</div>
-                            <div classnane="frame-greeting">
+                            <div className="frame-a">
                                 <img className="mingcute_edit_line" alt="mingcute_edit_line" src={mingcute_edit_line} onClick={() => setIsEdit(true)} />
                             </div>
                         </div>

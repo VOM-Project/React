@@ -169,10 +169,11 @@
     display: flex;
 }
 
-.main .frame-greeting {
-    display: flex;
+.main .frame-a {
+    /* display: flex; */
     flex: 0 0 auto;
-    margin-right: 30px;
+    margin-top: 10px;
+    margin-right: 20px;
 }
 
 .main .text-wrapper-2 {
@@ -309,15 +310,18 @@
     height: 311px;
     position: relative;
     width: 1288px;
+    overflow: auto;
 }
 
 .main .frame-10 {
-    align-items: flex-start;
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
+    /* 추가됨 */
     gap: 10px;
-    left: 31px;
-    position: relative;
-    top: 30px;
+    padding: 30px 31px;
+    /* 여백을 padding으로 변경 */
+    overflow: auto;
+    /* 추가됨 */
 }
 
 .main .unsplash-wrapper {
@@ -325,7 +329,10 @@
     height: 402px;
     overflow: hidden;
     position: relative;
-    width: 402px;
+    width: calc(33.33% - 20px);
+    /* 3개의 열로 나누기 위한 계산 */
+    box-sizing: border-box;
+    /* 패딩과 보더를 포함하여 박스 크기 계산 */
 }
 
 .main .unsplash {
