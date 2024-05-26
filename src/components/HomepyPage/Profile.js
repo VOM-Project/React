@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import "../homepy-style.css";
-import "../homepy-styleguide.css";
+import "../../pages/homepy-style.css";
+import "../../pages/homepy-styleguide.css";
 
-import Ic_baseline_people from "../assets/ic-baseline-people.svg";
-import Ic_outline_email from "../assets/ic-outline-email.svg";
-import Mingcute_birthday from "../assets/mingcute-birthday-2-line.svg";
-import Fluent_person from "../assets/fluent-person-12-regular.svg";
-import Mingcute_location from "../assets/mingcute-location-line.svg";
-import Mdi_heart from "../assets/mdi-heart.svg";
-import Ic_baseline_people_white from "../assets/ic-baseline-people-white.svg";
+import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
+import Ic_outline_email from "../../assets/ic-outline-email.svg";
+import Mingcute_birthday from "../../assets/mingcute-birthday-2-line.svg";
+import Fluent_person from "../../assets/fluent-person-12-regular.svg";
+import Mingcute_location from "../../assets/mingcute-location-line.svg";
+import Mdi_heart from "../../assets/mdi-heart.svg";
+import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg";
 
 export default function Profile() {
 
@@ -34,7 +34,7 @@ export default function Profile() {
                 console.log(response.data);
                 setUser_profileImgUrl(response.data.profileImgUrl);
                 setUser_nickname(response.data.nickname);
-                setUser_vomvomCount(response.data.vomVomCont);
+                setUser_vomvomCount(response.data.vomVomCount);
                 setUser_email(response.data.email);
                 setUser_birth(response.data.birth);
                 setUser_region(response.data.region);
@@ -80,7 +80,7 @@ export default function Profile() {
                 // profiles.map(profile => (
                 <div className="frame-11" >
                     <div className="frame-12">
-                        <img className="mask-group-2" alt="Mask group" src={require("../assets/profile1.png")} />
+                        <img className="mask-group-2" alt="Mask group" src="https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile1.png" />
                         <div className="frame-13">
                             <div className="frame-14">
                                 <div className="text-wrapper-5">{user_nickname}</div>
@@ -107,19 +107,21 @@ export default function Profile() {
                                     </div>
                                     <div className="text-wrapper-8">{user_birth}</div>
                                 </div>
-                                <div className="frame-17">
+
+                                {/* 나이 */}
+                                {/* <div className="frame-17">
                                     <div className="frame-19">
                                         <img className="img-3" alt="Fluent person" src={Fluent_person} />
                                         <div className="text-wrapper-7">나이</div>
                                     </div>
                                     <div className="text-wrapper-8">24세</div>
-                                </div>
+                                </div> */}
                                 <div className="frame-17">
                                     <div className="frame-18">
                                         <img className="img-3" alt="Mingcute location" src={Mingcute_location} />
                                         <div className="text-wrapper-7">지역</div>
                                     </div>
-                                    <div className="text-wrapper-8">서울</div>
+                                    <div className="text-wrapper-8">{user_region}</div>
                                 </div>
                             </div>
                         </div>
