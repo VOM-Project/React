@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import "../homepy-style.css";
-import "../homepy-styleguide.css";
+import "../../pages/homepy-style.css";
+import "../../pages/homepy-styleguide.css";
 
-import Ic_baseline_people from "../assets/ic-baseline-people.svg";
-import Ic_outline_email from "../assets/ic-outline-email.svg";
-import Mingcute_birthday from "../assets/mingcute-birthday-2-line.svg";
-import Fluent_person from "../assets/fluent-person-12-regular.svg";
-import Mingcute_location from "../assets/mingcute-location-line.svg";
-import Mdi_heart from "../assets/mdi-heart.svg";
-import Ic_baseline_people_white from "../assets/ic-baseline-people-white.svg";
+import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
+import Ic_outline_email from "../../assets/ic-outline-email.svg";
+import Mingcute_birthday from "../../assets/mingcute-birthday-2-line.svg";
+import Fluent_person from "../../assets/fluent-person-12-regular.svg";
+import Mingcute_location from "../../assets/mingcute-location-line.svg";
+import Mdi_heart from "../../assets/mdi-heart.svg";
+import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg";
 
 export default function Profile() {
 
