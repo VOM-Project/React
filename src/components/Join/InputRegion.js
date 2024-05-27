@@ -5,10 +5,15 @@ const Wrapper = styled.div`
   height: 75px;
 `;
 
-const InputRegion = () => {
+const InputRegion = ({ region, setRegion }) => {
   return (
     <Wrapper>
-      <select>
+      지역
+      <select
+        value={region}
+        onChange={(e) => setRegion(e.target.value)}
+        required
+      >
         <option value="1">서울특별시</option>
         <option value="2">경기도</option>
         <option value="3">인천광역시</option>

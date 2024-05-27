@@ -5,10 +5,14 @@ const Wrapper = styled.div`
   height: 75px;
 `;
 
-const InputKeyword = () => {
+const InputKeyword = ({ keyword, setKeyword }) => {
   return (
     <Wrapper>
-      <select>
+      <select
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+        required
+      >
         <option value="1">공부</option>
         <option value="2">운동</option>
         <option value="3">일상</option>

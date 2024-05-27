@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LoginCallback = () => {
-  //왜 props?
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
   console.log(code);

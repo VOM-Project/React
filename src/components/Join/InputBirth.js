@@ -5,13 +5,30 @@ const Wrapper = styled.div`
   height: 75px;
 `;
 
-const InputBirth = () => {
+const InputBirth = ({
+  birthYear,
+  setBirthYear,
+  birthMonth,
+  setBirthMonth,
+  birthDay,
+  setBirthDay,
+}) => {
   return (
     <Wrapper>
       생년월일
       <br />
-      <input type="number" placeholder="년도(YYYY)"></input>
-      <select>
+      <input
+        type="number"
+        value={birthYear}
+        onChange={(e) => setBirthYear(e.target.value)}
+        required
+        placeholder="년도(YYYY)"
+      ></input>
+      <select
+        value={birthMonth}
+        onChange={(e) => setBirthMonth(e.target.value)}
+        required
+      >
         <option value="01">1월</option>
         <option value="02">2월</option>
         <option value="03">3월</option>
@@ -25,7 +42,13 @@ const InputBirth = () => {
         <option value="11">11월</option>
         <option value="12">12월</option>
       </select>
-      <input type="number" placeholder="일(DD)"></input>
+      <input
+        type="number"
+        value={birthDay}
+        onChange={(e) => setBirthDay(e.target.value)}
+        required
+        placeholder="일(DD)"
+      ></input>
     </Wrapper>
   );
 };
