@@ -27,10 +27,13 @@ const WindowImg = styled.img`
   max-width: 700px;
 `;
 const CursorImageWrapper = styled.div`
-  position: absolute; //배치기준이 상위요소 기준
+  position: absolute; //배치기준이 상위요소 기준, 상위요소는 relative로 설정
   bottom: 0;
   right: 0;
-  transform: translate(50%, 50%);
+  transform: translate(
+    50%,
+    50%
+  ); //이미 만들어진 태그, 혹은 이미지를 늘리거나 회전시킬 때 사용함
 `;
 const CursorImg = styled.img`
   width: 200px;
@@ -40,7 +43,10 @@ const BoxContent = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(
+    -50%,
+    -50%
+  ); //레이아웃 배치를 바꾸는게 아니라 보이는 것만 이동시킴
 `;
 
 const ButtonCheck = styled.button`

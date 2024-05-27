@@ -13,7 +13,7 @@ function App() {
         {/* 기본 경로를 /login으로 설정 */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/login/auth/callback/google" element={<LoginCallback />} />
+        <Route path="/login/oauth2/code/google" element={<LoginCallback />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/homepy" element={<Homepy />} />
       </Routes>

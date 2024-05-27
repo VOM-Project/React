@@ -10,7 +10,7 @@ function LogoutButton() {
       await axios.get("/logout");
       //로그아웃 후 localstorage 삭제
       //로그인페이지로 돌아가기
-      localStorage.clear();
+      localStorage.clear(); //토큰까지 싹 다 삭제
       navigate("/login");
     } catch (error) {
       console.error("Error logging out : ", error);

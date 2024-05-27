@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+/* 관심키워드 선택 3개 되어서 밑에 좌라락 보여주도록 애니메이션 수정 */
 const Wrapper = styled.div`
   width: 300px;
   height: 75px;
