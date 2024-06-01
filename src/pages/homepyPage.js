@@ -13,6 +13,24 @@ import Icon from "../assets/icon-50.svg";
 
 export default function Homepy() {
 
+
+    // Authorization
+    const config = {
+        headers: {
+            Authorization: `${localStorage.getItem("refresh_token")}`,
+        },
+    };
+    axios.get('/try', config)
+        .then(function (response) {
+            console.log("refresh_token 값 : " + response.data);
+            alert(userId + "님 환영합니다.");
+            window.location.href = "/";
+        })
+        .catch(function (error) {
+            console.log("오류 " + error);
+        });
+
+
     return (
         <div className="main">
             <div className="div-2">
