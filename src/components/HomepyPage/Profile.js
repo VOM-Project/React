@@ -4,7 +4,7 @@ import axios from "axios";
 import "../../pages/homepy-style.css";
 import "../../pages/homepy-styleguide.css";
 
-import Touchpoint from "../HomepyPage/Touchpoint.js";
+// import Touchpoint from "../HomepyPage/Touchpoint.js";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";

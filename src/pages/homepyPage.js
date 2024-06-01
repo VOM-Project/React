@@ -1,9 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
 // import Toast from "./components/Toast";
 import Profile from "../components/HomepyPage/Profile.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
+import Webpush from '../components/Webpush.js';
 // import SVGInline from 'react-svg-inline'
 
 import Search from "../assets/search.svg";
@@ -14,22 +18,57 @@ import Icon from "../assets/icon-50.svg";
 export default function Homepy() {
 
 
-    // Authorization
+    /*
+     * Authorization
+     */
     const config = {
         headers: {
-            Authorization: `${localStorage.getItem("refresh_token")}`,
+            // Authorization: `${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MiwiZW1haWwiOiJqaW1pbkBlbWFpbC5jb20iLCJzdWIiOiJqaW1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjM2MzAsImV4cCI6MTcxNzI2NjIyMn0.cVZG7P3z2PZp2NBk8yWZ9XX6xevc26tC67AZEgkVAPs`,
         },
     };
-    axios.get('/try', config)
-        .then(function (response) {
-            console.log("refresh_token 값 : " + response.data);
-            alert(userId + "님 환영합니다.");
-            window.location.href = "/";
-        })
-        .catch(function (error) {
-            console.log("오류 " + error);
-        });
+    // axios.get('/try', config)
+    //     .then(function (response) {
+    //         console.log("access_token 값 : " + response.data);
+    //         // alert(userId + "님 환영합니다.");
+    //         window.location.href = "/";
+    //     })
+    //     .catch(function (error) {
+    //         console.log("오류 " + error);
+    //     });
 
+    /*
+     * Webpush
+     */
+    const [data, setData] = useState([]); // API 응답 데이터 저장 상태
+    const [showModal, setShowModal] = useState(false); // 모달창 표시 여부 상태
+
+    useEffect(() => {
+        // Axios GET 요청 및 응답 처리
+        axios.get('http://localhost:8080/api/webpush/2', config)
+            .then(response => {
+                setData(response.data);
+                // 데이터가 있다면 모달창 표시
+                if (response.data.length > 0) {
+                    setShowModal(true);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    // axios.get('http://localhost:8080/api/webpush/2', config)
+    //     .then(response => {
+    //         setData(response.data);
+    //         // 데이터가 있다면 모달창 표시
+    //         if (response.data.length > 0) {
+    //             setShowModal(true);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     });
 
     return (
         <div className="main">
@@ -39,19 +78,22 @@ export default function Homepy() {
                         <div className="input-no-label">
                             <div className="input-no-label-2">
                                 <img className="ic-baseline-people" alt="Search" src={Search} />
-                                <div className="label">닉네임을 검색해보세요</div>
+                                {showModal && <div className="label">닉네임을 검색해보세요</div>}
                             </div>
                         </div>
                         <div className="input-no-label-3">
                             <img className="img" alt="Ph bell light" src={Ph_bell_light} />
                         </div>
-                        <img className="mask-group" alt="Mask group" src={require("../assets/Mask-group.png")} />
+                        <img className="mask-group" alt="Mask group" src="https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile2.png" />
                     </div>
                     <div className="text-wrapper">VOM</div>
                 </header>
+                <div>
+                    {showModal && <Webpush data={data} onClose={() => setShowModal(false)} />}
+                </div>
                 <div className="frame-2">
                     <div className="frame-3">
-                        <Greeting />
+                        {/* <Greeting /> */}
                         <div className="frame-6">
                             <div className="text-wrapper-3">관심 키워드</div>
                             <div className="frame-7">
@@ -91,14 +133,14 @@ export default function Homepy() {
                                 </div>
                             </div>
                         </div>
-                        <Album />
+                        {/* <Album /> */}
                     </div>
                     <button className="button">
                         <img className="img-2" alt="Icon" src={Icon} />
                         <div className="text-wrapper-4">화상채팅 시작하기</div>
                     </button>
                 </div>
-                <Profile />
+                {/* <Profile /> */}
             </div>
         </div>
     );

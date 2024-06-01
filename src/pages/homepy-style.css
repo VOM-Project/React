@@ -667,22 +667,29 @@ main .Frame59575 {
 
 
 
-.main .modal {
+.modal {
     background-color: var(--white);
     border-radius: 24px;
     height: 231px;
-    overflow: hidden;
-    position: relative;
+    /* overflow: hidden; */
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
     width: 560px;
+    border-color: var(--main);
+    border-width: 1px;
+    border-style: solid;
 }
 
-.main .text-wrapper-modal {
+.modal .text-wrapper-modal {
     color: var(--graytitle);
     font-family: var(--title-sm-font-family);
     font-size: var(--title-sm-font-size);
     font-style: var(--title-sm-font-style);
     font-weight: var(--title-sm-font-weight);
-    left: 244px;
+    left: 200px;
     letter-spacing: var(--title-sm-letter-spacing);
     line-height: var(--title-sm-line-height);
     position: absolute;
@@ -691,7 +698,7 @@ main .Frame59575 {
     white-space: nowrap;
 }
 
-.main icon-modal {
+.modal .icon-modal {
     height: 24px;
     left: 506px;
     position: absolute;
@@ -699,13 +706,13 @@ main .Frame59575 {
     width: 24px;
 }
 
-.main .div-modal {
+.modal .div-modal {
     color: var(--graytitle);
     font-family: var(--body-md-regular-font-family);
     font-size: var(--body-md-regular-font-size);
     font-style: var(--body-md-regular-font-style);
     font-weight: var(--body-md-regular-font-weight);
-    left: 32px;
+    left: 180px;
     letter-spacing: var(--body-md-regular-letter-spacing);
     line-height: var(--body-md-regular-line-height);
     position: absolute;
@@ -713,7 +720,7 @@ main .Frame59575 {
     white-space: nowrap;
 }
 
-.main .button-modal {
+.modal .button-modal {
     all: unset;
     align-items: center;
     background-color: var(--main);
@@ -729,7 +736,7 @@ main .Frame59575 {
     width: 243px;
 }
 
-.main .text-wrapper-2-modal {
+.modal .text-wrapper-2-modal {
     color: var(--white);
     font-family: var(--body-md-semi bold-font-family);
     font-size: var(--body-md-semibold-font-size);
@@ -744,7 +751,7 @@ main .Frame59575 {
     width: fit-content;
 }
 
-.main .div-wrapper-modal {
+.modal .div-wrapper-modal {
     all: unset;
     align-items: center;
     border: 1px solid;
@@ -761,7 +768,7 @@ main .Frame59575 {
     width: 243px;
 }
 
-.main .text-wrapper-3-modal {
+.modal .text-wrapper-3-modal {
     color: var(--graysubtitle);
     font-family: var(--body-md-semi bold-font-family);
     font-size: var(--body-md-semi bold-font-size);
@@ -777,6 +784,29 @@ main .Frame59575 {
 }
 
 
+
+
+
+.modal .webpush {
+    display: inline-block;
+    /* flex-direction: row; */
+}
+
+.modal .button-webpush {
+    all: unset;
+    align-items: center;
+    background-color: var(--main);
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    height: 41px;
+    justify-content: center;
+    /* left: 285px; */
+    padding: 12px 0px;
+    position: absolute;
+    top: 151px;
+    width: 80px;
+}
 
 
 
@@ -860,26 +890,18 @@ main .Frame59575 {
  * 터치포인트 리스트
  */
 
-.frame {
+/* .frame {
     height: 368px;
     width: 180px;
 
-    /* position: absolute; */
-    /* 또는 다른 위치 조절 방식 */
-    /* top: 100px; */
-    /* 원하는 위치에 맞게 수정 */
-    /* left: 50%; */
-    /* 원하는 위치에 맞게 수정 */
+    position: absolute;
+    top: 100px;
+    left: 50%;
     transform: translateX(-50%);
-    /* 수평 중앙 정렬 */
     background-color: white;
-    /* 배경색 지정 */
     border: 1px solid #ccc;
-    /* 테두리 지정 */
     padding: 10px;
-    /* 패딩 추가 */
     z-index: 1000;
-    /* 다른 요소보다 위에 표시 */
 }
 
 .frame .overlap-group {
@@ -949,4 +971,4 @@ main .Frame59575 {
     position: absolute;
     top: 4px;
     width: 4px;
-}
+} */

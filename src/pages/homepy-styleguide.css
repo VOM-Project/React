@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url('/fonts/Pretendard-Regular.woff2') format('woff2'),
+        url('/fonts/Pretendard-Regular.woff') format('woff');
+}
+
 :root {
     --background: rgba(245, 225, 225, 1);
     --balck-60: rgba(0, 0, 0, 0.6);
