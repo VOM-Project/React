@@ -16,7 +16,7 @@ const LoginCallback = () => {
         .then((res) => {
           console.log(res); //잘 받아오는지 테스트
           //로그인 성공후 localstorage에 유저 정보 저장
-          localStorage.setItem("userId", res.data.result.userId);
+          localStorage.setItem("memberId", res.data.result.memberId);
           localStorage.setItem("accessToken", res.data.result.token);
           let isRegistered = res.data.result.isRegistered;
           if (isRegistered) {

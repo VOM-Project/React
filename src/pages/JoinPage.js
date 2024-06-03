@@ -70,10 +70,11 @@ function JoinPage() {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    const birthDate = `${birthYear}-${birthMonth}-${birthDay}`;
-    const memberData = { nickname, region, birthDate, keyword };
+    const birth = `${birthYear}-${birthMonth}-${birthDay}`;
+    const memberId = localStorage.getItem("memberId");
+    const memberData = { memberId, nickname, region, birth, keyword };
     try {
-      const response = await axios.post("서버 주소 쓰셍", memberData);
+      const response = await axios.post("/api/members/join", memberData);
       //서버 응답 처리
       console.log("Success : ", response.data);
       alert("회원가입이 성공적으로 완료되었습니다");
