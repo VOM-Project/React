@@ -50,9 +50,14 @@ const BoxContent = styled.div`
 `;
 
 const ButtonCheck = styled.button`
-  width: 500px;
-  height: 55px;
-  color: rgba(236, 129, 144, 0.9);
+  width: 20%;
+  height: 30px;
+  background-color: rgba(236, 129, 144, 0.8);
+  position: relative;
+  bottom: 30px;
+  border-radius: 12px;
+  border-color: rgba(236, 129, 144, 0.5);
+  color: white;
 `;
 
 function JoinPage() {
@@ -98,7 +103,7 @@ function JoinPage() {
           />
           <InputKeyword />
           <div>
-            <button onClick={handleSubmit}>확인</button>
+            <ButtonCheck onClick={handleSubmit}>확인</ButtonCheck>
           </div>
         </BoxContent>
       </CenterBox>

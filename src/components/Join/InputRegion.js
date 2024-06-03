@@ -3,13 +3,28 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   width: 300px;
   height: 75px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  bottom: 70px;
+`;
+const Label = styled.label`
+  margin-right: 250px;
+  margin-bottom: 5px;
+`;
+
+const SelectBox = styled.select`
+  border-radius: 5px;
+  width: 100%;
+  height: 40px;
+  border-color: rgba(102, 102, 102, 0.5);
 `;
 
 const InputRegion = ({ region, setRegion }) => {
   return (
     <Wrapper>
-      지역
-      <select
+      <Label>지역</Label>
+      <SelectBox
         value={region}
         onChange={(e) => setRegion(e.target.value)}
         required
@@ -28,7 +43,7 @@ const InputRegion = ({ region, setRegion }) => {
         <option value="12">울산광역시</option>
         <option value="13">부산광역시</option>
         <option value="14">제주도</option>
-      </select>
+      </SelectBox>
     </Wrapper>
   );
 };

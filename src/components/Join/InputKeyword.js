@@ -3,12 +3,31 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   width: 300px;
   height: 75px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  bottom: 30px;
+  right: 5px;
+`;
+const Label = styled.label`
+  margin-right: 200px;
+  margin-bottom: 5px;
+  position: relative;
+  right: 10px;
+`;
+
+const SelectBox = styled.select`
+  border-radius: 5px;
+  width: 100%;
+  height: 30px;
+  border-color: rgba(102, 102, 102, 0.5);
 `;
 
 const InputKeyword = ({ keyword, setKeyword }) => {
   return (
     <Wrapper>
-      <select
+      <Label>관심키워드</Label>
+      <SelectBox
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         required
@@ -27,7 +46,7 @@ const InputKeyword = ({ keyword, setKeyword }) => {
         <option value="12">영어</option>
         <option value="13">사진</option>
         <option value="14">패션</option>
-      </select>
+      </SelectBox>
     </Wrapper>
   );
 };
