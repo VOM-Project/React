@@ -3,7 +3,9 @@ import LoginPage from "../src/pages/LoginPage";
 import HomepyPage from './pages/homepyPage.js';
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginCallback from "./components/LoginPage/LoginCallback.js";
+import LoginCallback from "../src/components/LoginPage/LoginCallback";
+import Homepy from "./homepy.js";
+import JoinPage from "./pages/JoinPage.js";
 
 
 function App() {
@@ -13,7 +15,8 @@ function App() {
         {/* 기본 경로를 /login으로 설정 */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/login/auth/callback/google" element={<LoginCallback />} />
+        <Route path="/login/oauth2/code/google" element={<LoginCallback />} />
+        <Route path="/join" element={<JoinPage />} />
         <Route path="/homepy" element={<HomepyPage />} />
       </Routes>
     </BrowserRouter>
