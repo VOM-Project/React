@@ -2,13 +2,164 @@ import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
-import Profile from "../components/HomepyPage/Profile.js";
 import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
 import Icon from "../assets/icon-50.svg";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import styled from "styled-components";
+import CalleProfile from "../components/WebCam/CalleeProfile.js";
 
+const Wrapper = styled.div`
+  background-color: #f5e1e1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+`;
+const WrapperContainer = styled.div`
+  background-color: rgba(245, 225, 225, 1);
+  height: 1080px;
+  position: relative;
+  width: 1920px;
+`;
+const Header = styled.header`
+  background-color: rgba(255, 255, 255, 1);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: rgba(196, 200, 212, 0.5);
+  border-left-style: none;
+  border-right-style: none;
+  border-top-style: none;
+  height: 80px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+`;
+
+const Frame = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  left: 1458px;
+  position: absolute;
+  top: 16px;
+`;
+const InputNoLabel = styled.div`
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  width: 100%;
+`;
+
+const InputNoLabel2 = styled.div`
+  align-items: flex-start;
+  align-self: stretch;
+  border: 1px solid;
+  border-color: var(--brown-30);
+  border-radius: 40px;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 12px 16px;
+  position: relative;
+  width: 270px;
+`;
+const Label = styled.input`
+  color: rgba(84, 69, 73, 0.3);
+  flex: 1;
+  font-family: "Pretendard-Regular", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  height: 24px;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  border-width: 0;
+`;
+const InputNoLabel3 = styled.div`
+  align-items: center;
+  align-self: stretch;
+  border: 1px solid;
+  border-color: rgba(84, 69, 73, 0.3);
+  border-radius: 40px;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  padding: 9px 18px;
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+`;
+const TextWrapper = styled.div`
+  color: rgba(236, 129, 144, 1);
+  font-family: "Pretendard-Bold", Helvetica;
+  font-size: 32px;
+  font-weight: 700;
+  height: 38px;
+  left: 42px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 20px;
+  white-space: nowrap;
+`;
+const Frame2 = styled.div`
+  background-color: #ffffff;
+  border-radius: 20px;
+  height: 916px;
+  left: 508px;
+  overflow: hidden;
+  position: absolute;
+  top: 122px;
+  width: 1386px;
+`;
+const Frame3 = styled.div`
+  align-items: flex-start;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  left: 40px;
+  position: absolute;
+  top: 40px;
+`;
+const ButtonLeave = styled.button`
+  all: unset;
+  align-items: center;
+  background-color: rgba(236, 129, 144, 1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 10px;
+  height: 55px;
+  justify-content: center;
+  left: 1200px;
+  overflow: hidden;
+  padding: 16px 24px;
+  position: absolute;
+  bottom: 10px;
+  top: 800px;
+`;
+
+const TextWrapper4 = styled.div`
+  color: #ffffff;
+  font-family: "Pretendard", Helvetica;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.48px;
+  line-height: 120.00000476837158%;
+  position: relative;
+  text-align: right;
+  white-space: nowrap;
+  width: fit-content;
+`;
 function WebCamPage() {
   // const videoRef = useRef(null); //내비디오
   // const anotherVideoRef = useRef(null); //상대 비디오
@@ -262,37 +413,38 @@ function WebCamPage() {
     navigate("/homepy");
   };
   return (
-    <div className="main">
-      <div className="div-2">
-        <header className="header">
-          <div className="frame">
-            <div className="input-no-label">
-              <div className="input-no-label-2">
+    <Wrapper>
+      <WrapperContainer>
+        <Header>
+          <Frame>
+            <InputNoLabel>
+              <InputNoLabel2>
                 <img className="ic-baseline-people" alt="Search" src={Search} />
-                <div className="label">닉네임을 검색해보세요</div>
-              </div>
-            </div>
-            <div className="input-no-label-3">
+                <Label type="text" placeholder="닉네임을 검색해보세요" />
+              </InputNoLabel2>
+            </InputNoLabel>
+            <InputNoLabel3>
               <img className="img" alt="Ph bell light" src={Ph_bell_light} />
-            </div>
+            </InputNoLabel3>
             <img
               className="mask-group"
               alt="Mask group"
               src={require("../assets/Mask-group.png")}
             />
-          </div>
-          <div className="text-wrapper">VOM</div>
-        </header>
-        <div className="frame-2">
-          <div className="frame-3"></div>
-          <button className="button" onClick={leaveRoom}>
-            <img className="img-2" alt="Icon" src={Icon} />
-            <div className="text-wrapper-4">방 나가기</div>
-          </button>
-        </div>
-        <Profile />
-      </div>
-    </div>
+          </Frame>
+          <TextWrapper>VOM</TextWrapper>
+        </Header>
+        <Frame2>
+          <Frame3>
+            <ButtonLeave onClick={leaveRoom}>
+              <img className="img-2" alt="Icon" src={Icon} />
+              <TextWrapper4>방 나가기</TextWrapper4>
+            </ButtonLeave>
+          </Frame3>
+        </Frame2>
+        <CalleProfile />
+      </WrapperContainer>
+    </Wrapper>
   );
 }
 export default WebCamPage;

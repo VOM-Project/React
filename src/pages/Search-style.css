@@ -1,0 +1,15 @@
+.ic-baseline-people {
+  height: 24px;
+  position: relative;
+  width: 24px;
+}
+.main .img {
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.main .mask-group {
+  height: 48px;
+  position: relative;
+  width: 48px;
+}
