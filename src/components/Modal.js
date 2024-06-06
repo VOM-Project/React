@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import "../homepy-style.css";
-import "../homepy-styleguide.css";
+import "../pages/homepy-style.css";
+import "../pages/homepy-styleguide.css";
 
-import Icon_24 from "./assets/icon_24.svg";
+import Icon_24 from "../assets/icon_24.svg";
 
 const Modal = (props) => {
     return (

@@ -1,9 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
 // import Toast from "./components/Toast";
 import Profile from "../components/HomepyPage/Profile.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
+import Webpush from '../components/Webpush.js';
 // import SVGInline from 'react-svg-inline'
 
 import Search from "../assets/search.svg";
@@ -13,6 +17,59 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Homepy() {
+
+    /*
+     * Authorization
+     */
+    const config = {
+        headers: {
+            // Authorization: `${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MiwiZW1haWwiOiJqaW1pbkBlbWFpbC5jb20iLCJzdWIiOiJqaW1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkyNzEsImV4cCI6MTcxNzI3MTg2M30.g2hqVzxlrhIzn60EvAppaA2RVywRq3Km1L6mI882B1M`,
+        },
+    };
+    // axios.get('/try', config)
+    //     .then(function (response) {
+    //         console.log("access_token 값 : " + response.data);
+    //         // alert(userId + "님 환영합니다.");
+    //         window.location.href = "/";
+    //     })
+    //     .catch(function (error) {
+    //         console.log("오류 " + error);
+    //     });
+
+    /*
+     * Webpush
+     */
+    const [data, setData] = useState([]); // API 응답 데이터 저장 상태
+    const [showModal, setShowModal] = useState(false); // 모달창 표시 여부 상태
+
+    useEffect(() => {
+        // Axios GET 요청 및 응답 처리
+        axios.get('http://localhost:8080/api/webpush/2', config)
+            .then(response => {
+                setData(response.data);
+                // 데이터가 있다면 모달창 표시
+                if (response.data.length > 0) {
+                    setShowModal(true);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    // axios.get('http://localhost:8080/api/webpush/2', config)
+    //     .then(response => {
+    //         setData(response.data);
+    //         // 데이터가 있다면 모달창 표시
+    //         if (response.data.length > 0) {
+    //             setShowModal(true);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     });
+
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
   const webcamRoom = () => {
