@@ -18,7 +18,7 @@ function App() {
         <Route path="/login/oauth2/code/google" element={<LoginCallback />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/homepy" element={<HomepyPage />} />
-        <Route path="/webcam" element={<WebCamPage />} />
+        <Route path="/webcam/:webcamId" element={<WebCamPage />} />
         <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
