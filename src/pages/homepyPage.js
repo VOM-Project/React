@@ -24,7 +24,7 @@ export default function Homepy() {
     const config = {
         headers: {
             // Authorization: `${localStorage.getItem("access_token")}`,
-            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MiwiZW1haWwiOiJqaW1pbkBlbWFpbC5jb20iLCJzdWIiOiJqaW1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjM2MzAsImV4cCI6MTcxNzI2NjIyMn0.cVZG7P3z2PZp2NBk8yWZ9XX6xevc26tC67AZEgkVAPs`,
+            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MiwiZW1haWwiOiJqaW1pbkBlbWFpbC5jb20iLCJzdWIiOiJqaW1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkyNzEsImV4cCI6MTcxNzI3MTg2M30.g2hqVzxlrhIzn60EvAppaA2RVywRq3Km1L6mI882B1M`,
         },
     };
     // axios.get('/try', config)
@@ -89,7 +89,13 @@ export default function Homepy() {
                     <div className="text-wrapper">VOM</div>
                 </header>
                 <div>
-                    {showModal && <Webpush data={data} onClose={() => setShowModal(false)} />}
+                    {showModal && (
+                        <div>
+                            {data.map(item => (
+                                <Webpush key={item.fromMemberId} data={item} onClose={() => setShowModal(false)} />
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className="frame-2">
                     <div className="frame-3">

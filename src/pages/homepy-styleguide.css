@@ -1,20 +1,16 @@
-@font-face {
-    font-family: 'Pretendard';
-    src: url('/fonts/Pretendard-Regular.woff2') format('woff2'),
-        url('/fonts/Pretendard-Regular.woff') format('woff');
-}
+@import '../fonts/pretendardvariable.css';
 
 :root {
     --background: rgba(245, 225, 225, 1);
     --balck-60: rgba(0, 0, 0, 0.6);
     --black-80: rgba(0, 0, 0, 0.8);
-    --body-md-semibold-font-family: "Pretendard", Helvetica;
+    --body-md-semibold-font-family: "Pretendard Variable";
     --body-md-semibold-font-size: 16px;
     --body-md-semibold-font-style: normal;
     --body-md-semibold-font-weight: 600;
     --body-md-semibold-letter-spacing: -0.48px;
     --body-md-semibold-line-height: 120.00000476837158%;
-    --body-sm-regular-font-family: "Pretendard", Helvetica;
+    --body-sm-regular-font-family: "Pretendard Variable";
     --body-sm-regular-font-size: 14px;
     --body-sm-regular-font-style: normal;
     --body-sm-regular-font-weight: 400;
@@ -26,7 +22,7 @@
     --graydisabled-50: rgba(196, 200, 212, 0.5);
     --graysubtitle: rgba(67, 73, 86, 1);
     --main: rgba(236, 129, 144, 1);
-    --medium-12-font-family: "Pretendard", Helvetica;
+    --medium-12-font-family: "Pretendard Variable";
     --medium-12-font-size: 12px;
     --medium-12-font-style: normal;
     --medium-12-font-weight: 500;
