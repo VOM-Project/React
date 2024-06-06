@@ -5,8 +5,10 @@ import HomepyPage from './pages/homepyPage.js';
 import Webpush from './components/Webpush.js';
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginCallback from "./components/LoginPage/LoginCallback.js";
-
+import LoginCallback from "../src/components/LoginPage/LoginCallback";
+import JoinPage from "./pages/JoinPage.js";
+import WebCamPage from "./pages/WebCamPage.js";
+import SearchPage from "./pages/SearchPage.js";
 
 function App() {
   return (
@@ -15,10 +17,13 @@ function App() {
         {/* 기본 경로를 /login으로 설정 */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/login/auth/callback/google" element={<LoginCallback />} />
+        <Route path="/login/oauth2/code/google" element={<LoginCallback />} />
+        <Route path="/join" element={<JoinPage />} />
         <Route path="/homepy" element={<HomepyPage />} />
         {/* <Route path="/modal" element={<Modal />} /> */}
         <Route path="/webpush" element={<Webpush />} />
+        <Route path="/webcam" element={<WebCamPage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,40 +1,29 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+//리디렉션 uri
 const LoginCallback = () => {
-  //왜 props?
   const navigate = useNavigate();
-  const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
+  const code = new URL(window.location.href).searchParams.get("code"); //인가코드값 파싱
+  console.log("인가코드+" + code);
 
   useEffect(() => {
     const googleLogin = async () => {
-      //const params = {
-      //    code : code,
-      //}
       await axios({
         method: "GET",
-        url: `/login?code=${code}`,
+        url: `/login?code=${code}`, //서버에게 인가코드 보내고 유저정보 받아오기 & 서버 url 수정
       })
         .then((res) => {
           console.log(res); //잘 받아오는지 테스트
-          //로그인 성공후 localstorage에 저장로직 구현 필요 => localstorage에 뭘 저장해야할까..? 일단 id랑 각종유저정보 저장, 로그인 중인지 아닌지 상태 저장하면 좋을듯
-          localStorage.setItem("userId", res.data.result.userId);
-          localStorage.setItem("email", res.data.result.email);
-          localStorage.setItem("picture", res.data.result.picture);
-          localStorage.setItem("name", res.data.result.name);
-
-          //             const storedUserId = localStorage.getItem('userId');
-          // const storedEmail = localStorage.getItem('email');
-          // const storedPicture = localStorage.getItem('picture');
-          // const storedName = localStorage.getItem('name');
-
-          // console.log("Stored userId:", storedUserId);
-          // console.log("Stored email:", storedEmail);
-          // console.log("Stored picture:", storedPicture);
-          // console.log("Stored name:", storedName);
-          navigate("/main");
+          //로그인 성공후 localstorage에 유저 정보 저장
+          localStorage.setItem("memberId", res.data.result.memberId);
+          localStorage.setItem("accessToken", res.data.result.token);
+          let isRegistered = res.data.result.isRegistered;
+          if (isRegistered) {
+            navigate("/homepy"); //이미 등록된 유저면 main으로 이동
+          } else {
+            navigate("/join");
+          }
         })
         .catch((err) => {
           console.log(err.response.data);
