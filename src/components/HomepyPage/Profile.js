@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import "../../pages/homepy-style.css";
+import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
 // import Touchpoint from "../HomepyPage/Touchpoint.js";
@@ -14,50 +14,59 @@ import Mingcute_location from "../../assets/mingcute-location-line.svg";
 import Mdi_heart from "../../assets/mdi-heart.svg";
 import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg";
 
+
 export default function Profile() {
 
-    const baseUrl = "http://13.125.102.76:8080";
-
-    const [user_profileImgUrl, setUser_profileImgUrl] = useState();
-    const [user_nickname, setUser_nickname] = useState();
-    const [user_vomvomCount, setUser_vomvomCount] = useState();
-    const [user_email, setUser_email] = useState();
-    const [user_birth, setUser_birth] = useState();
-    const [user_region, setUser_region] = useState();
-
-    useEffect(() => {
-        getUser();
-    }, []);
-
+    /*
+     * Authorization
+     */
     const config = {
         headers: {
-            // Authorization: `${localStorage.getItem("access_token")}`,
-            Authorization: `eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzc2MjgxLCJleHAiOjE3MTc3Nzg4NzN9.dvWnHVlgLAQqJDUjS7bePEBuSYzCuXUhP20T1KPVS_A`,
+            // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
         },
     };
-    async function getUser() {
+
+    /*
+     * Member Profile
+     */
+    const [profile_profileImgUrl, setProfile_profileImgUrl] = useState();
+    const [profile_nickname, setProfile_nickname] = useState();
+    const [profile_vomvomCount, setProfile_vomvomCount] = useState();
+    const [profile_email, setProfile_email] = useState();
+    const [profile_birth, setProfile_birth] = useState();
+    const [profile_region, setProfile_region] = useState();
+
+    getProfile();
+
+    async function getProfile() {
         await axios
             .get("/api/homepy/1/profile", config)
             .then(response => {
                 console.log(response.data);
-                setUser_profileImgUrl(response.data.profileImgUrl);
-                setUser_nickname(response.data.nickname);
-                setUser_vomvomCount(response.data.vomVomCount);
-                setUser_email(response.data.email);
-                setUser_birth(response.data.birth);
-                setUser_region(response.data.region);
+                setProfile_profileImgUrl(response.data.profileImgUrl);
+                setProfile_nickname(response.data.nickname);
+                setProfile_vomvomCount(response.data.vomVomCount);
+                setProfile_email(response.data.email);
+                setProfile_birth(response.data.birth);
+                setProfile_region(response.data.region);
             })
             .catch((error) => {
                 console.log(error);
             })
     }
 
+    /* 
+     * Touchpoint
+     */
     const [touchpoints, setTouchpoints] = useState([]);
     const [showTouchpoints, setShowTouchpoints] = useState(false);
 
+    var memberId = 2;
+
     const handleButtonClick = async () => {
         try {
-            const response = await axios.get('http://13.125.102.76:8080/api/touchpoint/2', config);
+            const response = await axios.get(`/api/touchpoint/${memberId}`, config);
             setTouchpoints(response.data);
             setShowTouchpoints(true);
         } catch (error) {
@@ -65,106 +74,62 @@ export default function Profile() {
         }
     };
 
-    // const [profiles, setprofiles] = useState(null);
-    // const [loading, setLoading] = useState(false);
-    // const [error, setError] = useState(null);
-
-    // // useEffect 에 첫번째 파라미터로 등록하는 함수에는 async 를 사용 할 수 없기 때문에
-    // useEffect(() => {
-    //     // 내부에서 async 를 사용하는 새로운 함수를 선언
-    //     const fetchprofiles = async () => {
-    //         try {
-    //             // 요청이 시작 할 때에 error와 profiles를 초기화
-    //             setError(null);
-    //             setprofiles(null);
-    //             // loading 상태를 true로 변경
-    //             setLoading(true);
-    //             const res = await axios.get(
-    //                 "http://localhost:8080/api/homepy/1/profile"
-    //             );
-    //             setprofiles(res.data); // res.data 안에 API 데이터가 있다.
-    //         } catch (e) {
-    //             setError(e);
-    //         }
-    //         setLoading(false);
-    //     };
-    //     fetchprofiles();
-    // }, []);
-
-    // if (loading) return <div>로딩중..</div>; // 로딩 상태가 활성화 됐을때 렌더링 될 문구
-    // if (error) return <div>에러가 발생했습니다</div>; // 에러 발생시 렌더링 될 문구
-    // if (!profiles) return <div>노노</div>; // profiles 값이 없을 때에는 null 을 보여주도록 처리
-
+    /*
+     * Render
+     */
     return (
-        <>
-            {
-                // profiles.map(profile => (
-                <div className="frame-11" >
-                    <div className="frame-12">
-                        <img className="mask-group-2" alt="Mask group" src="https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile1.png" />
-                        <div className="frame-13">
-                            <div className="frame-14">
-                                <div className="text-wrapper-5">{user_nickname}</div>
-                                <div className="frame-15">
-                                    <div className="frame-16">
-                                        <img className="ic-baseline-people" alt="Ic baseline people" src={Ic_baseline_people} />
-                                        <div className="text-wrapper-6">봄봄</div>
-                                    </div>
-                                    <div className="text-wrapper-3">{user_vomvomCount}</div>
-                                </div>
-                            </div>
-                            <div className="frame-7">
-                                <div className="frame-17">
-                                    <div className="frame-18">
-                                        <img className="img-3" alt="Ic outline email" src={Ic_outline_email} />
-                                        <div className="text-wrapper-7">이메일</div>
-                                    </div>
-                                    <div className="text-wrapper-8">{user_email}</div>
-                                </div>
-                                <div className="frame-17">
-                                    <div className="frame-18">
-                                        <img className="img-3" alt="Mingcute birthday" src={Mingcute_birthday} />
-                                        <div className="text-wrapper-7">생년월일</div>
-                                    </div>
-                                    <div className="text-wrapper-8">{user_birth}</div>
-                                </div>
-
-                                {/* 나이 */}
-                                {/* <div className="frame-17">
-                                    <div className="frame-19">
-                                        <img className="img-3" alt="Fluent person" src={Fluent_person} />
-                                        <div className="text-wrapper-7">나이</div>
-                                    </div>
-                                    <div className="text-wrapper-8">24세</div>
-                                </div> */}
-                                <div className="frame-17">
-                                    <div className="frame-18">
-                                        <img className="img-3" alt="Mingcute location" src={Mingcute_location} />
-                                        <div className="text-wrapper-7">지역</div>
-                                    </div>
-                                    <div className="text-wrapper-8">{user_region}</div>
-                                </div>
-                            </div>
+        <div className="profile" >
+            <div className="frame">
+                <img className="profile-img" alt="profile-img" src={profile_profileImgUrl} />
+                <div className="pink-frame">
+                    <div className="profile-name">{profile_nickname}</div>
+                    <div className="vomvom">
+                        <div className="vomvom-label">
+                            <img className="people-svg" alt="people-svg" src={Ic_baseline_people} />
+                            <div className="vomvom-label-text">봄봄</div>
                         </div>
+                        <div className="vomvom-count">{profile_vomvomCount}</div>
                     </div>
-                    <div className="frame-20">
-                        <button className="button-2" onClick={handleButtonClick}>
-                            <img className="img-2" alt="Mdi heart" src={Mdi_heart} />
-                            <div className="text-wrapper-9">터치포인트</div>
-                        </button>
+                </div>
+                <div className="info">
+                    <div className="item">
+                        <div className="item-label">
+                            <img className="svg" alt="email-svg" src={Ic_outline_email} />
+                            <div className="item-label-text">이메일</div>
+                        </div>
+                        <div className="item-value">{profile_email}</div>
+                    </div>
+                    <div className="item">
+                        <div className="item-label">
+                            <img className="svg" alt="birthday-svg" src={Mingcute_birthday} />
+                            <div className="item-label">생년월일</div>
+                        </div>
+                        <div className="item-value">{profile_birth}</div>
+                    </div>
+                    <div className="item">
+                        <div className="item-label">
+                            <img className="svg" alt="location-svg" src={Mingcute_location} />
+                            <div className="item-label">지역</div>
+                        </div>
+                        <div className="item-value">{profile_region}</div>
+                    </div>
+                </div>
+            </div>
+            <div className="interaction">
+                <button className="button-white" onClick={handleButtonClick}>
+                    <img className="svg-2" alt="heart-svg" src={Mdi_heart} />
+                    <div className="button-white-text">터치포인트</div>
+                </button>
 
-                        {/* {showTouchpoints && (
+                {/* {showTouchpoints && (
                             <Touchpoint touchpoints={touchpoints} />
                         )} */}
 
-                        <button className="button-3">
-                            <img className="img-2" alt="Ic baseline people" src={Ic_baseline_people_white} />
-                            <div className="text-wrapper-4">봄봄 신청하기</div>
-                        </button>
-                    </div>
-                </div >
-                // ))
-            }
-        </>
+                <button className="button-pink">
+                    <img className="svg-2" alt="people_svg" src={Ic_baseline_people_white} />
+                    <div className="button-pink-text">봄봄 신청하기</div>
+                </button>
+            </div>
+        </div >
     );
 }

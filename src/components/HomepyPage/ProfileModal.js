@@ -60,7 +60,7 @@ function ProfileModal() {
     }
   }, [modalIsOpen]);
 
-  const memberId = localStorage.getItem("memberId");
+  // const memberId = localStorage.getItem("memberId");
 
   const fetchUserProfile = async () => {
     try {
@@ -177,7 +177,7 @@ function ProfileModal() {
               <b>이미지 업로드</b>
             </button>
             {/*이미지 삭제*/}
-            <button onClick={handleImageDelete} className="imgBtn">
+            {/* <button onClick={handleImageDelete} className="imgBtn"> */}
               <b>이미지 삭제</b>
             </button>
             <p style={{ color: "gray", fontSize: "small", marginTop: "20px" }}>
@@ -220,8 +220,8 @@ function ProfileModal() {
         <button onClick={handleProfileUpdate} className="imgBtn">
           <b>저장</b>
         </button>
-      </Modal>
-    </div>
+      </Modal >
+    </div >
   );
 }
 export default ProfileModal;
