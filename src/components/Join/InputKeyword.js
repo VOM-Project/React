@@ -24,28 +24,31 @@ const SelectBox = styled.select`
 `;
 
 const InputKeyword = ({ keyword, setKeyword }) => {
+  const handleSelectKeyword = (e) => {
+    const selectedKeyword = e.target.value.trim(); // 선택된 값을 얻어옴
+    if (selectedKeyword !== "") {
+      setKeyword((prevList) => [...prevList, selectedKeyword]);
+    }
+  };
   return (
     <Wrapper>
       <Label>관심키워드</Label>
-      <SelectBox
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        required
-      >
-        <option value="1">공부</option>
-        <option value="2">운동</option>
-        <option value="3">일상</option>
-        <option value="4">여행</option>
-        <option value="5">맛집</option>
-        <option value="6">영화</option>
-        <option value="7">독서</option>
-        <option value="8">음악</option>
-        <option value="9">개발</option>
-        <option value="10">디자인</option>
-        <option value="11">기획</option>
-        <option value="12">영어</option>
-        <option value="13">사진</option>
-        <option value="14">패션</option>
+      <SelectBox value={keyword} onChange={handleSelectKeyword} required>
+        <option value="">선택하세요</option>
+        <option value="공부">공부</option>
+        <option value="운동">운동</option>
+        <option value="일상">일상</option>
+        <option value="여행">여행</option>
+        <option value="맛집">맛집</option>
+        <option value="영화">영화</option>
+        <option value="독서">독서</option>
+        <option value="음악">음악</option>
+        <option value="개발">개발</option>
+        <option value="디자인">디자인</option>
+        <option value="기획">기획</option>
+        <option value="영어">영어</option>
+        <option value="사진">사진</option>
+        <option value="패션">패션</option>
       </SelectBox>
     </Wrapper>
   );
