@@ -4,12 +4,40 @@ import userImg from "../../assets/profile.png"; //기본프로필 이미지를 �
 import styled from "styled-components";
 import Modal from "react-modal";
 // import { upload } from '@testing-library/user-event/dist/upload';
+const customModalStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
 const ModalButton = styled.button`
   margin-left: 100px;
   color: white;
   background-color: rgba(236, 129, 144, 0.8);
   border-radius: 10px;
   border-color: rgba(236, 129, 144, 0.5);
+`;
+
+const ModalContainer = styled.div`
+  display: flex;
+`;
+
+const ProfileImage = styled.div`
+  float: left;
+  margin: 10px;
+  width: 15vh;
+  height: "auto";
+`;
+
+const ProfileImagevalue = styled.img`
+  border-radius: 12.5vh;
+  width: 25vh;
+  height: "auto";
 `;
 
 Modal.setAppElement("#root");
