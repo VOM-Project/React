@@ -11,14 +11,16 @@ const LoginCallback = () => {
     const googleLogin = async () => {
       await axios({
         method: "GET",
-        url: `/login?code=${code}`, //서버에게 인가코드 보내고 유저정보 받아오기 & 서버 url 수정
+        url: `/login/oauth2/code/google?code=${code}`, //서버에게 인가코드 보내고 유저정보 받아오기 & 서버 url 수정
       })
         .then((res) => {
           console.log(res); //잘 받아오는지 테스트
           //로그인 성공후 localstorage에 유저 정보 저장
-          localStorage.setItem("memberId", res.data.result.memberId);
-          localStorage.setItem("accessToken", res.data.result.token);
-          let isRegistered = res.data.result.isRegistered;
+          console.log("memberId:", res.data.memberId);
+          console.log("accessToken:", res.data.accessToken);
+          localStorage.setItem("memberId", res.data.memberId);
+          localStorage.setItem("accessToken", res.data.accessToken);
+          let isRegistered = res.data.isRegistered;
           if (isRegistered) {
             navigate("/homepy"); //이미 등록된 유저면 main으로 이동
           } else {
