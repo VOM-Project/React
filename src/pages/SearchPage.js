@@ -213,7 +213,7 @@ const ButtonHomepy = styled.button`
   gap: 10px;
   height: 55px;
   justify-content: center;
-  left: 1000px;
+  left: 1050px;
   overflow: hidden;
   padding: 16px 24px;
   position: absolute;

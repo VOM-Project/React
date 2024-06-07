@@ -10,9 +10,11 @@ const ResultContainer = styled.div`
 `;
 
 const ResultProfileImg = styled.img`
-  height: 260px;
+  height: 100px;
   position: relative;
-  width: 260px;
+  width: 100px;
+  left: 10px;
+  top: 25px;
 `;
 
 const ResultProfileInfoContainer = styled.div`
@@ -20,6 +22,8 @@ const ResultProfileInfoContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  left: 25px;
 `;
 const ResultNicknameWrapper = styled.div`
   /* border-width: 0; */
@@ -30,6 +34,8 @@ const ResultNicknameWrapper = styled.div`
   border-color: rgba(247, 204, 212, 0.2);
   display: flex;
   align-items: flex-start;
+  position: relative;
+  left: 10px;
 `;
 
 const ResultEmailWrapper = styled.div`
@@ -83,7 +89,7 @@ const ResultRegionImgContainer = styled.div`
   position: relative;
 `;
 const ResultMemberRegion = styled.div`
-  width: 40px;
+  width: 60px;
   height: 24px;
 `;
 function SearchResult({
@@ -95,9 +101,7 @@ function SearchResult({
 }) {
   return (
     <ResultContainer>
-      <img
-        className="mask-group-2"
-        alt="Mask group"
+      <ResultProfileImg
         src="https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile1.png"
         /*{memberProfileImgUr}*/
       />
