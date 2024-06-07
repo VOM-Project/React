@@ -42,7 +42,9 @@ export default function Profile() {
     const [profile_birth, setProfile_birth] = useState();
     const [profile_region, setProfile_region] = useState();
 
-    getProfile();
+    useEffect(() => {
+        getProfile();
+    }, []);
 
     async function getProfile() {
         await axios

@@ -109,11 +109,11 @@ export default function Homepy() {
                     </div>
                     <div className="header-home">VOM</div>
                 </header>
-                <Profile />
-                <div className="frame-2">
-                    <div className="frame-3">
+                {/* <Profile /> */}
+                <div className="homepy">
+                    <div className="homepy-frame">
                         <Greeting />
-                        <div className="frame-6">
+                        <div className="keyword">
                             <div className="text-wrapper-3">관심 키워드</div>
                             <div className="frame-7">
                                 <div className="frame-8">
