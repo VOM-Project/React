@@ -87,8 +87,8 @@ export default function Homepy() {
             <div className="background">
                 <header className="header">
                     <div className="header-frame">
-                        <div className="input-no-label-2">
-                            <img className="ic-baseline-people" alt="Search" src={Search} />
+                        <div className="header-search">
+                            <img className="search-svg" alt="Search" src={Search} />
                             <input
                                 className="label"
                                 type="text"
@@ -98,17 +98,18 @@ export default function Homepy() {
                                 placeholder="닉네임을 검색해보세요"
                             />
                         </div>
-                        <div className="input-no-label-3">
-                            <img className="img" alt="Ph bell light" src={Ph_bell_light} />
+                        <div className="header-notification">
+                            <img className="notification-svg" alt="Ph bell light" src={Ph_bell_light} />
                         </div>
                         <img
-                            className="mask-group"
+                            className="header-profile"
                             alt="Mask group"
                             src={require("../assets/Mask-group.png")}
                         />
                     </div>
-                    <div className="text-wrapper">VOM</div>
+                    <div className="header-home">VOM</div>
                 </header>
+                <Profile />
                 <div className="frame-2">
                     <div className="frame-3">
                         <Greeting />
@@ -166,7 +167,7 @@ export default function Homepy() {
                         <div className="text-wrapper-4">화상채팅 시작하기</div>
                     </button>
                 </div>
-                <Profile />
+
             </div>
         </div>
     );
