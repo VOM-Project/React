@@ -66,7 +66,7 @@ function JoinPage() {
   const [birthYear, setBirthYear] = useState("");
   const [birthMonth, setBirthMonth] = useState("");
   const [birthDay, setBirthDay] = useState("");
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -78,7 +78,7 @@ function JoinPage() {
       //서버 응답 처리
       console.log("Success : ", response.data);
       alert("회원가입이 성공적으로 완료되었습니다");
-      navigate("/hompy");
+      navigate("/homepy");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -102,7 +102,7 @@ function JoinPage() {
             birthDay={birthDay}
             setBirthDay={setBirthDay}
           />
-          <InputKeyword />
+          <InputKeyword keyword={keyword} setKeyword={setKeyword} />
           <div>
             <ButtonCheck onClick={handleSubmit}>확인</ButtonCheck>
           </div>

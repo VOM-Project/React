@@ -44,6 +44,12 @@ const InputBirth = ({
   birthDay,
   setBirthDay,
 }) => {
+  const handleSelectMonth = (e) => {
+    const selectedMonth = e.target.value.trim(); // 선택된 값을 얻어옴
+    if (selectedMonth !== "") {
+      setBirthMonth(selectedMonth);
+    }
+  };
   return (
     <Wrapper>
       <Label>생년월일</Label>
@@ -56,10 +62,12 @@ const InputBirth = ({
           placeholder="년도(YYYY)"
         ></InputBox>
         <SelectBox
+          type="number"
           value={birthMonth}
-          onChange={(e) => setBirthMonth(e.target.value)}
+          onChange={handleSelectMonth}
           required
         >
+          <option value="">선택하세요</option>
           <option value="01">1월</option>
           <option value="02">2월</option>
           <option value="03">3월</option>
