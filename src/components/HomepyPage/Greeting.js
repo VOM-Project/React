@@ -12,23 +12,56 @@ export default function Greeting() {
   const [user_greeting, setUser_greeting] = useState();
 
   useEffect(() => {
-    getUser();
+    getUserGreeting();
   }, []);
 
   /**
    * 인사말 조회
    */
-  async function getUser() {
-    await axios
-      .get("/api/homepy/1/greeting")
-      .then((response) => {
-        console.log(response.data);
-        setUser_greeting(response.data.greeting);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  const config = {
+    headers: {
+      // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      Authorization: "Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzc2MjgxLCJleHAiOjE3MTc3Nzg4NzN9.dvWnHVlgLAQqJDUjS7bePEBuSYzCuXUhP20T1KPVS_A",
+    },
+  };
+  // async function getUser() {
+  //   await axios
+  //     .get("/api/homepy/1/greeting", config)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setUser_greeting(response.data.greeting);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
+
+
+  const getUserGreeting = async () => {
+    try {
+      const response = await axios.get('/api/homepy/1/greeting', config);
+      console.log('Response data:', response.data);
+      setUser_greeting(response.data.greeting);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log('Error response data:', error.response.data);
+        console.log('Error response status:', error.response.status);
+        console.log('Error response headers:', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('Error request data:', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error message:', error.message);
+      }
+      console.log('Error config:', error.config);
+    }
+  };
+
+  getUserGreeting();
+
 
   /**
    * 인사말 변경
@@ -45,7 +78,7 @@ export default function Greeting() {
     setIsEdit(false);
 
     await axios
-      .post("/api/homepy/1/greeting", null, {
+      .post("/api/homepy/1/greeting", config, {
         params: { greeting: user_greeting },
       })
       .then((response) => {

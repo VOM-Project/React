@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
-// import Toast from "./components/Toast";
+
 import Profile from "../components/HomepyPage/Profile.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
 import Webpush from '../components/Webpush.js';
-// import SVGInline from 'react-svg-inline'
 
 import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
 import Icon from "../assets/icon-50.svg";
-import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
+
 
 export default function Homepy() {
 
@@ -23,19 +21,10 @@ export default function Homepy() {
      */
     const config = {
         headers: {
-            // Authorization: `${localStorage.getItem("access_token")}`,
-            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MiwiZW1haWwiOiJqaW1pbkBlbWFpbC5jb20iLCJzdWIiOiJqaW1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkyNzEsImV4cCI6MTcxNzI3MTg2M30.g2hqVzxlrhIzn60EvAppaA2RVywRq3Km1L6mI882B1M`,
+            // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3NzgyNzU2LCJleHAiOjE3MTc3ODUzNDh9.Oc9EfoTQsq3cFRuBLmBIrGDF7wvrJmcsUdEn13fcFMo`,
         },
     };
-    // axios.get('/try', config)
-    //     .then(function (response) {
-    //         console.log("access_token 값 : " + response.data);
-    //         // alert(userId + "님 환영합니다.");
-    //         window.location.href = "/";
-    //     })
-    //     .catch(function (error) {
-    //         console.log("오류 " + error);
-    //     });
 
     /*
      * Webpush
@@ -43,20 +32,20 @@ export default function Homepy() {
     const [data, setData] = useState([]); // API 응답 데이터 저장 상태
     const [showModal, setShowModal] = useState(false); // 모달창 표시 여부 상태
 
-    useEffect(() => {
-        // Axios GET 요청 및 응답 처리
-        axios.get('http://localhost:8080/api/webpush/2', config)
-            .then(response => {
-                setData(response.data);
-                // 데이터가 있다면 모달창 표시
-                if (response.data.length > 0) {
-                    setShowModal(true);
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     // Axios GET 요청 및 응답 처리
+    //     axios.get('http://13.125.102.76:8080/api/webpush/2', config)
+    //         .then(response => {
+    //             setData(response.data);
+    //             // 데이터가 있다면 모달창 표시
+    //             if (response.data.length > 0) {
+    //                 setShowModal(true);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
+    // }, []);
 
     // axios.get('http://localhost:8080/api/webpush/2', config)
     //     .then(response => {
@@ -70,6 +59,9 @@ export default function Homepy() {
     //         console.error(error);
     //     });
 
+    /*
+     * Webcam
+     */
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
     const webcamRoom = () => {
@@ -86,23 +78,25 @@ export default function Homepy() {
             navigate("/search"); /*state 값 넘기기 */
         }
     };
+
+    /*
+     * Render
+     */
     return (
         <div className="main">
-            <div className="div-2">
+            <div className="background">
                 <header className="header">
-                    <div className="frame">
-                        <div className="input-no-label">
-                            <div className="input-no-label-2">
-                                <img className="ic-baseline-people" alt="Search" src={Search} />
-                                <input
-                                    className="label"
-                                    type="text"
-                                    value={nickname}
-                                    onChange={(e) => setNickname(e.target.value)}
-                                    onKeyDown={(e) => handleSearchNickname(e)}
-                                    placeholder="닉네임을 검색해보세요"
-                                />
-                            </div>
+                    <div className="header-frame">
+                        <div className="input-no-label-2">
+                            <img className="ic-baseline-people" alt="Search" src={Search} />
+                            <input
+                                className="label"
+                                type="text"
+                                value={nickname}
+                                onChange={(e) => setNickname(e.target.value)}
+                                onKeyDown={(e) => handleSearchNickname(e)}
+                                placeholder="닉네임을 검색해보세요"
+                            />
                         </div>
                         <div className="input-no-label-3">
                             <img className="img" alt="Ph bell light" src={Ph_bell_light} />

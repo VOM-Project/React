@@ -16,7 +16,7 @@ import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg"
 
 export default function Profile() {
 
-    // const baseUrl = "http://localhost:8080";
+    const baseUrl = "http://13.125.102.76:8080";
 
     const [user_profileImgUrl, setUser_profileImgUrl] = useState();
     const [user_nickname, setUser_nickname] = useState();
@@ -29,9 +29,15 @@ export default function Profile() {
         getUser();
     }, []);
 
+    const config = {
+        headers: {
+            // Authorization: `${localStorage.getItem("access_token")}`,
+            Authorization: `eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzc2MjgxLCJleHAiOjE3MTc3Nzg4NzN9.dvWnHVlgLAQqJDUjS7bePEBuSYzCuXUhP20T1KPVS_A`,
+        },
+    };
     async function getUser() {
         await axios
-            .get("/api/homepy/1/profile")
+            .get("/api/homepy/1/profile", config)
             .then(response => {
                 console.log(response.data);
                 setUser_profileImgUrl(response.data.profileImgUrl);
@@ -51,7 +57,7 @@ export default function Profile() {
 
     const handleButtonClick = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/touchpoint/2');
+            const response = await axios.get('http://13.125.102.76:8080/api/touchpoint/2', config);
             setTouchpoints(response.data);
             setShowTouchpoints(true);
         } catch (error) {
