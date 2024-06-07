@@ -17,6 +17,11 @@ import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg"
 
 export default function Profile() {
 
+
+    var visitingMemberId = 1;
+    var myMemberId = 2;
+
+
     /*
      * Authorization
      */
@@ -41,7 +46,7 @@ export default function Profile() {
 
     async function getProfile() {
         await axios
-            .get("/api/homepy/1/profile", config)
+            .get(`/api/homepy/${visitingMemberId}/profile`, config)
             .then(response => {
                 console.log(response.data);
                 setProfile_profileImgUrl(response.data.profileImgUrl);
@@ -62,11 +67,9 @@ export default function Profile() {
     const [touchpoints, setTouchpoints] = useState([]);
     const [showTouchpoints, setShowTouchpoints] = useState(false);
 
-    var memberId = 2;
-
     const handleButtonClick = async () => {
         try {
-            const response = await axios.get(`/api/touchpoint/${memberId}`, config);
+            const response = await axios.get(`/api/touchpoint/${myMemberId}`, config);
             setTouchpoints(response.data);
             setShowTouchpoints(true);
         } catch (error) {
