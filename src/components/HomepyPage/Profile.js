@@ -4,6 +4,8 @@ import axios from "axios";
 import "../../pages/homepy-style.css";
 import "../../pages/homepy-styleguide.css";
 
+// import Touchpoint from "../HomepyPage/Touchpoint.js";
+
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
 import Mingcute_birthday from "../../assets/mingcute-birthday-2-line.svg";
@@ -43,6 +45,19 @@ export default function Profile() {
                 console.log(error);
             })
     }
+
+    const [touchpoints, setTouchpoints] = useState([]);
+    const [showTouchpoints, setShowTouchpoints] = useState(false);
+
+    const handleButtonClick = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/touchpoint/2');
+            setTouchpoints(response.data);
+            setShowTouchpoints(true);
+        } catch (error) {
+            console.error('Error fetching touchpoints:', error);
+        }
+    };
 
     // const [profiles, setprofiles] = useState(null);
     // const [loading, setLoading] = useState(false);
@@ -127,10 +142,15 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className="frame-20">
-                        <button className="button-2">
+                        <button className="button-2" onClick={handleButtonClick}>
                             <img className="img-2" alt="Mdi heart" src={Mdi_heart} />
-                            <div className="text-wrapper-9">관심 보내기</div>
+                            <div className="text-wrapper-9">터치포인트</div>
                         </button>
+
+                        {/* {showTouchpoints && (
+                            <Touchpoint touchpoints={touchpoints} />
+                        )} */}
+
                         <button className="button-3">
                             <img className="img-2" alt="Ic baseline people" src={Ic_baseline_people_white} />
                             <div className="text-wrapper-4">봄봄 신청하기</div>
