@@ -3,47 +3,127 @@ import axios from "axios";
 import userImg from "../../assets/profile.png"; //기본프로필 이미지를 위함
 import styled from "styled-components";
 import Modal from "react-modal";
+import { findByLabelText } from "@testing-library/react";
 // import { upload } from '@testing-library/user-event/dist/upload';
 const customModalStyles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)" /* 반투명한 배경 */,
+  },
   content: {
     top: "50%",
     left: "50%",
+    padding: "40px",
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    background: "#FFFFFF",
+    width: "30%",
+    height: "50%",
   },
 };
 
-const ModalButton = styled.button`
-  margin-left: 100px;
-  color: white;
-  background-color: rgba(236, 129, 144, 0.8);
-  border-radius: 10px;
-  border-color: rgba(236, 129, 144, 0.5);
-`;
-
 const ModalContainer = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProfileImage = styled.div`
   float: left;
   margin: 10px;
   width: 15vh;
-  height: "auto";
+  height: 15vh;
 `;
 
 const ProfileImagevalue = styled.img`
   border-radius: 12.5vh;
-  width: 25vh;
-  height: "auto";
+  width: 15vh;
+  height: 15vh;
+`;
+
+const ImgBtn = styled.button`
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(236, 129, 144, 1);
+  color: white;
+  /* margin: 5px; */
+  /* margin-top: 20px; */
+  border-color: rgba(236, 129, 144, 0.2);
+`;
+const ProfileNicknameInput = styled.input`
+  width: 70%;
+  background-color: rgba(252, 226, 219, 0.5);
+  height: 50px;
+  border-radius: 5px;
+  text-align: left;
+  border: none;
+`;
+const imgSection = styled.div`
+  display: flex;
+`;
+
+const imgSectionLeft = styled.div`
+  position: relative;
+  left: 80px;
+  top: 50px;
+`;
+
+// const NicknameWrapper = styled.div`
+//   position: relative;
+//   top: 50px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   right: 200px;
+// `;
+
+const NicknamePContainer = styled.div`
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  top: 40px;
+  right: 180px;
+`;
+
+const Label = styled.p`
+  text-align: left;
+`;
+
+const NicknameContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const CheckButtonContainer = styled.div`
+  display: flex;
+  align-item: flex-end;
+  justify-content: center;
+`;
+const CheckButton = styled.button`
+  position: relative;
+  top: 70px;
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(236, 129, 144, 1);
+  color: white;
+  margin: 5px;
+  margin-top: 20px;
+  border-color: rgba(236, 129, 144, 0.2);
 `;
 
 Modal.setAppElement("#root");
 
-function ProfileModal() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+function ProfileModal({ modalIsOpen, setModalIsOpen }) {
   const [profileData, setProfileData] = useState({
     /*프로필 조회시 받아올 profile data*/
     image: "",
@@ -54,20 +134,21 @@ function ProfileModal() {
 
   /* 프로필 조회 */
   useEffect(() => {
-    setModalIsOpen(true);
     if (modalIsOpen) {
       fetchUserProfile();
     }
   }, [modalIsOpen]);
 
+  if (!modalIsOpen) return null;
+
   const memberId = localStorage.getItem("memberId");
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`/api/members/profile/${memberId}`, {
+      const response = await axios.get(`/api/homepy/${memberId}/profile`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bear ${localstorage.getItem("accessToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
       console.log("프로필 조회 성공");
@@ -82,8 +163,6 @@ function ProfileModal() {
       console.error("프로필 정보를 가져오는 중 오류 발생:", error);
     }
   };
-
-  if (!modalIsOpen) return null;
 
   const handleImageChange = (e) => {
     //업로드
@@ -104,62 +183,67 @@ function ProfileModal() {
   const handleNicknameChange = (event) => {
     setProfileData({ ...profileData, nickname: event.target.value });
   };
-  //프로필 수정 백엔드 전송
-  const handleProfileUpdate = () => {
+  //프로필 닉네임 수정 백엔드 전송
+  const handleProfileNicknameUpdate = () => {
+    const upddateNickname = { nickname: `${profileData.nickname}` };
+    axios
+      .put("/api/members/nickname", upddateNickname, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((res) => {
+        alert("닉네임을 변경했습니다.");
+        console.log("닉네임 변경 완료");
+      });
+  };
+
+  //프로필 이미지 수정 백엔드 전송
+  const handleProfileImgUpdate = () => {
     //확인용
-    const updateProfile = {
-      memberId: memberId,
-      name: profileData.nickname,
+    const updateProfileImg = {
       file: uploadImage,
     };
 
     //백엔드로 전송
     const formData = new FormData();
-    formData.append("image", uploadImage);
+    formData.append("multipartFile", uploadImage);
     axios
-      .post(
-        `/profiles?memberId=${memberId}&name=${profileData.nickname}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      )
+      .put(`/api/members/profileImg`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((res) => {
         console.log("성공");
+        alert("프로필 사진을 변경했습니다");
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-    setModalIsOpen(false); //모달 닫기
   };
 
   return (
-    <div>
+    <ModalContainer>
       <Modal
         isOpen={modalIsOpen}
         onReqeustClose={() => setModalIsOpen(false)}
         style={customModalStyles}
         contentLable="Profile Change"
       >
-        <div className="imgSection">
+        <imgSection>
           <span className="imgSection_right">
             <p className="imageline">
               <b>프로필 이미지</b>
             </p>
-            <div className="ProfileImage">
+            <ProfileImage>
               {profileData.image && (
-                <img
-                  className="ProfileImagevalue"
-                  alt="profileimage"
-                  src={profileData.image}
-                />
+                <ProfileImagevalue alt="profileimage" src={profileData.image} />
               )}
-            </div>
+            </ProfileImage>
           </span>
-          <span className="imgSection_left">
+          <imgSectionLeft>
             {/*이미지 업로드 버튼*/}
             <input
               type="file"
@@ -176,52 +260,41 @@ function ProfileModal() {
             >
               <b>이미지 업로드</b>
             </button>
-            {/*이미지 삭제*/}
-            <button onClick={handleImageDelete} className="imgBtn">
-              <b>이미지 삭제</b>
-            </button>
             <p style={{ color: "gray", fontSize: "small", marginTop: "20px" }}>
               확장자: png,jpg,jpeg/용량:1MB 이하
             </p>
-          </span>
-        </div>
+            <ImgBtn onClick={handleProfileImgUpdate} className="imgBtn">
+              <b>저장</b>
+            </ImgBtn>
+          </imgSectionLeft>
+        </imgSection>
         <div>
-          <p style={{ textAlign: "left" }}>
-            <b>닉네임</b>
-          </p>
+          <NicknamePContainer>
+            <Label>
+              <b>닉네임</b>
+            </Label>
+          </NicknamePContainer>
           <p style={{ color: "gray", fontSize: "small", textAlign: "left" }}>
-            한글,영문(대소문자),숫자 조합/2~18자 이하
+            한글,영문(대소문자),숫자 조합/10자 이하
           </p>
-          <input
-            type="text"
-            value={profileData.nickname}
-            onChange={handleNicknameChange}
-            className="nicknameInput"
-          />
+          <NicknameContainer>
+            <ProfileNicknameInput
+              type="text"
+              value={profileData.nickname}
+              onChange={handleNicknameChange}
+            />
+            <ImgBtn onClick={handleProfileNicknameUpdate}>
+              <b>저장</b>
+            </ImgBtn>
+          </NicknameContainer>
         </div>
-
-        <span>
-          <p style={{ textAlign: "left" }}>
-            <b>연동 e-mail</b>
-          </p>
-          <div
-            style={{
-              backgroundColor: "rgba(252, 226, 219, 0.5)",
-              height: "30px",
-              borderRadius: "5px",
-              textAlign: "left",
-              width: "100%",
-            }}
-          >
-            <p>{profileData.email}</p>
-          </div>
-        </span>
-
-        <button onClick={handleProfileUpdate} className="imgBtn">
-          <b>저장</b>
-        </button>
+        <CheckButtonContainer>
+          <CheckButton onClick={() => setModalIsOpen(false)}>
+            <b>확인</b>
+          </CheckButton>
+        </CheckButtonContainer>
       </Modal>
-    </div>
+    </ModalContainer>
   );
 }
 export default ProfileModal;
