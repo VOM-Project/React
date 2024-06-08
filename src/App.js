@@ -22,8 +22,8 @@ function App() {
         <Route path="/homepy" element={<HomepyPage />} />
         {/* <Route path="/modal" element={<Modal />} /> */}
         <Route path="/webpush" element={<Webpush />} />
-        <Route path="/webcam" element={<WebCamPage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/webcam/:webcamId" element={<WebCamPage />} />
+        <Route path="/search/:memberId" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -3,8 +3,8 @@ import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
 import Icon from "../assets/icon-50.svg";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import SearchResult from "../components/Search/SearchResult";
 
 const Wrapper = styled.div`
@@ -232,15 +232,22 @@ function SearchPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [nickname, setNickname] = useState(""); // 닉네임 검색
+  const { memberId } = useParams(); //memberId 넘겨주기 위함
   /*
   useLocation으로 결과값 받아오기
   */
-  const memberNickname = /*location.state.nickname*/ "지민";
-  const memberProfileImgUrl =
-    /*location.state.profileImgUrl*/ "https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile2.png";
-  const memberEmail = /*location.state.email*/ "test1@example.com";
-  const memberBirth = /*location.state.birth*/ "2000-01-01";
-  const memberRegion = /*location.state.region*/ "경기도";
+  useEffect(() => {
+    if (location.state) {
+      console.log("결과 받았음 nickname:", location.state.memberNickname);
+    }
+  }, [location.state]);
+  const {
+    memberNickname,
+    memberProfileImgUrl,
+    memberEmail,
+    memberBirth,
+    memberRegion,
+  } = location.state;
 
   const handleSearchNickname = (e) => {
     if (e.key === "Enter") {
@@ -253,6 +260,7 @@ function SearchPage() {
 
   const handleOnButtonClick = () => {
     navigate("/homepy"); /*해당 member homepy 페이지로 가기*/
+    // navigate(`/homepy/${memberId}`);
   };
 
   return (
