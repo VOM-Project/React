@@ -24,6 +24,20 @@ export default function Album() {
         },
     };
 
+    /* 사진 조회 */
+    // 상태 관리: 이미지 목록
+    const [images, setImages] = useState([]);
+
+    useEffect(() => {
+        axios.get(`/api/album/${memberId}`, config)
+            .then(response => {
+                setImages(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching the images:', error);
+            });
+    }, [memberId]);
+
     /* 사진 등록 */
     const [files, setFiles] = useState([]);
 
@@ -56,60 +70,9 @@ export default function Album() {
             });
     };
 
-    // async function uploadAlbum() {
-    //     const formData = new FormData();
-    //     formData.append('file', file);
-
-    //     await axios
-    //         .post("/api/album/1/new", formData, {
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data'
-    //             },
-    //             params: { greeting: user_greeting }
-    //         })
-    //         .then(response => {
-    //             console.log(response.data);;
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }
-
-    /* 사진 조회 */
-    // const [user_albums, setUser_albums] = useState();
-
-    // useEffect(() => {
-    //     getAlbum();
-    // }, []);
-
-    // async function getAlbum() {
-    //     await axios
-    //         .get("/api/album/1")
-    //         .then(response => {
-    //             console.log(response.data);
-    //             setUser_albums(response.data);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }
-
-    // 상태 관리: 이미지 목록
-    const [images, setImages] = useState([]);
-
-    useEffect(() => {
-        axios.get(`/api/album/${memberId}`, config) // 실제 API URL로 변경하세요
-            .then(response => {
-                setImages(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching the images:', error);
-            });
-    }, []);
-
     /* 사진 삭제 */
     const handleDelete = (id) => {
-        axios.delete(`/api/album/1/${memberId}/delete`, config)
+        axios.delete(`/api/album/${memberId}/${id}/delete`, config)
             .then(response => {
                 // 서버 응답이 성공적이면 상태 업데이트
                 const updatedImages = images.filter(image => image.id !== id);
@@ -119,7 +82,6 @@ export default function Album() {
                 console.error("There was an error deleting the image!", error);
             });
     };
-
 
     /*
      * Render
@@ -141,21 +103,12 @@ export default function Album() {
                     </form>
                 </div>
                 <div className="content">
-                    <div className="frame-10">
+                    <div className="frame">
                         {images.map((image) => (
-                            <div key={image.id} className="unsplash-wrapper">
-                                <img src={image.img_url} alt={`Image ${image.id}`} className="unsplash" onClick={() => handleDelete(image.id)} />
+                            <div key={image.id} className="img-wrapper">
+                                <img src={image.img_url} alt={`Image ${image.id}`} className="img" onClick={() => handleDelete(image.id)} />
                             </div>
                         ))}
-                        {/* <div className="unsplash-wrapper">
-                            <img className="unsplash" alt="Unsplash" src={require("../assets/unsplash-oqHYQyGD9Po.png")} />
-                        </div>
-                        <div className="unsplash-wrapper">
-                            <img className="unsplash" alt="Unsplash" src={require("../assets/unsplash-r2nJPbEYuSQ.png")} />
-                        </div>
-                        <div className="unsplash-wrapper">
-                            <img className="unsplash" alt="Unsplash" src={require("../assets/unsplash-KMn4VEeEPR8.png")} />
-                        </div> */}
                     </div>
                 </div>
             </div>
