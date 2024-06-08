@@ -351,10 +351,6 @@ main .Frame59575 {
   width: fit-content;
 }
 
-
-
-
-
 .modal {
   background-color: var(--white);
   border-radius: 24px;
@@ -471,10 +467,6 @@ main .Frame59575 {
   width: fit-content;
 }
 
-
-
-
-
 .modal .webpush {
   display: inline-block;
   /* flex-direction: row; */
@@ -495,11 +487,6 @@ main .Frame59575 {
   top: 151px;
   width: 80px;
 }
-
-
-
-
-
 
 .main .frame-vomvom {
   height: 368px;

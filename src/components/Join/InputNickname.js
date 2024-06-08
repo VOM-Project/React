@@ -64,10 +64,11 @@ const InputNickname = ({ nickname, setNickname }) => {
   const [modalMessage, setModalMessage] = useState("");
 
   const handleCheckNickname = async () => {
+    const data = { nickname };
     try {
-      const response = await axios.get("서버주소쓰셈", nickname);
+      const response = await axios.post("/api/members/join/nickname", data);
       console.log("닉네임 중복 확인이욤");
-      if (response.data == true) {
+      if (response.data.existed == false) {
         setModalMessage("닉네임 사용 가능합니다");
       } else {
         setModalMessage("중복된 닉네임입니다");

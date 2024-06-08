@@ -102,8 +102,8 @@ function SearchResult({
   return (
     <ResultContainer>
       <ResultProfileImg
-        src="https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile1.png"
-        /*{memberProfileImgUr}*/
+        // src="https://vom-bucket.s3.ap-northeast-2.amazonaws.com/profile1.png"
+        src={memberProfileImgUrl}
       />
       <ResultProfileInfoContainer>
         <ResultNicknameWrapper>{memberNickname}</ResultNicknameWrapper>

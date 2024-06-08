@@ -34,10 +34,10 @@ const LogoImage = styled.img`
 
 const GoogleLoginButton = () => {
   const handleGoogleLogin = () => {
-    const clientId = process.env.REACT_APP_CLIENT_ID; // 추후 env 파일로 설정
-    const redirectUri = process.env.REACT_APP_REDIRECT_URI; // 환경변수로
-    const scope = "profile email";
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=${scope}&client_id=${clientId}&redirect_uri=${redirectUri}`;
+    const clientId = process.env.REACT_APP_CLIENT_ID;
+    const redirectUri = process.env.REACT_APP_REDIRECT_URI;
+    const scope = process.env.REACT_APP_SCOPE;
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
     window.location.href = authUrl;
   };
 

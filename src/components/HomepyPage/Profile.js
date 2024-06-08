@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styled from "styled-components";
 
 import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
@@ -13,6 +14,25 @@ import Fluent_person from "../../assets/fluent-person-12-regular.svg";
 import Mingcute_location from "../../assets/mingcute-location-line.svg";
 import Mdi_heart from "../../assets/mdi-heart.svg";
 import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg";
+import ProfileModal from "./ProfileModal";
+
+const ModalButtonContainer = styled.div`
+  display: inline-flex;
+  position: relative;
+  top: 750px;
+  right: 95px;
+  align-items: flex-start;
+`;
+
+const ModalButton = styled.button`
+  color: white;
+  background-color: rgba(236, 129, 144, 1);
+  border-radius: 8px;
+  border-color: rgba(236, 129, 144, 0.2);
+  width: 150px;
+  height: 50px;
+`;
+
 
 
 export default function Profile({ memberId }) {
