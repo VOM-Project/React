@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import axios from "axios";
 
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
@@ -33,6 +34,8 @@ export default function Homepy() {
      */
     const [data, setData] = useState([]); // API 응답 데이터 저장 상태
     const [showModal, setShowModal] = useState(false); // 모달창 표시 여부 상태
+    const [searchNickname, setSearchNickname] = useState(""); //닉네임 검색
+    const navigate = useNavigate();
 
     // useEffect(() => {
     //     // Axios GET 요청 및 응답 처리
@@ -49,62 +52,62 @@ export default function Homepy() {
     //         });
     // }, []);
 
-  // axios.get('http://localhost:8080/api/webpush/2', config)
-  //     .then(response => {
-  //         setData(response.data);
-  //         // 데이터가 있다면 모달창 표시
-  //         if (response.data.length > 0) {
-  //             setShowModal(true);
-  //         }
-  //     })
-  //     .catch(error => {
-  //         console.error(error);
-  //     });
+    // axios.get('http://localhost:8080/api/webpush/2', config)
+    //     .then(response => {
+    //         setData(response.data);
+    //         // 데이터가 있다면 모달창 표시
+    //         if (response.data.length > 0) {
+    //             setShowModal(true);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     });
 
 
     /* 웹캠 방 생성*/
-  const webcamRoom = () => {
-    navigate("/webcam");
-    /*
-        api 연결 
-        */
-  };
-  /*닉네임 검색 결과 페이지 호출 및 연결*/
-  const handleSearchNickname = (e) => {
-    if (e.key === "Enter") {
-      axios
-        .get(`api/members/search?nickname=${searchNickname}`, config)
-        .then((res) => {
-          const isExisted = res.data.existed;
-          if (!isExisted) {
-            alert("존재하지 않은 유저입니다");
-            navigate("/homepy");
-            // navigate(-1);
-          } else {
-            const searchMemberId = res.data.findMemberId;
-            const memberNickname = res.data.nickname;
-            const memberProfileImgUrl = res.data.profileImgUrl;
-            const memberEmail = res.data.email;
-            const memberBirth = res.data.birth;
-            const memberRegion = res.data.region;
+    const webcamRoom = () => {
+        navigate("/webcam");
+        /*
+            api 연결 
+            */
+    };
+    /*닉네임 검색 결과 페이지 호출 및 연결*/
+    const handleSearchNickname = (e) => {
+        if (e.key === "Enter") {
+            axios
+                .get(`api/members/search?nickname=${searchNickname}`, config)
+                .then((res) => {
+                    const isExisted = res.data.existed;
+                    if (!isExisted) {
+                        alert("존재하지 않은 유저입니다");
+                        navigate("/homepy");
+                        // navigate(-1);
+                    } else {
+                        const searchMemberId = res.data.findMemberId;
+                        const memberNickname = res.data.nickname;
+                        const memberProfileImgUrl = res.data.profileImgUrl;
+                        const memberEmail = res.data.email;
+                        const memberBirth = res.data.birth;
+                        const memberRegion = res.data.region;
 
-            const searchResult = {
-              memberNickname,
-              memberProfileImgUrl,
-              memberEmail,
-              memberBirth,
-              memberRegion,
-            };
-            navigate(`/search/${searchMemberId}`, { state: searchResult });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-  
-  
+                        const searchResult = {
+                            memberNickname,
+                            memberProfileImgUrl,
+                            memberEmail,
+                            memberBirth,
+                            memberRegion,
+                        };
+                        navigate(`/search/${searchMemberId}`, { state: searchResult });
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+    };
+
+
     /*
      * Render
      */
@@ -118,8 +121,8 @@ export default function Homepy() {
                             <input
                                 className="label"
                                 type="text"
-                                value={nickname}
-                                onChange={(e) => setNickname(e.target.value)}
+                                value={searchNickname}
+                                onChange={(e) => setSearchNickname(e.target.value)}
                                 onKeyDown={(e) => handleSearchNickname(e)}
                                 placeholder="닉네임을 검색해보세요"
                             />
@@ -188,17 +191,12 @@ export default function Homepy() {
                         </div>
                         <Album memberId={memberId} />
                     </div>
+                    <button className="button" onClick={webcamRoom}>
+                        <img className="img-2" alt="Icon" src={Icon} />
+                        <div className="text-wrapper-4">화상채팅 시작하기</div>
+                    </button>
                 </div>
-              </div>
             </div>
-            <Album />
-          </div>
-          <button className="button" onClick={webcamRoom}>
-            <img className="img-2" alt="Icon" src={Icon} />
-            <div className="text-wrapper-4">화상채팅 시작하기</div>
-          </button>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
