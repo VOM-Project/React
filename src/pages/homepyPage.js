@@ -16,8 +16,7 @@ import Icon from "../assets/icon-50.svg";
 
 
 export default function Homepy() {
-    // const { memberId } = useParams();
-    var memberId = 1;
+    const { memberId } = useParams();
 
     /*
      * Authorization

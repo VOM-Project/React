@@ -19,7 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/login/oauth2/code/google" element={<LoginCallback />} />
         <Route path="/join" element={<JoinPage />} />
-        <Route path="/homepy" element={<HomepyPage />} />
+        <Route path="/homepy/:memberId" element={<HomepyPage />} />
         {/* <Route path="/modal" element={<Modal />} /> */}
         <Route path="/webpush" element={<Webpush />} />
         <Route path="/webcam" element={<WebCamPage />} />
