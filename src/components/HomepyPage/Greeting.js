@@ -11,8 +11,7 @@ import tabler_checkbox from "../../assets/tabler_checkbox.svg";
 export default function Greeting() {
 
 
-  var visitingMemberId = 1;
-  var myMemberId = 2;
+  var memberId = 1;
 
 
   /**
@@ -37,7 +36,7 @@ export default function Greeting() {
 
   const getGreeting = async () => {
     try {
-      const response = await axios.get(`/api/homepy/${visitingMemberId}/greeting`, config);
+      const response = await axios.get(`/api/homepy/${memberId}/greeting`, config);
       console.log('Response data:', response.data);
       setGreeting(response.data.greeting);
     } catch (error) {
@@ -72,7 +71,7 @@ export default function Greeting() {
     setIsEdit(false);
 
     try {
-      const response = await axios.post(`/api/homepy/${visitingMemberId}/greeting`, {
+      const response = await axios.post(`/api/homepy/${memberId}/greeting`, {
         greeting: greeting,
       }, {
         headers: {
