@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 import "./homepy-style.css";
 import "./homepy-styleguide.css";
@@ -15,6 +16,8 @@ import Icon from "../assets/icon-50.svg";
 
 
 export default function Homepy() {
+    // const { memberId } = useParams();
+    var memberId = 1;
 
     /*
      * Authorization
@@ -109,10 +112,10 @@ export default function Homepy() {
                     </div>
                     <div className="header-home">VOM</div>
                 </header>
-                {/* <Profile /> */}
+                <Profile memberId={memberId} />
                 <div className="homepy">
                     <div className="homepy-frame">
-                        <Greeting />
+                        <Greeting memberId={memberId} />
                         <div className="keyword">
                             <div className="text-wrapper-3">관심 키워드</div>
                             <div className="frame-7">
@@ -160,7 +163,7 @@ export default function Homepy() {
                                 </div>
                             </div>
                         </div>
-                        <Album />
+                        <Album memberId={memberId} />
                     </div>
                     <button className="button" onClick={webcamRoom}>
                         <img className="img-2" alt="Icon" src={Icon} />

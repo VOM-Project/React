@@ -8,11 +8,7 @@ import ph_plus_fill from "../../assets/ph_plus-fill.svg";
 
 
 // const FileUpload = ({ memberId }) => {
-export default function Album() {
-
-
-    var memberId = 1;
-
+export default function Album({ memberId }) {
 
     /**
    * Authorization

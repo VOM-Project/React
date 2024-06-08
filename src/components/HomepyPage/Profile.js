@@ -15,11 +15,11 @@ import Mdi_heart from "../../assets/mdi-heart.svg";
 import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg";
 
 
-export default function Profile() {
+export default function Profile({ memberId }) {
 
 
-    var visitingMemberId = 1;
-    var myMemberId = 2;
+    // var visitingMemberId = 1;
+    var memberId = 1;
 
 
     /*
@@ -48,7 +48,7 @@ export default function Profile() {
 
     async function getProfile() {
         await axios
-            .get(`/api/homepy/${visitingMemberId}/profile`, config)
+            .get(`/api/homepy/${memberId}/profile`, config)
             .then(response => {
                 console.log(response.data);
                 setProfile_profileImgUrl(response.data.profileImgUrl);
@@ -71,7 +71,7 @@ export default function Profile() {
 
     const handleButtonClick = async () => {
         try {
-            const response = await axios.get(`/api/touchpoint/${myMemberId}`, config);
+            const response = await axios.get(`/api/touchpoint/${memberId}`, config);
             setTouchpoints(response.data);
             setShowTouchpoints(true);
         } catch (error) {

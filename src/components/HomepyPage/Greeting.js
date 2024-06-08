@@ -8,11 +8,7 @@ import mingcute_edit_line from "../../assets/mingcute_edit-line.svg";
 import tabler_checkbox from "../../assets/tabler_checkbox.svg";
 
 
-export default function Greeting() {
-
-
-  var memberId = 1;
-
+export default function Greeting({ memberId }) {
 
   /**
    * Authorization
