@@ -125,10 +125,10 @@ const Frame2 = styled.div`
 const Frame3 = styled.div`
   align-items: flex-start;
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 40px;
-  left: 40px;
+  gap: 30px;
+  left: 30px;
   position: absolute;
   top: 40px;
 `;
@@ -182,21 +182,17 @@ function WebCamPage() {
   const navigate = useNavigate();
   const client = useRef({});
   const connectHeaders = {
-    // Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    Authorization:
-      "Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3MjQxNTE2LCJleHAiOjE3MTcyNDQxMDh9.dsqcFSp0V0LBXFLd4BOqC8qdYEmuV48qbdbLlp4CWIU",
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   };
   const { webcamId } = useParams(); //webcamId 받아오기
-  // const [messages, setMessages] = useState([]);
-  // const messageArray = [];
-  const [selectedFilter, setSelectedFilter] = useState("none");
+  const [selectedFilter, setSelectedFilter] = useState("none"); //filter 설정
   let muted = false;
   let cameraOff = false;
   let stream;
   let myPeerConnection;
 
   const sender = localStorage.getItem("memberId");
-  console.log("sender: ", sender);
+  console.log("현재 보내는 sender id: ", sender);
   /*클라이언트가 수행하는 주고받는 과정*/
   const subscribe = () => {
     client.current.subscribe(
@@ -223,6 +219,7 @@ function WebCamPage() {
                   sender,
                   offer,
                 }),
+                headers: connectHeaders,
               }); //5) 서버가 이걸 받고 해야할일:  전달받은 roomId를 구독하고 있는 클라이언트들에게 offer란 타입으로 전달받은 offer을 전송
               console.log("오퍼전송");
             }
@@ -245,6 +242,7 @@ function WebCamPage() {
                   sender,
                   answer,
                 }),
+                headers: connectHeaders,
               });
               console.log("엔서전송");
             }
@@ -295,16 +293,21 @@ function WebCamPage() {
   // 추후 상대방 클라이언트 처리도 생각해야할듯
   const leaveRoom = async () => {
     disconnect();
+    const data = { roomId: `${webcamId}` };
     await axios({
       method: "DELETE",
-      url: `/api/webcam/${webcamId}`, //서버에게 인가코드 보내고 유저정보 받아오기 & 서버 url 수정
+      url: `/api/webcam`,
+      data,
+      connectHeaders,
     })
       .then((res) => {
         navigate("/homepy");
+        // navigate(`/homepy/${memberId}`); //homepy url 바뀌면 수정하기
       })
       .catch((error) => {
         alert(error.data.message);
         navigate("/homepy");
+        // navigate(`/homepy/${memberId}`);  //homepy url 바뀌면 수정하기
       });
   };
 
@@ -400,6 +403,7 @@ function WebCamPage() {
         sender,
         ice: data.candidate,
       }),
+      headers: connectHeaders,
     });
     console.log("아이스전송");
   }
@@ -413,7 +417,6 @@ function WebCamPage() {
   }
   // RTC Peer 커넥션 생성
   function makeConnection() {
-    console.log("상대 peer와 연결중^^");
     myPeerConnection = new RTCPeerConnection({
       //webRTC API 중 하나
       iceServers: [
@@ -433,10 +436,10 @@ function WebCamPage() {
       //2)peer to peer 연결 안에 미디어를 집어 넣어야함.
       myPeerConnection.addTrack(track, stream);
     }); //2) 얻어온 유저의 영상과 오디오 데이터를 스트림에 할당해 주고 getTrack함수를 사용해 저장된 오디오, 비디오 트랙을 가져오고 가져온 각각의 트랙을 mypeerconnection에 넣어줌.
+    console.log("peer와 연결 완료");
   }
   // 0) 페이지 넘어가면 바로 미디어 받아오고 RTC Peer 커넥션을 형성, 웹소켓 연결 진행
   async function fetchData() {
-    console.log("---미디어 데이터 얻기 시작---");
     await getUserMedia(); //1)미디어를 얻어오고
     await makeConnection(); //1)RTC peer 커넥션을 생성
     await connect(); //1) 서버와 웹소켓 연결 진행
@@ -451,6 +454,7 @@ function WebCamPage() {
       console.log("anotherVideoRef is null");
     }
   }, []);
+  /* filter 설정 */
   const handleFilterChange = (event) => {
     setSelectedFilter(event.target.value);
     videoRef.current.className = event.target.value;

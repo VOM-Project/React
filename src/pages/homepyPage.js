@@ -13,7 +13,7 @@ import Webpush from "../components/Webpush.js";
 import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
 import Icon from "../assets/icon-50.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Homepy() {
   /*
@@ -42,6 +42,7 @@ export default function Homepy() {
   const [showModal, setShowModal] = useState(false); // 모달창 표시 여부 상태
   const [searchNickname, setSearchNickname] = useState(""); //닉네임 검색
   const navigate = useNavigate();
+  const { homepyMemberId } = useParams(); //추후, 상대방 memberId 갖고오기
 
   useEffect(() => {
     // Axios GET 요청 및 응답 처리
@@ -71,12 +72,22 @@ export default function Homepy() {
   //         console.error(error);
   //     });
 
-  /* 웹캠 방 생성*/
-  const webcamRoom = () => {
-    navigate("/webcam");
-    /*
-        api 연결 
-        */
+  /* 웹캠 방 생성 - 추후 상대방 homepy 완성되면 수정*/
+  const handleCreateWebcam = () => {
+    // const toMemberId = homepyMemberId; //homepy 모두 완성되면 수정
+    const toMemberId = localStorage.getItem("memberId");
+    const data = { toMemberId };
+    axios
+      .post("/api/webcam", data, config)
+      .then((res) => {
+        console.log("화상채팅 방 생성 완료");
+        const webcamId = res.data.webcamId;
+        navigate(`/webcam/${webcamId}`);
+      })
+      .catch((err) => {
+        alert("방을 생성할 수가 없습니다.");
+        console.err(err);
+      });
   };
   /*닉네임 검색 결과 페이지 호출 및 연결*/
   const handleSearchNickname = (e) => {
@@ -193,7 +204,7 @@ export default function Homepy() {
             </div>
             <Album />
           </div>
-          <button className="button" onClick={webcamRoom}>
+          <button className="button" onClick={handleCreateWebcam}>
             <img className="img-2" alt="Icon" src={Icon} />
             <div className="text-wrapper-4">화상채팅 시작하기</div>
           </button>
