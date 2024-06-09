@@ -94,6 +94,7 @@
   border: 2px solid;
   border-color: var(--brown-30);
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .main .header-home {
