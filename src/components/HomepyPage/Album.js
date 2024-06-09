@@ -54,11 +54,12 @@ export default function Album({ memberId }) {
         axios.post(`/api/album/${memberId}/new`, formData, {
             headers: {
                 // 'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         })
             .then((res) => {
                 console.log(res.data);
+                window.location.reload();
             }).catch((err) => {
                 console.log('Error response data:', err.response.data);
                 console.log('Error response status:', err.response.status);
