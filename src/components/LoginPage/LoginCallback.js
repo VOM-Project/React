@@ -22,7 +22,7 @@ const LoginCallback = () => {
           localStorage.setItem("accessToken", res.data.accessToken);
           let isRegistered = res.data.isRegistered;
           if (isRegistered) {
-            navigate("/homepy"); //이미 등록된 유저면 main으로 이동
+            navigate(`/homepy/${res.data.memberId}`); //이미 등록된 유저면 main으로 이동
           } else {
             navigate("/join");
           }

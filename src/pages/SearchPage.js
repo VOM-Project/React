@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SearchResult from "../components/Search/SearchResult";
+import axios from "axios";
+import userImg from "../assets/profile.png"; //기본프로필 이미지를 위함
 
 const Wrapper = styled.div`
   background-color: #f5e1e1;
@@ -218,29 +220,32 @@ const ButtonHomepy = styled.button`
   padding: 16px 24px;
   position: absolute;
   bottom: 10px;
-  /* display: flex;
-  justify-content: center;
-  position: relative;
-  width: 193px;
-  height: 55px;
-  left: 800px;
-  bottom: 100px;
-  overflow: hidden; */
 `;
 
 function SearchPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [nickname, setNickname] = useState(""); // 닉네임 검색
-  const { memberId } = useParams(); //memberId 넘겨주기 위함
+  const [searchNickname, setSearchNickname] = useState(""); //닉네임 검색
+  const { searchMemberId } = useParams(); //memberId 넘겨주기 위함
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  };
+  const memberId = localStorage.getItem("meberId");
   /*
   useLocation으로 결과값 받아오기
   */
   useEffect(() => {
     if (location.state) {
       console.log("결과 받았음 nickname:", location.state.memberNickname);
+      console.log(
+        "결과받았음 profileimgurl:",
+        location.state.memberProfileImgUrl
+      );
     }
   }, [location.state]);
+
   const {
     memberNickname,
     memberProfileImgUrl,
@@ -251,16 +256,43 @@ function SearchPage() {
 
   const handleSearchNickname = (e) => {
     if (e.key === "Enter") {
-      /*
-        검색 post api 연결, 결과 데이터 받아서 넘기기
-        */
-      navigate("/search"); /*state 값 넘기기 */
+      axios
+        .get(`api/members/search?nickname=${searchNickname}`, config)
+        .then((res) => {
+          const isExisted = res.data.existed;
+          if (!isExisted) {
+            alert("존재하지 않은 유저입니다");
+            navigate(`/homepy/${memberId}`);
+          } else {
+            const searchMemberId = res.data.findMemberId;
+            const memberNickname = res.data.nickname;
+            const memberProfileImgUrl =
+              res.data.profileImgUrl === null
+                ? userImg
+                : res.data.profileImgUrl;
+            const memberEmail = res.data.email;
+            const memberBirth = res.data.birth;
+            const memberRegion = res.data.region;
+
+            const searchResult = {
+              memberNickname,
+              memberProfileImgUrl,
+              memberEmail,
+              memberBirth,
+              memberRegion,
+            };
+            navigate(`/search/${searchMemberId}`, { state: searchResult });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
 
   const handleOnButtonClick = () => {
-    navigate("/homepy"); /*해당 member homepy 페이지로 가기*/
-    // navigate(`/homepy/${memberId}`);
+    console.log("searchMemberId: ", searchMemberId);
+    navigate(`/homepy/${searchMemberId}`);
   };
 
   return (
@@ -271,10 +303,11 @@ function SearchPage() {
             <InputNoLabel>
               <InputNoLabel2>
                 <img className="ic-baseline-people" alt="Search" src={Search} />
-                <Label
+                <input
+                  className="label"
                   type="text"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
+                  value={searchNickname}
+                  onChange={(e) => setSearchNickname(e.target.value)}
                   onKeyDown={(e) => handleSearchNickname(e)}
                   placeholder="닉네임을 검색해보세요"
                 />
