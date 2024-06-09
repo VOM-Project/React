@@ -23,7 +23,7 @@ function App() {
         {/* <Route path="/modal" element={<Modal />} /> */}
         <Route path="/webpush" element={<Webpush />} />
         <Route path="/webcam/:webcamId" element={<WebCamPage />} />
-        <Route path="/search/:memberId" element={<SearchPage />} />
+        <Route path="/search/:searchMemberId" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
   );

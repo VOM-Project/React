@@ -3,6 +3,7 @@ import axios from "axios";
 import userImg from "../../assets/profile.png"; //기본프로필 이미지를 위함
 import styled from "styled-components";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import { findByLabelText } from "@testing-library/react";
 // import { upload } from '@testing-library/user-event/dist/upload';
 const customModalStyles = {
@@ -123,7 +124,7 @@ const CheckButton = styled.button`
 
 Modal.setAppElement("#root");
 
-function ProfileModal({ modalIsOpen, setModalIsOpen }) {
+function ProfileEditModal({ modalIsOpen, setModalIsOpen, memberId }) {
   const [profileData, setProfileData] = useState({
     /*프로필 조회시 받아올 profile data*/
     image: "",
@@ -131,23 +132,27 @@ function ProfileModal({ modalIsOpen, setModalIsOpen }) {
   });
   const [uploadImage, setUploadImage] = useState(null); //업로드할 파일객체
   const imageInputRef = useRef(); //input 태그 숨기기 위함
+  const loginMemberId = localStorage.getItem("memberId"); //로그인한 memberID
+  const navigate = useNavigate();
 
   /* 프로필 조회 */
   useEffect(() => {
     if (modalIsOpen) {
-      fetchUserProfile();
+      if (memberId != loginMemberId) {
+        alert("사용자 계정이 아니므로 프로필 편집이 불가능합니다");
+        navigate(`/homepy/${memberId}`);
+        setModalIsOpen(false);
+      } else {
+        fetchUserProfile();
+      }
     }
   }, [modalIsOpen]);
 
-
   if (!modalIsOpen) return null;
-
-  const memberId = localStorage.getItem("memberId");
-
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`/api/homepy/${memberId}/profile`, {
+      const response = await axios.get(`/api/homepy/${loginMemberId}/profile`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -299,4 +304,4 @@ function ProfileModal({ modalIsOpen, setModalIsOpen }) {
     </ModalContainer>
   );
 }
-export default ProfileModal;
+export default ProfileEditModal;

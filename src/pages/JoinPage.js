@@ -78,9 +78,10 @@ function JoinPage() {
       //서버 응답 처리
       console.log("Success : ", response.data);
       alert("회원가입이 성공적으로 완료되었습니다");
-      navigate("/homepy");
+      navigate(`/homepy/${memberId}`);
     } catch (error) {
       console.error("Error:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요");
     }
   };
   return (
