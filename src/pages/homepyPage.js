@@ -14,6 +14,7 @@ import Ph_bell_light from "../assets/ph-bell-light.svg";
 import Icon from "../assets/icon-50.svg";
 import userImg from "../assets/profile.png"; //기본프로필 이미지를 위함
 import { useNavigate, useParams } from "react-router-dom";
+import LogoutButton from "../components/LoginPage/Logout.js";
 
 export default function Homepy() {
   const { memberId } = useParams();
@@ -103,6 +104,7 @@ export default function Homepy() {
         });
     }
   };
+  const handleLogout = () => {};
   /*
    * Render
    */
@@ -111,6 +113,7 @@ export default function Homepy() {
       <div className="background">
         <header className="header">
           <div className="header-frame">
+            <LogoutButton />
             <div className="header-search">
               <img className="search-svg" alt="Search" src={Search} />
               <input
