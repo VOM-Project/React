@@ -1,13 +1,21 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const Button = styled.button`
+  width: 160px;
+  height: 50px;
+  background-color: rgba(236, 129, 144, 1);
+  border-color: rgba(247, 204, 212, 0.2);
+  border-radius: 8px;
+  color: white;
+`;
 
 function LogoutButton() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      //로그아웃 api 호출
-      await axios.get("/logout");
       //로그아웃 후 localstorage 삭제
       //로그인페이지로 돌아가기
       localStorage.clear(); //토큰까지 싹 다 삭제
@@ -18,9 +26,9 @@ function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="LogoutBtn">
+    <Button onClick={handleLogout} className="LogoutBtn">
       <b>로그아웃</b>
-    </button>
+    </Button>
   );
 }
 
