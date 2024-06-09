@@ -139,9 +139,11 @@ function ProfileModal({ modalIsOpen, setModalIsOpen }) {
     }
   }, [modalIsOpen]);
 
+
   if (!modalIsOpen) return null;
 
   const memberId = localStorage.getItem("memberId");
+
 
   const fetchUserProfile = async () => {
     try {
