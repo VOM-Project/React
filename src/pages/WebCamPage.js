@@ -193,7 +193,7 @@ function WebCamPage() {
 
   // const sender = localStorage.getItem("memberId");
   // console.log("현재 보내는 sender id: ", sender);
-  /*클라이언트가 수행하는 주고받는 과정*/
+  // /*클라이언트가 수행하는 주고받는 과정*/
   // const subscribe = () => {
   //   client.current.subscribe(
   //     `/topic/peer/offer/${webcamId}`, //구독하고있는 주소
@@ -265,7 +265,7 @@ function WebCamPage() {
   //     }
   //   );
   // };
-  // // 서버와 소켓 연결
+  // // // 서버와 소켓 연결
   // const connect = () => {
   //   // console.log("webcamId: " + webcamId);
   //   const socket = new SockJS("https://localhost:8080/signaling");
@@ -285,29 +285,29 @@ function WebCamPage() {
   //   });
   //   client.current.activate();
   // };
-  // //서버와 소켓 끊음
+  //서버와 소켓 끊음
   // const disconnect = () => {
   //   client.current.deactivate();
   // };
   /*방 나가기 핸들러*/
   // 추후 상대방 클라이언트 처리도 생각해야할듯
-  const leaveRoom = async () => {
-    // disconnect();
-    const data = { roomId: `${webcamId}` };
-    const memberId = localStorage.getItem("memberId");
-    await axios({
-      method: "DELETE",
-      url: `/api/webcam`,
-      data,
-      headers: connectHeaders,
-    })
-      .then((res) => {
-        navigate(`/homepy/${memberId}`);
-      })
-      .catch((error) => {
-        navigate(`/homepy/${memberId}`);
-      });
-  };
+  // const leaveRoom = async () => {
+  //   // disconnect();
+  //   const data = { roomId: `${webcamId}` };
+  //   const memberId = localStorage.getItem("memberId");
+  //   await axios({
+  //     method: "DELETE",
+  //     url: `/api/webcam`,
+  //     data,
+  //     headers: connectHeaders,
+  //   })
+  //     .then((res) => {
+  //       navigate(`/homepy/${memberId}`);
+  //     })
+  //     .catch((error) => {
+  //       navigate(`/homepy/${memberId}`);
+  //     });
+  // };
 
   //클릭하면 카메라 끄기 핸들러
   // function onClickCameraOffHandler() {
@@ -357,7 +357,7 @@ function WebCamPage() {
   //     console.log(error);
   //   }
   // }
-  // //클라이언트의 미디어 정보 받아오기 함수
+  // // //클라이언트의 미디어 정보 받아오기 함수
   // async function getUserMedia(deviceId) {
   //   const initialConstrains = {
   //     video: { facingMode: "user" },
@@ -380,7 +380,7 @@ function WebCamPage() {
   //     console.log(err);
   //   }
   // }
-  // //
+  // // //
   // async function onInputCameraChange() {
   //   await getUserMedia(camerasSelect.current.value);
   //   if (myPeerConnection) {
@@ -391,7 +391,7 @@ function WebCamPage() {
   //     videoSender.replaceTrack(videoTrack);
   //   }
   // }
-  // /*makeConnection 함수에 쓰이는 ice 정보를 핸들러하는 함수*/
+  // // /*makeConnection 함수에 쓰이는 ice 정보를 핸들러하는 함수*/
   // function handleIce(data) {
   //   client.current.publish({
   //     destination: `/app/peer/iceCandidate/${webcamId}`, //8) 해당 주소를 구독하고 있는 클라이언트들에게 icecandidate를 주고받을 수 있게 전송
@@ -405,7 +405,7 @@ function WebCamPage() {
   //   });
   //   console.log("아이스전송");
   // }
-  // /*makeConnection 함수에 쓰이는 stream 추가 함수*/
+  // // /*makeConnection 함수에 쓰이는 stream 추가 함수*/
   // // 상대 클라이언트의 stream을 얻어온 것을 콘솔로 확인
   // function handleAddStream(data) {
   //   anotherVideoRef.current.srcObject = data.stream;
@@ -413,7 +413,7 @@ function WebCamPage() {
   //   console.log("Peer's Stream", data.stream);
   //   console.log("My stream", stream);
   // }
-  // RTC Peer 커넥션 생성
+  // // RTC Peer 커넥션 생성
   // function makeConnection() {
   //   myPeerConnection = new RTCPeerConnection({
   //     //webRTC API 중 하나
@@ -436,7 +436,7 @@ function WebCamPage() {
   //   }); //2) 얻어온 유저의 영상과 오디오 데이터를 스트림에 할당해 주고 getTrack함수를 사용해 저장된 오디오, 비디오 트랙을 가져오고 가져온 각각의 트랙을 mypeerconnection에 넣어줌.
   //   console.log("peer와 연결 완료");
   // }
-  // // 0) 페이지 넘어가면 바로 미디어 받아오고 RTC Peer 커넥션을 형성, 웹소켓 연결 진행
+  // // // 0) 페이지 넘어가면 바로 미디어 받아오고 RTC Peer 커넥션을 형성, 웹소켓 연결 진행
   // async function fetchData() {
   //   await getUserMedia(); //1)미디어를 얻어오고
   //   await makeConnection(); //1)RTC peer 커넥션을 생성
@@ -536,11 +536,7 @@ function WebCamPage() {
                 상대방 비디오
               </video>
             </div> */}
-            <PeerConfig webcamId={webcamId} />
-            <ButtonLeave onClick={leaveRoom}>
-              <img className="img-2" alt="Icon" src={Icon} />
-              <TextWrapper4>방 나가기</TextWrapper4>
-            </ButtonLeave>
+            <PeerConfig webcamId={webcamId} connectHeaders={connectHeaders} />
           </Frame3>
         </Frame2>
         <CalleProfile />

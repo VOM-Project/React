@@ -1,175 +1,151 @@
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
+import styled from "styled-components";
+import Icon from "../../assets/icon-50.svg";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const ButtonLeave = styled.button`
+  all: unset;
+  align-items: center;
+  background-color: rgba(236, 129, 144, 1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 10px;
+  height: 55px;
+  justify-content: center;
+  left: 1200px;
+  overflow: hidden;
+  padding: 16px 24px;
+  position: absolute;
+  bottom: 10px;
+  top: 800px;
+`;
+
+const IconImg = styled.img`
+  height: 24px;
+  margin-bottom: -0.5px;
+  margin-top: -0.5px;
+  position: relative;
+  width: 24px;
+`;
+
+const TextWrapper4 = styled.div`
+  color: #ffffff;
+  font-family: "Pretendard", Helvetica;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.48px;
+  line-height: 120.00000476837158%;
+  position: relative;
+  text-align: right;
+  white-space: nowrap;
+  width: fit-content;
+`;
 
 function PeerConfig({ webcamId, connectHeaders }) {
-  //   let localStreamElement = document.querySelector("#localStream");
-  //자신을 식별하기위한 랜덤한 key
-  const myKey = Math.random().toString(36).substring(2, 11);
-  let pcListMap = new Map();
-  //   let otherKeyList = [];
-  const [otherKeyList, setOtherKeyList] = useState([]);
-  const localStreamRef = useRef(null);
-  //   const [localStream, setLocalStream] = useState(null);
-  let localStream;
-  const [remoteStreams, setRemoteStreams] = useState([]);
-  const client = useRef({});
-  const remoteStreamRef = useRef(null);
+  const localStreamRef = useRef(null); //내비디오
+  const remoteStreamRef = useRef(null); //상대 비디오
+  const muteBtn = useRef(null); //음소거 버튼
+  const cameraBtn = useRef(null); //카메라 버튼
+  const camerasSelect = useRef(null);
+  const cameraOption = useRef(null);
+  let stream; //내 local 미디어 스트림
+  let myPeerConnection; //peer connect 변수
+  const client = useRef({}); //stomp
+  const sender = localStorage.getItem("memberId");
+  const navigate = useNavigate();
 
-  const startCam = async () => {
-    if (navigator.mediaDevices !== undefined) {
-      console.log("1.cam start");
-      await navigator.mediaDevices
-        .getUserMedia({ audio: true, video: true })
-        .then(async (stream) => {
-          console.log("Stream found");
-          console.log("getUserMedia 함수에서 생성된 스트림:", stream);
-          //웹캠, 마이크의 스트림 정보를 글로벌 변수로 저장한다.
-          localStream = stream;
-          // Disable the microphone by default
-          stream.getAudioTracks()[0].enabled = true;
-          console.log("현재 stream을 localStream에 추가합니다");
-          localStreamRef.current.srcObject = stream;
-          // Connect after making sure that local stream is availble
-        })
-        .catch((error) => {
-          console.error("Error accessing media devices:", error);
-        });
-    }
-  };
-
-  //웹소켓 연결을 위한 함수 추가
-  const connectSocket = async () => {
-    const socket = new SockJS("https://localhost:8080/signaling");
-    client.current = Stomp.over(socket);
-    client.current.debug = () => {};
-    client.current.connect(connectHeaders, function () {
-      console.log("2. Connected to WebRTC server");
-
-      //iceCandidate peer 교환을 위한 subscribe
-      console.log("2-1. ice 구독");
-      client.current.subscribe(
-        `/topic/peer/iceCandidate/${myKey}/${webcamId}`,
-        (candidate) => {
-          const key = JSON.parse(candidate.body).key;
-          const message = JSON.parse(candidate.body).body;
-
-          // 해당 key에 해당되는 peer 에 받은 정보를 addIceCandidate 해준다.
-          pcListMap.get(key).addIceCandidate(
-            new RTCIceCandidate({
-              candidate: message.candidate,
-              sdpMLineIndex: message.sdpMLineIndex,
-              sdpMid: message.sdpMid,
-            })
-          );
+  //  카메라 정보 받아오기 함수
+  async function getCameras() {
+    try {
+      // 유저의 장치를 얻어옵니다
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      // 얻어온 유저의 장치들에서 카메라장치만 필터링 합니다
+      const cameras = devices.filter((device) => device.kind === "videoinput");
+      // 현재내가 사용중인 카메라의 label명을 셀렉트란에 보여주기위한 과정입니다.
+      //  아래의 if문과 이어서 확인 해주세요
+      const currentCamera = stream.getVideoTracks()[0];
+      cameras.forEach((camera) => {
+        cameraOption.current.value = camera.deviceId;
+        cameraOption.current.innerText = camera.label;
+        if (currentCamera.label === camera.label) {
+          cameraOption.current.selected = true;
         }
-      );
-
-      //offer peer 교환을 위한 subscribe
-      console.log("2-2.offer 구독");
-      client.current.subscribe(
-        `/topic/peer/offer/${myKey}/${webcamId}`,
-        (offer) => {
-          const key = JSON.parse(offer.body).key;
-          const message = JSON.parse(offer.body).body;
-
-          // 해당 key에 새로운 peerConnection 를 생성해준후 pcListMap 에 저장해준다.
-          pcListMap.set(key, createPeerConnection(key));
-          // 생성한 peer 에 offer정보를 setRemoteDescription 해준다.
-          pcListMap.get(key).setRemoteDescription(
-            new RTCSessionDescription({
-              type: message.type,
-              sdp: message.sdp,
-            })
-          );
-          //sendAnswer 함수를 호출해준다.
-          console.log("2-3. answer 전송");
-          sendAnswer(pcListMap.get(key), key);
-        }
-      );
-
-      //answer peer 교환을 위한 subscribe
-      console.log("2-4. answer 구독");
-      client.current.subscribe(
-        `/topic/peer/answer/${myKey}/${webcamId}`,
-        (answer) => {
-          const key = JSON.parse(answer.body).key;
-          const message = JSON.parse(answer.body).body;
-
-          // 해당 key에 해당되는 Peer 에 받은 정보를 setRemoteDescription 해준다.
-          pcListMap
-            .get(key)
-            .setRemoteDescription(new RTCSessionDescription(message));
-        }
-      );
-
-      //key를 보내라는 신호를 받은 subscribe
-      console.log("2-5. camKey 전송");
-      client.current.subscribe(`/topic/call/key`, (message) => {
-        //자신의 key를 보내는 send
-        client.current.send(
-          `/app/send/key`,
-          connectHeaders,
-          JSON.stringify(myKey)
-        );
-        console.log("2-5. camKey 전송: ", message);
+        camerasSelect.current.appendChild(cameraOption.current);
       });
-
-      //상대방의 key를 받는 subscrib
-      console.log("2-6. camKey 구독");
-      client.current.subscribe(`/topic/send/key`, (message) => {
-        const key = JSON.parse(message.body);
-
-        //만약 중복되는 키가 ohterKeyList에 있는지 확인하고 없다면 추가해준다.
-        setOtherKeyList((prevKeys) => {
-          if (myKey !== key && !prevKeys.includes(key)) {
-            return [...prevKeys, key];
-          } //중복되면 key 추가 x
-          return prevKeys;
-        });
-        console.log("2-6. camKey 구독:", message.body);
-      });
-    });
-  };
-
-  //iceCnadidate 함수
-  function onIceCandidate(event, otherKey) {
-    console.log("onIceCandidate 함수에 전달된 otherKey 값:", otherKey);
-    console.log("3-1. ice candidate 전송");
-    if (event.candidate) {
-      console.log("ICE candidate");
-      client.current.send(
-        `/app/peer/iceCandidate/${otherKey}/${webcamId}`,
-        connectHeaders,
-        JSON.stringify({
-          key: myKey,
-          body: event.candidate,
-        })
-      );
+    } catch (error) {
+      console.log(error);
     }
   }
-
-  //   onTrack 함수
-  function onTrack(event, otherKey) {
-    console.log("onTrack 함수에 전달된 otherKey 값:", otherKey);
-    console.log("3-2. media 연결 시작");
-    setRemoteStreams((prevStreams) => {
-      const existingStream = prevStreams.find(
-        (stream) => stream.key === otherKey
+  //클라이언트의 미디어 정보 받아오기 함수
+  async function getUserMedia(deviceId) {
+    console.log("1.미디어 정보 받아오기 start");
+    const initialConstrains = {
+      video: { facingMode: "user" },
+      audio: true,
+    };
+    const cameraConstrains = {
+      audio: true,
+      video: { deviceId: { exact: deviceId } },
+    };
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        //webRtc api의 media access 하는 함수
+        deviceId ? cameraConstrains : initialConstrains
       );
-      if (!existingStream) {
-        console.log("[ㅅㅂ]존재하는 stream을 찾지 못했습니다", otherKey);
-        return [...prevStreams, { key: otherKey, stream: event.streams[0] }];
+      console.log("getUserMedia 함수에서 생성된 스트림:", stream);
+      localStreamRef.current.srcObject = stream;
+      console.log("현재 stream을 localStream에 추가합니다");
+      if (!deviceId) {
+        await getCameras();
       }
-      console.log("[ㅅㅂ]존재하는 상대 stream을 찾았습니다");
-      return prevStreams;
-    });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  //카메라 옵션 변화 있을때
+  async function onInputCameraChange() {
+    await getUserMedia(camerasSelect.current.value);
+    if (myPeerConnection) {
+      const videoTrack = stream.getVideoTracks()[0];
+      const videoSender = myPeerConnection
+        .getSenders()
+        .find((sender) => sender.track.kind === "video");
+      videoSender.replaceTrack(videoTrack);
+    }
   }
 
-  //peerconnection을 생성해주는 함수 추가
-  const createPeerConnection = (otherKey) => {
-    console.log("3.peer connection 시작");
-    const pc = new RTCPeerConnection({
+  /*makeConnection 함수에 쓰이는 ice 정보를 핸들러하는 함수*/
+  function handleIce(data) {
+    client.current.send(
+      `/app/peer/iceCandidate/${webcamId}`,
+      connectHeaders,
+      JSON.stringify({
+        type: "ICE",
+        webcamId: webcamId,
+        sender: sender,
+        ice: data.candidate,
+      })
+    );
+    console.log("3.peer connect: ice 전송 + ", data.candidate);
+  }
+
+  /*makeConnection 함수에 쓰이는 stream 추가 함수*/
+  // 상대 클라이언트의 stream을 얻어온 것을 콘솔로 확인
+  function handleAddStream(data) {
+    remoteStreamRef.current.srcObject = data.stream;
+    console.log("3.peer connect: 상대 stream 받았습니다");
+    console.log("3.peer connect: Peer's Stream + ", data.stream);
+    console.log("3.peer connect: My stream + ", stream);
+  }
+  // RTC Peer 커넥션 생성
+  function makeConnection() {
+    myPeerConnection = new RTCPeerConnection({
+      //webRTC API 중 하나
       iceServers: [
         {
           urls: [
@@ -181,63 +157,123 @@ function PeerConfig({ webcamId, connectHeaders }) {
         },
       ],
     });
-    try {
-      // peerConnection 에서 icecandidate 이벤트가 발생시 onIceCandidate 함수 실행
-      pc.addEventListener("icecandidate", (event) => {
-        onIceCandidate(event, otherKey);
-      });
-      // peerConnection 에서 track 이벤트가 발생시 onTrack 함수를 실행, 상대 client의 stream을 얻어옴
-      pc.addEventListener("track", (event) => {
-        onTrack(event, otherKey);
-      });
+    myPeerConnection.addEventListener("icecandidate", handleIce); //8)iceCandidate를 주고 받음
+    myPeerConnection.addEventListener("addstream", handleAddStream); //9) 상대 클라이언트의 stream을 얻어온다. 연결 끝!
+    console.log(
+      "3.peer connect: peer connect 진행중, 위에 로그가 다 잘 뜨고 이것도 뜨면 ice 전송과 상대 stream이 잘 추가된 것임 "
+    );
+    stream.getTracks().forEach((track) => {
+      //2)peer to peer 연결 안에 미디어를 집어 넣어야함.
+      myPeerConnection.addTrack(track, stream);
+    }); //2) 얻어온 유저의 영상과 오디오 데이터를 스트림에 할당해 주고 getTrack함수를 사용해 저장된 오디오, 비디오 트랙을 가져오고 가져온 각각의 트랙을 mypeerconnection에 넣어줌.
+    console.log("3.peer connect: (위에로그가 다 잘 뜨면) peer와 연결 완료");
+  }
 
-      // 만약 localStream 이 존재하면 peerConnection에 addTrack 으로 추가함
-      console.log("3.2-1. localStream 확인용: ", localStream);
-      if (localStream) {
-        localStream.getTracks().forEach((track) => {
-          pc.addTrack(track, localStream);
-        });
-      }
-      console.log("3-3.결과 : PeerConnection created");
-    } catch (error) {
-      console.error("3-3. 결과: PeerConnection failed: ", error);
-    }
-    return pc;
+  //웹소켓 연결을 위한 함수
+  const connectSocket = () => {
+    const socket = new SockJS("https://localhost:8080/signaling");
+    client.current = Stomp.over(socket);
+    client.current.debug = () => {}; //디버그 안보이게
+    client.current.connect(connectHeaders, () => {
+      console.log("2. Connected to WebRTC 시그널링 server");
+      // 소켓 연결 설정 완료 후에 피어 간 연결 설정
+      //처음 연결하면 일단 다 구독해두기
+      //iceCandidate peer 교환을 위한 subscribe
+      console.log("2-1. ice 구독");
+      client.current.subscribe(
+        `/topic/peer/iceCandidate/${webcamId}`,
+        ({ body }) => {
+          const data = JSON.parse(body);
+          if (data.sender !== sender) {
+            //현재 로그인 유저가 보낸게 아니라면 ice 수신
+            console.log("2-1-1.ice 수신 시작 ");
+            myPeerConnection.addIceCandidate(data.ice);
+          }
+        }
+      );
+      //offer peer 교환을 위한 subscribe
+      console.log("2-2.offer 구독");
+      client.current.subscribe(
+        `/topic/peer/offer/${webcamId}`,
+        async ({ body }) => {
+          const data = JSON.parse(body);
+          if (data.sender !== sender) {
+            //현재 로그인 유저가 보낸게 아니라면 offer 수신
+            console.log("2-2-1. data를 보내는 사람:", data.sender);
+            console.log("2-2-1. 현재 사람:", sender);
+            console.log("2-2-1.offer 수신 시작 ");
+            myPeerConnection.setRemoteDescription(data.offer);
+            //sendAnswer 함수를 호출해준다.
+            const answer = await myPeerConnection.createAnswer();
+            myPeerConnection.setLocalDescription(answer);
+            console.log(
+              "2-2-2. answer을 localdescription으로 설정하고 answer 전송시작"
+            );
+            client.current.send(
+              `/app/peer/answer/${webcamId}`,
+              connectHeaders,
+              JSON.stringify({
+                type: "ANSWER",
+                webcamId,
+                sender,
+                answer: answer,
+              })
+            );
+            console.log("2-2-3.answer 전송 중...");
+          }
+        }
+      );
+
+      //answer peer 교환을 위한 subscribe
+      console.log("2-4. answer 구독");
+      client.current.subscribe(`/topic/peer/answer/${webcamId}`, ({ body }) => {
+        const data = JSON.parse(body); // 해당 key에 해당되는 Peer 에 받은 정보를 setRemoteDescription 해준다.
+        if (data.sender !== sender) {
+          console.log("2-4-1. answer 수신 및 remoteDescription으로 설정");
+          myPeerConnection.setRemoteDescription(data.answer);
+        }
+      });
+      sendOffer(); // 피어 간 연결 설정 완료 후에 offer 전송
+      client.current.activate();
+    });
   };
 
   //send offer
-  let sendOffer = (pc, otherKey) => {
-    pc.createOffer().then((offer) => {
-      setLocalAndSendMessage(pc, offer);
-      client.current.send(
-        `/app/peer/offer/${otherKey}/${webcamId}`,
-        connectHeaders,
-        JSON.stringify({
-          key: myKey,
-          body: offer,
-        })
-      );
-      console.log("offer 전송 중...");
-    });
-  };
-  //send answer
-  let sendAnswer = (pc, otherKey) => {
-    pc.createAnswer().then((answer) => {
-      setLocalAndSendMessage(pc, answer);
-      client.current.send(
-        `/app/peer/answer/${otherKey}/${webcamId}`,
-        connectHeaders,
-        JSON.stringify({
-          key: myKey,
-          body: answer,
-        })
-      );
-      console.log("answer 전송 중...");
-    });
+  let sendOffer = async () => {
+    const offer = await myPeerConnection.createOffer();
+    myPeerConnection.setLocalDescription(offer);
+    client.current.send(
+      `/app/peer/offer/${webcamId}`,
+      connectHeaders,
+      JSON.stringify({
+        type: "OFFER",
+        webcamId,
+        sender,
+        offer,
+      })
+    );
+    console.log("3.(방에 들어왔을 때) offer 전송 중...");
   };
 
-  const setLocalAndSendMessage = (pc, sessionDescription) => {
-    pc.setLocalDescription(sessionDescription);
+  const disconnect = () => {
+    client.current.deactivate();
+  };
+  const leaveRoom = async () => {
+    disconnect();
+    const data = { roomId: `${webcamId}` };
+    const memberId = localStorage.getItem("memberId");
+    await axios({
+      method: "DELETE",
+      url: `/api/webcam`,
+      data,
+      headers: connectHeaders,
+    })
+      .then((res) => {
+        navigate(`/homepy/${memberId}`);
+      })
+      .catch((error) => {
+        navigate(`/homepy/${memberId}`);
+      });
   };
 
   //들어오자마자 캠 + 웹소켓 실행
@@ -246,61 +282,39 @@ function PeerConfig({ webcamId, connectHeaders }) {
   }, []);
 
   async function fetchData() {
-    await startCam();
-    // if (localStream) {
-    //   localStreamRef.current.style.display = "block";
-    // }
+    await getUserMedia();
+    await makeConnection();
     await connectSocket();
   }
 
-  //연결 시작 버튼 클릭시 다른 웹 key들 웹소켓을 가져 온뒤에 offer -> answer -> iceCandidate 통신
-  // peer 커넥션은 pcListMap 으로 저장
-  const handleStreamEvent = async () => {
-    await client.current.send(`/app/call/key`, connectHeaders, {});
-    setTimeout(() => {
-      otherKeyList.forEach((key) => {
-        if (!pcListMap.has(key)) {
-          const pc = createPeerConnection(key);
-          pcListMap.set(key, pc);
-          sendOffer(pc, key);
-        }
-      });
-    }, 1000);
-  };
-
   return (
     <div>
-      <button type="StartStreambutton" onClick={handleStreamEvent}>
-        stream시작
-      </button>
       <video
         id="localStream"
         autoPlay
         playsInline
         width={500}
         height={500}
-        // style={{ display: "none" }}
         ref={localStreamRef}
       >
         내 비디오
       </video>
       <div id="remoteStreamDiv">
-        {remoteStreams.map(({ key, stream }) => (
-          <video
-            key={key}
-            autoPlay
-            playsInline
-            width={500}
-            height={500}
-            controls
-            ref={(remoteStreamRef) => {
-              if (remoteStreamRef && stream) {
-                remoteStreamRef.srcObject = stream;
-              }
-            }}
-          />
-        ))}
+        <video
+          autoPlay
+          playsInline
+          width={500}
+          height={500}
+          controls
+          ref={remoteStreamRef}
+        >
+          상대방 비디오
+        </video>
       </div>
+      <ButtonLeave onClick={leaveRoom}>
+        <IconImg src={Icon} />
+        <TextWrapper4>방 나가기</TextWrapper4>
+      </ButtonLeave>
     </div>
   );
 }
