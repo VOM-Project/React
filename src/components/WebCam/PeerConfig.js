@@ -121,17 +121,23 @@ function PeerConfig({ webcamId, connectHeaders }) {
 
   /*makeConnection 함수에 쓰이는 ice 정보를 핸들러하는 함수*/
   function handleIce(data) {
-    client.current.send(
-      `/app/peer/iceCandidate/${webcamId}`,
-      connectHeaders,
-      JSON.stringify({
-        type: "ICE",
-        webcamId: webcamId,
-        sender: sender,
-        ice: data.candidate,
-      })
-    );
-    console.log("3.peer connect: ice 전송 + ", data.candidate);
+    if (client.current && client.current.connected && data.candidate) {
+      client.current.send(
+        `/app/peer/iceCandidate/${webcamId}`,
+        connectHeaders,
+        JSON.stringify({
+          type: "ICE",
+          webcamId: webcamId,
+          sender: sender,
+          ice: data.candidate,
+        })
+      );
+      console.log("3.peer connect: ice 전송 + ", data.candidate);
+    } else {
+      console.warn(
+        "STOMP 연결이 설정되지 않았거나 ICE 후보가 유효하지 않습니다."
+      );
+    }
   }
 
   /*makeConnection 함수에 쓰이는 stream 추가 함수*/
@@ -171,7 +177,7 @@ function PeerConfig({ webcamId, connectHeaders }) {
 
   //웹소켓 연결을 위한 함수
   const connectSocket = () => {
-    const socket = new SockJS("https://localhost:8080/signaling");
+    const socket = new SockJS("http://13.125.102.76:8080/signaling");
     client.current = Stomp.over(socket);
     client.current.debug = () => {}; //디버그 안보이게
     client.current.connect(connectHeaders, () => {
@@ -179,80 +185,97 @@ function PeerConfig({ webcamId, connectHeaders }) {
       // 소켓 연결 설정 완료 후에 피어 간 연결 설정
       //처음 연결하면 일단 다 구독해두기
       //iceCandidate peer 교환을 위한 subscribe
-      console.log("2-1. ice 구독");
+
+      //offer peer 교환을 위한 subscribe
+      console.log("2-1.offer 구독");
+      client.current.subscribe(
+        `/topic/peer/offer/${webcamId}`,
+        async ({ body }) => {
+          const data = JSON.parse(body);
+          if (data.sender !== sender) {
+            //현재 로그인 유저가 보낸게 아니라면 수신
+            console.log("2-1-1. data를 보내는 사람:", data.sender);
+            console.log("2-2-1. 현재 사람:", sender);
+            if (data.type === "ENTER") {
+              console.log("1.(방에 들어왔을 때) enter 수신 중...");
+              const offer = await myPeerConnection.createOffer();
+              myPeerConnection.setLocalDescription(offer);
+              console.log("생성된 offer:", offer);
+              client.current.send(
+                `/app/peer/offer/${webcamId}`,
+                connectHeaders,
+                JSON.stringify({
+                  type: "OFFER",
+                  webcamId,
+                  sender,
+                  offer: offer,
+                })
+              );
+              console.log(
+                "2.(방에 들어왔을 때) enter 수신 후 offer 전송 완료..."
+              );
+            }
+            if (data.type === "OFFER") {
+              console.log("2-2-1.offer 수신 시작 ");
+              myPeerConnection.setRemoteDescription(data.offer);
+              const answer = await myPeerConnection.createAnswer();
+              myPeerConnection.setLocalDescription(answer);
+              client.current.send(
+                `/app/peer/answer/${webcamId}`,
+                connectHeaders,
+                JSON.stringify({
+                  type: "ANSWER",
+                  webcamId,
+                  sender,
+                  answer: answer,
+                })
+              );
+              console.log(
+                "2-2-2. answer을 localdescription으로 설정하고 answer 전송시작"
+              );
+            }
+          }
+        }
+      );
+      //answer peer 교환을 위한 subscribe
+      console.log("2-3. answer 구독");
+      client.current.subscribe(`/topic/peer/answer/${webcamId}`, ({ body }) => {
+        const data = JSON.parse(body); // 해당 key에 해당되는 Peer 에 받은 정보를 setRemoteDescription 해준다.
+        if (data.sender !== sender) {
+          console.log("2-3-1. answer 수신 및 remoteDescription으로 설정");
+          myPeerConnection.setRemoteDescription(data.answer);
+        }
+      });
+
+      console.log("2-4. ice 구독");
       client.current.subscribe(
         `/topic/peer/iceCandidate/${webcamId}`,
         ({ body }) => {
           const data = JSON.parse(body);
           if (data.sender !== sender) {
             //현재 로그인 유저가 보낸게 아니라면 ice 수신
-            console.log("2-1-1.ice 수신 시작 ");
+            console.log("2-4-1.ice 수신 시작 ");
             myPeerConnection.addIceCandidate(data.ice);
           }
         }
       );
-      //offer peer 교환을 위한 subscribe
-      console.log("2-2.offer 구독");
-      client.current.subscribe(
-        `/topic/peer/offer/${webcamId}`,
-        async ({ body }) => {
-          const data = JSON.parse(body);
-          if (data.sender !== sender) {
-            //현재 로그인 유저가 보낸게 아니라면 offer 수신
-            console.log("2-2-1. data를 보내는 사람:", data.sender);
-            console.log("2-2-1. 현재 사람:", sender);
-            console.log("2-2-1.offer 수신 시작 ");
-            myPeerConnection.setRemoteDescription(data.offer);
-            //sendAnswer 함수를 호출해준다.
-            const answer = await myPeerConnection.createAnswer();
-            myPeerConnection.setLocalDescription(answer);
-            console.log(
-              "2-2-2. answer을 localdescription으로 설정하고 answer 전송시작"
-            );
-            client.current.send(
-              `/app/peer/answer/${webcamId}`,
-              connectHeaders,
-              JSON.stringify({
-                type: "ANSWER",
-                webcamId,
-                sender,
-                answer: answer,
-              })
-            );
-            console.log("2-2-3.answer 전송 중...");
-          }
-        }
-      );
-
-      //answer peer 교환을 위한 subscribe
-      console.log("2-4. answer 구독");
-      client.current.subscribe(`/topic/peer/answer/${webcamId}`, ({ body }) => {
-        const data = JSON.parse(body); // 해당 key에 해당되는 Peer 에 받은 정보를 setRemoteDescription 해준다.
-        if (data.sender !== sender) {
-          console.log("2-4-1. answer 수신 및 remoteDescription으로 설정");
-          myPeerConnection.setRemoteDescription(data.answer);
-        }
-      });
       sendOffer(); // 피어 간 연결 설정 완료 후에 offer 전송
-      client.current.activate();
+      // client.current.activate();
     });
   };
 
-  //send offer
+  //send enter
   let sendOffer = async () => {
-    const offer = await myPeerConnection.createOffer();
-    myPeerConnection.setLocalDescription(offer);
     client.current.send(
       `/app/peer/offer/${webcamId}`,
       connectHeaders,
       JSON.stringify({
-        type: "OFFER",
+        type: "ENTER",
         webcamId,
         sender,
-        offer,
       })
     );
-    console.log("3.(방에 들어왔을 때) offer 전송 중...");
+    console.log("3.(방에 들어왔을 때) enter 전송 중...");
   };
 
   const disconnect = () => {
@@ -282,9 +305,14 @@ function PeerConfig({ webcamId, connectHeaders }) {
   }, []);
 
   async function fetchData() {
-    await getUserMedia();
-    await makeConnection();
-    await connectSocket();
+    try {
+      await getUserMedia();
+      await makeConnection();
+      await connectSocket();
+    } catch (error) {
+      console.error("Error during fetchData:", error);
+      // 오류 처리
+    }
   }
 
   return (
