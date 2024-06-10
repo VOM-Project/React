@@ -7,7 +7,7 @@ import "./homepy-styleguide.css";
 import Profile from "../components/HomepyPage/Profile.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
-import Webpush from "../components/Webpush.js";
+import FCM from "../components/Notification/fcm.js";
 
 import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
@@ -135,6 +135,7 @@ export default function Homepy() {
      */
     return (
         <div className="main">
+            <FCM />
             <div className="background">
                 <header className="header">
                     <div className="header-frame">
