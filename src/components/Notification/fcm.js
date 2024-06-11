@@ -27,20 +27,16 @@ const FCM = () => {
     };
 
     // firebase 설정
-    const FirebaseConfigApiKey = process.env.FIREBASE_CONFIG_APIKEY;
-    const FirebaseConfigAuthDomain = process.env.FIREBASE_CONFIG_AUTHDOMAIN;
-    const FirebaseConfigProjectId = process.env.FIREBASE_CONFIG_PROJECTID;
-    const FirebaseConfigStorageBucket = process.env.FIREBASE_CONFIG_STORAGEBUCKET;
-    const FirebaseConfigMessagingSenderId = process.env.FIREBASE_CONFIG_MESSAGINGSENDERID;
-    const FirebaseConfigAppId = process.env.FIREBASE_CONFIG_APPID;
     const firebaseConfig = {
-        apiKey: `${FirebaseConfigApiKey}`,
-        authDomain: `${FirebaseConfigAuthDomain}`,
-        projectId: `${FirebaseConfigProjectId}`,
-        storageBucket: `${FirebaseConfigStorageBucket}`,
-        messagingSenderId: `${FirebaseConfigMessagingSenderId}`,
-        appId: `${FirebaseConfigAppId}`
+        apiKey: "AIzaSyDGhHbHf450b3YzFkkt2ijsQl3aqv46ZC8",
+        authDomain: "vomvom-fd09b.firebaseapp.com",
+        projectId: "vomvom-fd09b",
+        storageBucket: "vomvom-fd09b.appspot.com",
+        messagingSenderId: "432336158624",
+        appId: "1:432336158624:web:746d838315ee0a98356ec5",
+        measurementId: "G-3GVCL4J5VZ"
     };
+    // console.log("fiirebase config api key:", FirebaseConfigApiKey);
 
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
@@ -74,10 +70,9 @@ const FCM = () => {
     }
 
     async function getFirebaseToken() {
-        const FcmToken = process.env.FCM_TOKEN
         try {
             const token = await getToken(messaging, {
-                vapidKey: `${FcmToken}`,
+                vapidKey: "BFnobZ_xdzY2JservLmuItkwkzzfxiMO_gvY5d2saZsp3GL6PVq_2cVFx7MobYgGx-6joWVvxvjvRe_7zRtnGMw",
             });
 
             if (token) {
@@ -87,7 +82,6 @@ const FCM = () => {
             } else {
                 // setPushEnabled(false);
                 // return null;
-                console.error("너냐");
             }
         } catch (error) {
             console.error("Error getting token: ", error);
