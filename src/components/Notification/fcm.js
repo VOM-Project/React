@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import style from './FCMPage.module.css';
+import React, { useEffect, useState } from "react";
+import style from "./FCMPage.module.css";
 // import { customAxios } from '../api/customAxios';
-import { getToken, getMessaging } from 'firebase/messaging';
-import { initializeApp } from "firebase/app";
+import { getToken, getMessaging } from "@firebase/messaging";
+import { initializeApp } from "@firebase/app";
 // import toast from 'react-hot-toast';
 
 const FCM = () => {
@@ -89,41 +89,42 @@ const FCM = () => {
             return null;
         }
     }
+  }
 
-    const setting = (token) => {
-        const body = {
-            token: token
-        };
-        // customAxios.post("/fcm", body)
-        //     .then((res) => {
-        //         toast.success("푸시 알림을 받습니다", {
-        //             duration: 1000,
-        //         });
-        //         setTimeout(() => {
-        //         }, 1000);
-        //     })
-        //     .catch((res) => {
-        //         setPushEnabled(false);
-        //     })
-    }
+  const setting = (token) => {
+    const body = {
+      token: token,
+    };
+    // customAxios.post("/fcm", body)
+    //     .then((res) => {
+    //         toast.success("푸시 알림을 받습니다", {
+    //             duration: 1000,
+    //         });
+    //         setTimeout(() => {
+    //         }, 1000);
+    //     })
+    //     .catch((res) => {
+    //         setPushEnabled(false);
+    //     })
+  };
 
-    const hideOffPush = () => {
-        // customAxios.delete("/fcm")
-        //     .then((res) => {
-        //         window.localStorage.removeItem("fcmToken");
-        //     })
-        //     .catch((res) => {
-        //     })
-    }
+  const hideOffPush = () => {
+    // customAxios.delete("/fcm")
+    //     .then((res) => {
+    //         window.localStorage.removeItem("fcmToken");
+    //     })
+    //     .catch((res) => {
+    //     })
+  };
 
-    // return (
-    //     <div className={style.btnBox}>
-    //         <div className={style.pushSwitch + (isPushEnabled ? ' ' + style.pushEnabled : '')} onClick={togglePushNotification} >
-    //             <div className={style.switchButton} />
-    //         </div>
+  // return (
+  //     <div className={style.btnBox}>
+  //         <div className={style.pushSwitch + (isPushEnabled ? ' ' + style.pushEnabled : '')} onClick={togglePushNotification} >
+  //             <div className={style.switchButton} />
+  //         </div>
 
-    //     </div>
-    // );
+  //     </div>
+  // );
 };
 
 export default FCM;

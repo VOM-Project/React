@@ -53,11 +53,62 @@ function PeerConfig({ webcamId, connectHeaders }) {
   const cameraBtn = useRef(null); //카메라 버튼
   const camerasSelect = useRef(null);
   const cameraOption = useRef(null);
+  const [selectedFilter, setSelectedFilter] = useState("none"); //filter 설정
+
+  let muted = false;
+  let cameraOff = false;
   let stream; //내 local 미디어 스트림
   let myPeerConnection; //peer connect 변수
   const client = useRef({}); //stomp
   const sender = localStorage.getItem("memberId");
   const navigate = useNavigate();
+
+  //  클릭하면 카메라 끄기 핸들러
+  function onClickCameraOffHandler() {
+    stream.getVideoTracks().forEach((track) => {
+      track.enabled = !track.enabled;
+    });
+    if (!cameraOff) {
+      cameraBtn.current.innerText = "OFF";
+      cameraOff = !cameraOff;
+    } else {
+      cameraBtn.current.innerText = "ON";
+      cameraOff = !cameraOff;
+    }
+  }
+  //클릭하면 음소거 핸들러
+  function onClickMuteHandler() {
+    stream.getAudioTracks().forEach((track) => {
+      track.enabled = !track.enabled;
+    });
+    if (!muted) {
+      muteBtn.current.innerText = "Unmute";
+      muted = !muted;
+    } else {
+      muteBtn.current.innerText = "Mute";
+      muted = !muted;
+    }
+  }
+
+  /* filter 설정 */
+  const handleFilterChange = (event) => {
+    // stream.getVideoTracks().forEach((track) => {
+    //   track.enabled = !track.enabled;
+    // });
+    setSelectedFilter(event.target.value);
+    localStreamRef.current.className = event.target.value;
+  };
+  const handleSuccess = (stream) => {
+    window.stream = stream;
+    localStreamRef.current.srcObject = stream;
+  };
+  const handleError = (error) => {
+    console.error(
+      "navigator.MediaDevices.getUserMedia error: ",
+      error.message,
+      error.name
+    );
+  };
 
   //  카메라 정보 받아오기 함수
   async function getCameras() {
@@ -107,7 +158,7 @@ function PeerConfig({ webcamId, connectHeaders }) {
       console.log(err);
     }
   }
-  //카메라 옵션 변화 있을때
+  //카메라 옵션 변화 있을때(노트북, 외장캠 등)..
   async function onInputCameraChange() {
     await getUserMedia(camerasSelect.current.value);
     if (myPeerConnection) {
@@ -155,10 +206,10 @@ function PeerConfig({ webcamId, connectHeaders }) {
       iceServers: [
         {
           urls: [
-            "stun:stun.l.google.com:19302",
             "stun:stun1.l.google.com:19302",
             "stun:stun2.l.google.com:19302",
             "stun:stun3.l.google.com:19302",
+            "stun:stun4.l.google.com:19302",
           ],
         },
       ],
@@ -184,10 +235,24 @@ function PeerConfig({ webcamId, connectHeaders }) {
       console.log("2. Connected to WebRTC 시그널링 server");
       // 소켓 연결 설정 완료 후에 피어 간 연결 설정
       //처음 연결하면 일단 다 구독해두기
+
       //iceCandidate peer 교환을 위한 subscribe
 
-      //offer peer 교환을 위한 subscribe
-      console.log("2-1.offer 구독");
+      console.log("2-0. ice 구독");
+      client.current.subscribe(
+        `/topic/peer/iceCandidate/${webcamId}`,
+        ({ body }) => {
+          const data = JSON.parse(body);
+          if (data.sender !== sender) {
+            //현재 로그인 유저가 보낸게 아니라면 ice 수신
+            console.log("2-0-1.ice 수신 시작 ");
+            myPeerConnection.addIceCandidate(data.ice);
+          }
+        }
+      );
+
+      //offer/enter peer 교환을 위한 subscribe
+      console.log("2-1.offer인지 enter인지 구독");
       client.current.subscribe(
         `/topic/peer/offer/${webcamId}`,
         async ({ body }) => {
@@ -197,10 +262,10 @@ function PeerConfig({ webcamId, connectHeaders }) {
             console.log("2-1-1. data를 보내는 사람:", data.sender);
             console.log("2-2-1. 현재 사람:", sender);
             if (data.type === "ENTER") {
-              console.log("1.(방에 들어왔을 때) enter 수신 중...");
+              console.log("2-1-2.(방에 들어왔을 때) enter 수신 중...");
               const offer = await myPeerConnection.createOffer();
               myPeerConnection.setLocalDescription(offer);
-              console.log("생성된 offer:", offer);
+              console.log("2-1-2. 생성된 offer:", offer);
               client.current.send(
                 `/app/peer/offer/${webcamId}`,
                 connectHeaders,
@@ -212,7 +277,7 @@ function PeerConfig({ webcamId, connectHeaders }) {
                 })
               );
               console.log(
-                "2.(방에 들어왔을 때) enter 수신 후 offer 전송 완료..."
+                "2-1-3.(방에 들어왔을 때) enter 수신 후 offer 전송 완료..."
               );
             }
             if (data.type === "OFFER") {
@@ -246,26 +311,23 @@ function PeerConfig({ webcamId, connectHeaders }) {
           myPeerConnection.setRemoteDescription(data.answer);
         }
       });
-
-      console.log("2-4. ice 구독");
-      client.current.subscribe(
-        `/topic/peer/iceCandidate/${webcamId}`,
-        ({ body }) => {
-          const data = JSON.parse(body);
-          if (data.sender !== sender) {
-            //현재 로그인 유저가 보낸게 아니라면 ice 수신
-            console.log("2-4-1.ice 수신 시작 ");
-            myPeerConnection.addIceCandidate(data.ice);
-          }
-        }
+      //send enter
+      client.current.send(
+        `/app/peer/offer/${webcamId}`,
+        connectHeaders,
+        JSON.stringify({
+          type: "ENTER",
+          webcamId,
+          sender,
+        })
       );
-      sendOffer(); // 피어 간 연결 설정 완료 후에 offer 전송
+      console.log("3.(방에 들어왔을 때) enter 전송 중...");
+      // sendOffer(); // 피어 간 연결 설정 완료 후에 offer 전송
       // client.current.activate();
     });
   };
 
-  //send enter
-  let sendOffer = async () => {
+  let sendOffer = () => {
     client.current.send(
       `/app/peer/offer/${webcamId}`,
       connectHeaders,
@@ -317,16 +379,33 @@ function PeerConfig({ webcamId, connectHeaders }) {
 
   return (
     <div>
-      <video
-        id="localStream"
-        autoPlay
-        playsInline
-        width={500}
-        height={500}
-        ref={localStreamRef}
-      >
-        내 비디오
-      </video>
+      <div>
+        <video
+          id="localStream"
+          autoPlay
+          playsInline
+          width={500}
+          height={500}
+          ref={localStreamRef}
+        >
+          내 비디오
+        </video>{" "}
+        <button ref={muteBtn} onClick={onClickMuteHandler}>
+          mute
+        </button>
+        <button ref={cameraBtn} onClick={onClickCameraOffHandler}>
+          camera OFF
+        </button>
+        <select ref={camerasSelect} onInput={onInputCameraChange}>
+          <option>기본</option>
+          <option ref={cameraOption} value="device" />
+        </select>
+        <label for="filter">필터 설정 </label>
+        <select value={selectedFilter} onChange={handleFilterChange}>
+          <option value="none">None</option>
+          <option value="blur">Blur</option>
+        </select>
+      </div>
       <div id="remoteStreamDiv">
         <video
           autoPlay
