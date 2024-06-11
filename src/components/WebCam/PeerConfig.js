@@ -46,7 +46,7 @@ const TextWrapper4 = styled.div`
   width: fit-content;
 `;
 
-function PeerConfig({ webcamId, connectHeaders }) {
+function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
   const localStreamRef = useRef(null); //내비디오
   const remoteStreamRef = useRef(null); //상대 비디오
   const muteBtn = useRef(null); //음소거 버튼
@@ -403,6 +403,15 @@ function PeerConfig({ webcamId, connectHeaders }) {
 
   async function fetchData() {
     try {
+      axios
+        .get(`/api/webcam/${webcamId}/remote`, { headers: connectHeaders })
+        .then((res) => {
+          console.log("webcam 상대방 memberId:", res.data);
+          setRemoteMemberId(res.data.memberId);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       await getUserMedia();
       await makeConnection();
       await connectSocket();
