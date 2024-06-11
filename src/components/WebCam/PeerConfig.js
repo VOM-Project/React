@@ -228,7 +228,7 @@ function PeerConfig({ webcamId, connectHeaders }) {
 
   //웹소켓 연결을 위한 함수
   const connectSocket = () => {
-    const socket = new SockJS("http://13.125.102.76:8080/signaling");
+    const socket = new SockJS("https://localhost:8080/signaling");
     client.current = Stomp.over(socket);
     client.current.debug = () => {}; //디버그 안보이게
     client.current.connect(connectHeaders, () => {
@@ -311,6 +311,22 @@ function PeerConfig({ webcamId, connectHeaders }) {
           myPeerConnection.setRemoteDescription(data.answer);
         }
       });
+
+      console.log("2-4. leaveRoom 구독");
+      client.current.subscribe(
+        `/topic/peer/leaveRoom/${webcamId}`,
+        ({ body }) => {
+          const data = JSON.parse(body);
+          if (data.sender !== sender) {
+            console.log("상대방 나가는 것 감지");
+            remoteStreamRef.current.srcObject = null;
+            alert("상대방이 나갔습니다. 내 홈페이지로 나갑니다");
+            disconnect();
+            navigate(`/homepy/${localStorage.getItem("memberId")}`);
+            window.location.reload();
+          }
+        }
+      );
       //send enter
       client.current.send(
         `/app/peer/offer/${webcamId}`,
@@ -342,11 +358,28 @@ function PeerConfig({ webcamId, connectHeaders }) {
 
   const disconnect = () => {
     client.current.deactivate();
+    if (myPeerConnection) {
+      myPeerConnection.close();
+    }
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
   };
+
   const leaveRoom = async () => {
     disconnect();
     const data = { roomId: `${webcamId}` };
     const memberId = localStorage.getItem("memberId");
+    client.current.send(
+      `/app/peer/leaveRoom/${webcamId}`,
+      connectHeaders,
+      JSON.stringify({
+        type: "LEAVE",
+        webcamId,
+        sender,
+      })
+    );
+    console.log("나가기 메세지 전송 완료");
     await axios({
       method: "DELETE",
       url: `/api/webcam`,
@@ -355,9 +388,11 @@ function PeerConfig({ webcamId, connectHeaders }) {
     })
       .then((res) => {
         navigate(`/homepy/${memberId}`);
+        window.location.reload();
       })
       .catch((error) => {
         navigate(`/homepy/${memberId}`);
+        window.location.reload();
       });
   };
 
