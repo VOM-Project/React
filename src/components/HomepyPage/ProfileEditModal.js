@@ -98,10 +98,17 @@ const Label = styled.p`
   text-align: left;
 `;
 
+const NicknameWrapper = styled.div`
+  position: relative;
+  top: 20px;
+`;
+
 const NicknameContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: relative;
+  top: 10px;
 `;
 
 const CheckButtonContainer = styled.div`
@@ -281,19 +288,21 @@ function ProfileEditModal({ modalIsOpen, setModalIsOpen, memberId }) {
               <b>닉네임</b>
             </Label>
           </NicknamePContainer>
-          <p style={{ color: "gray", fontSize: "small", textAlign: "left" }}>
-            한글,영문(대소문자),숫자 조합/10자 이하
-          </p>
-          <NicknameContainer>
-            <ProfileNicknameInput
-              type="text"
-              value={profileData.nickname}
-              onChange={handleNicknameChange}
-            />
-            <ImgBtn onClick={handleProfileNicknameUpdate}>
-              <b>저장</b>
-            </ImgBtn>
-          </NicknameContainer>
+          <NicknameWrapper>
+            <p style={{ color: "gray", fontSize: "small", textAlign: "left" }}>
+              한글,영문(대소문자),숫자 조합/10자 이하
+            </p>
+            <NicknameContainer>
+              <ProfileNicknameInput
+                type="text"
+                value={profileData.nickname}
+                onChange={handleNicknameChange}
+              />
+              <ImgBtn onClick={handleProfileNicknameUpdate}>
+                <b>저장</b>
+              </ImgBtn>
+            </NicknameContainer>
+          </NicknameWrapper>
         </div>
         <CheckButtonContainer>
           <CheckButton onClick={() => setModalIsOpen(false)}>
