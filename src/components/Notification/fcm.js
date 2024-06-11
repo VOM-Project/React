@@ -9,12 +9,12 @@ const FCM = () => {
     // 버튼 토글
     const [isPushEnabled, setPushEnabled] = useState(false);
 
-    // useEffect(() => {
-    //     const isFCM = localStorage.getItem("fcmToken");
-    //     if (isFCM !== null) {
-    //         setPushEnabled(true);
-    //     }
-    // }, []);
+    useEffect(() => {
+        const isFCM = localStorage.getItem("fcmToken");
+        if (isFCM == null) {
+            getFirebaseToken();
+        }
+    }, []);
 
     const togglePushNotification = () => {
         if (isPushEnabled === false) {
@@ -40,12 +40,6 @@ const FCM = () => {
 
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
-
-
-
-    /* 테스트 */
-    getFirebaseToken();
-
 
 
     const hideOnPush = async () => {
