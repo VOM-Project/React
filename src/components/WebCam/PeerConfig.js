@@ -65,6 +65,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
 
   //  클릭하면 카메라 끄기 핸들러
   function onClickCameraOffHandler() {
+    stream = localStreamRef.current.srcObject;
     stream.getVideoTracks().forEach((track) => {
       track.enabled = !track.enabled;
     });
@@ -78,6 +79,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
   }
   //클릭하면 음소거 핸들러
   function onClickMuteHandler() {
+    stream = localStreamRef.current.srcObject;
     stream.getAudioTracks().forEach((track) => {
       track.enabled = !track.enabled;
     });
@@ -154,8 +156,10 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
       if (!deviceId) {
         await getCameras();
       }
+      return stream;
     } catch (err) {
       console.log(err);
+      return null;
     }
   }
   //카메라 옵션 변화 있을때(노트북, 외장캠 등)..
