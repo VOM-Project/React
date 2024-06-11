@@ -10,7 +10,7 @@ import Mdi_heart from "../../assets/mdi-heart.svg";
 import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg";
 import userImg from "../../assets/profile.png";
 
-export default function CalleProfile() {
+export default function CalleProfile({ remoteMemberId, connectHeaders }) {
   const [profile_profileImgUrl, setProfile_profileImgUrl] = useState();
   const [profile_nickname, setProfile_nickname] = useState();
   const [profile_vomvomCount, setProfile_vomvomCount] = useState();
@@ -19,12 +19,15 @@ export default function CalleProfile() {
   const [profile_region, setProfile_region] = useState();
 
   useEffect(() => {
-    getProfile();
-  }, []);
+    if (remoteMemberId) {
+      getProfile();
+    }
+  }, [remoteMemberId]);
 
   async function getProfile() {
+    const memberId = remoteMemberId;
     await axios
-      .get("/api/homepy/1/profile")
+      .get(`/api/homepy/${memberId}/profile`, { headers: connectHeaders })
       .then((response) => {
         console.log(response.data);
         if (response.data.profileImgUrl == null) {

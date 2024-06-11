@@ -185,6 +185,8 @@ function WebCamPage() {
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   };
   const { webcamId } = useParams(); //webcamId 받아오기
+  const [remoteMemberId, setRemoteMemberId] = useState(null);
+
   // const [selectedFilter, setSelectedFilter] = useState("none"); //filter 설정
   // let muted = false;
   // let cameraOff = false;
@@ -536,10 +538,17 @@ function WebCamPage() {
                 상대방 비디오
               </video>
             </div> */}
-            <PeerConfig webcamId={webcamId} connectHeaders={connectHeaders} />
+            <PeerConfig
+              webcamId={webcamId}
+              connectHeaders={connectHeaders}
+              setRemoteMemberId={setRemoteMemberId}
+            />
           </Frame3>
         </Frame2>
-        <CalleProfile />
+        <CalleProfile
+          remoteMemberId={remoteMemberId}
+          connectHeaders={connectHeaders}
+        />
       </WrapperContainer>
     </Wrapper>
   );
