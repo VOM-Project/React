@@ -3,13 +3,24 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import logout from "../../assets/logout.svg";
+
 const Button = styled.button`
-  width: 160px;
-  height: 50px;
-  background-color: rgba(236, 129, 144, 1);
-  border-color: rgba(247, 204, 212, 0.2);
-  border-radius: 8px;
-  color: white;
+  // width: 160px;
+  // height: 50px;
+  // background-color: rgba(236, 129, 144, 1);
+  // border-color: rgba(247, 204, 212, 0.2);
+  // border-radius: 8px;
+  // color: white;
+
+
+  
+  border: 2px solid;
+  border-color: var(--brown-30);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  padding: 0px 30px;
 `;
 
 function LogoutButton() {
@@ -27,7 +38,12 @@ function LogoutButton() {
 
   return (
     <Button onClick={handleLogout} className="LogoutBtn">
-      <b>로그아웃</b>
+      {/* <b>로그아웃</b> */}
+      <img
+        src={logout}
+        height={24}
+        width={24}
+      />
     </Button>
   );
 }
