@@ -31,6 +31,8 @@ export default function Homepy() {
   /*
    * My Profile
    */
+  // const ref = useRef();
+  const myMemberId = localStorage.getItem("memberId");
   const [profile_profileImgUrl, setProfile_profileImgUrl] = useState();
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function Homepy() {
 
   async function getProfile() {
     await axios
-      .get(`/api/homepy/${memberId}/profile`, config)
+      .get(`/api/homepy/${myMemberId}/profile`, config)
       .then((response) => {
         console.log(response.data);
         if (response.data.profileImgUrl == null) {
@@ -137,7 +139,6 @@ export default function Homepy() {
       <div className="background">
         <header className="header">
           <div className="header-frame">
-            <LogoutButton />
             <div className="header-search">
               <img className="search-svg" alt="Search" src={Search} />
               <input
@@ -161,6 +162,7 @@ export default function Homepy() {
               alt="Mask group"
               src={profile_profileImgUrl}
             />
+            <LogoutButton />
           </div>
           <div className="header-home">VOM</div>
         </header>
