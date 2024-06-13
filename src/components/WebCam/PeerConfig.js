@@ -6,6 +6,56 @@ import Icon from "../../assets/icon-50.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  bottom: 100px;
+  left: 400px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+`;
+
+const ButtonMute = styled.button`
+  align-items: center;
+  background-color: rgba(236, 129, 144, 1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  height: 55px;
+  justify-content: center;
+  /* left: 1200px; */
+  /* overflow: hidden; */
+  padding: 16px 24px;
+  /* position: absolute; */
+  /* bottom: 10px; */
+  /* top: 800px; */
+`;
+
+const ButtonCamera = styled.button`
+  align-items: center;
+  background-color: rgba(236, 129, 144, 1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  height: 55px;
+  justify-content: center;
+  /* left: 1200px; */
+  /* overflow: hidden; */
+  padding: 16px 24px;
+  /* position: absolute; */
+  /* bottom: 10px; */
+  /* top: 800px; */
+`;
+
 const ButtonLeave = styled.button`
   all: unset;
   align-items: center;
@@ -16,12 +66,11 @@ const ButtonLeave = styled.button`
   gap: 10px;
   height: 55px;
   justify-content: center;
-  left: 1200px;
+  left: 800px;
   overflow: hidden;
   padding: 16px 24px;
   position: absolute;
-  bottom: 10px;
-  top: 800px;
+  top: 900px;
 `;
 
 const IconImg = styled.img`
@@ -426,7 +475,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
   }
 
   return (
-    <div>
+    <Wrapper>
       <div>
         <video
           id="localStream"
@@ -438,21 +487,23 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
         >
           내 비디오
         </video>{" "}
-        <button ref={muteBtn} onClick={onClickMuteHandler}>
-          mute
-        </button>
-        <button ref={cameraBtn} onClick={onClickCameraOffHandler}>
-          camera OFF
-        </button>
-        <select ref={camerasSelect} onInput={onInputCameraChange}>
-          <option>기본</option>
-          <option ref={cameraOption} value="device" />
-        </select>
-        <label for="filter">필터 설정 </label>
-        <select value={selectedFilter} onChange={handleFilterChange}>
-          <option value="none">None</option>
-          <option value="blur">Blur</option>
-        </select>
+        <ButtonWrapper>
+          <ButtonMute ref={muteBtn} onClick={onClickMuteHandler}>
+            mute
+          </ButtonMute>
+          <ButtonCamera ref={cameraBtn} onClick={onClickCameraOffHandler}>
+            camera OFF
+          </ButtonCamera>
+          <select ref={camerasSelect} onInput={onInputCameraChange}>
+            <option>기본</option>
+            <option ref={cameraOption} value="device" />
+          </select>
+          <label for="filter">필터 설정 </label>
+          <select value={selectedFilter} onChange={handleFilterChange}>
+            <option value="none">None</option>
+            <option value="blur">Blur</option>
+          </select>
+        </ButtonWrapper>
       </div>
       <div id="remoteStreamDiv">
         <video
@@ -470,7 +521,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
         <IconImg src={Icon} />
         <TextWrapper4>방 나가기</TextWrapper4>
       </ButtonLeave>
-    </div>
+    </Wrapper>
   );
 }
 
