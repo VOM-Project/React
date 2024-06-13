@@ -15,8 +15,7 @@ export default function Album({ memberId }) {
    */
     const config = {
         headers: {
-            // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
     };
 
