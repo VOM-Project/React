@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./FCMPage.module.css";
-// import { customAxios } from '../api/customAxios';
+import axios from 'axios';
 import { getToken, getMessaging } from "@firebase/messaging";
 import { initializeApp } from "@firebase/app";
 // import toast from 'react-hot-toast';
@@ -71,7 +71,7 @@ const FCM = () => {
 
             if (token) {
                 localStorage.setItem("fcmToken", token);
-                setting(token);
+                setFcmToken(token);
                 console.error(`${token}`);
             } else {
                 // setPushEnabled(false);
@@ -84,21 +84,27 @@ const FCM = () => {
         }
     }
 
-    const setting = (token) => {
-        const body = {
-            token: token,
-        };
-        // customAxios.post("/fcm", body)
-        //     .then((res) => {
-        //         toast.success("푸시 알림을 받습니다", {
-        //             duration: 1000,
-        //         });
-        //         setTimeout(() => {
-        //         }, 1000);
-        //     })
-        //     .catch((res) => {
-        //         setPushEnabled(false);
-        //     })
+    const setFcmToken = async (fcmToken) => {
+        try {
+            const response = await axios.post(`/api/fcm/${localStorage.getItem("memberId")}`, null, {
+                params: {
+                    fcmToken: fcmToken
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                }
+            });
+            if (response.status === 200) {
+                console.log('FCM token set successfully');
+            } else {
+                console.error('Failed to set FCM token', response.status);
+            }
+        } catch (error) {
+            console.error('Error setting FCM token:', error);
+            console.log('Error response data:', error.response.data);
+            console.log('Error response status:', error.response.status);
+            console.log('Error response headers:', error.response.headers);
+        }
     };
 
     const hideOffPush = () => {
