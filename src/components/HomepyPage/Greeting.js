@@ -15,8 +15,7 @@ export default function Greeting({ memberId }) {
    */
   const config = {
     headers: {
-      // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },
   };
 
@@ -54,40 +53,25 @@ export default function Greeting({ memberId }) {
   };
 
   /* 인사말 변경 */
-  const handleChange = (e) => {
-    setGreeting(e.target.value);
-  };
-
-  // const handleClick = () => {
-  //     setUser({ greeting });
-  // };
-
-  const editGreeting = async () => {
-    console.log('Greeting to be sent:', greeting);
-    setIsEdit(false);
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await axios.post(`/api/homepy/${memberId}/greeting`, {
-        greeting: greeting,
-      }, {
-        headers: {
-          Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
-          'Content-Type': 'application/json',
+      const response = await axios.post(`/api/homepy/${memberId}/greeting`, null, {
+        params: {
+          greeting: greeting,
         },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
       });
-      console.log(response.data);
-    } catch (error) {
-      if (error.response) {
-        console.log('Error response data:', error.response.data);
-        console.log('Error response status:', error.response.status);
-        console.log('Error response headers:', error.response.headers);
-      } else if (error.request) {
-        console.log('Error request data:', error.request);
-      } else {
-        console.log('Error message:', error.message);
+      if (response.status === 200) {
+        console.log('Greeting set successfully!');
       }
-      console.log('Error config:', error.config);
+    } catch (error) {
+      console.log('An error occurred. Please try again.');
     }
+
+    setIsEdit(false);
   };
 
   /*
@@ -122,15 +106,18 @@ export default function Greeting({ memberId }) {
               className="svg"
               alt="checkbox-svg"
               src={tabler_checkbox}
-              onClick={() => editGreeting()}
             />
           </div>
           <div className="content">
-            <textarea
-              className="textarea"
-              value={greeting}
-              onChange={handleChange}
-            />
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                id="greeting"
+                value={greeting}
+                onChange={(e) => setGreeting(e.target.value)}
+                required
+              />
+            </form>
           </div>
         </div>
       </>
