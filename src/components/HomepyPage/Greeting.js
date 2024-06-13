@@ -15,7 +15,7 @@ export default function Greeting({ memberId }) {
    */
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   };
 
@@ -102,11 +102,11 @@ export default function Greeting({ memberId }) {
         <div className="greeting">
           <div className="title">
             <div className="title-text">인사말</div>
-            <img
+            {/* <img
               className="svg"
               alt="checkbox-svg"
               src={tabler_checkbox}
-            />
+            /> */}
           </div>
           <div className="content">
             <form onSubmit={handleSubmit}>
