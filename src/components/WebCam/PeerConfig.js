@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Icon from "../../assets/icon-50.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import VideoCamera from "../../assets/videocamera.png";
+import Mute from "../../assets/microphone.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,6 +19,12 @@ const Wrapper = styled.div`
   left: 400px;
 `;
 
+const VideoWrapper = styled.div`
+  display: flex;
+  position: relative;
+  right: 70px;
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -25,12 +33,15 @@ const ButtonWrapper = styled.div`
 `;
 
 const ButtonMute = styled.button`
+  all: unset;
   align-items: center;
   background-color: rgba(236, 129, 144, 1);
   border-radius: 8px;
   box-sizing: border-box;
-  display: flex;
+  display: inline-flex;
+  gap: 10px;
   height: 55px;
+  overflow: hidden;
   justify-content: center;
   /* left: 1200px; */
   /* overflow: hidden; */
@@ -41,12 +52,15 @@ const ButtonMute = styled.button`
 `;
 
 const ButtonCamera = styled.button`
+  all: unset;
   align-items: center;
   background-color: rgba(236, 129, 144, 1);
   border-radius: 8px;
   box-sizing: border-box;
-  display: flex;
+  display: inline-flex;
+  gap: 10px;
   height: 55px;
+  overflow: hidden;
   justify-content: center;
   /* left: 1200px; */
   /* overflow: hidden; */
@@ -103,6 +117,9 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
   const camerasSelect = useRef(null);
   const cameraOption = useRef(null);
   const [selectedFilter, setSelectedFilter] = useState("none"); //filter 설정
+  const canvasRef = useRef(null);
+  const filteredStreamRef = useRef(null);
+  const videoTracks = useRef([]);
 
   let muted = false;
   let cameraOff = false;
@@ -143,23 +160,60 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
 
   /* filter 설정 */
   const handleFilterChange = (event) => {
-    // stream.getVideoTracks().forEach((track) => {
-    //   track.enabled = !track.enabled;
-    // });
     setSelectedFilter(event.target.value);
     localStreamRef.current.className = event.target.value;
+    // applyFilter();
   };
-  const handleSuccess = (stream) => {
-    window.stream = stream;
-    localStreamRef.current.srcObject = stream;
-  };
-  const handleError = (error) => {
-    console.error(
-      "navigator.MediaDevices.getUserMedia error: ",
-      error.message,
-      error.name
-    );
-  };
+  // const handleSuccess = (stream) => {
+  //   window.stream = stream;
+  //   localStreamRef.current.srcObject = stream;
+  // };
+  // const handleError = (error) => {
+  //   console.error(
+  //     "navigator.MediaDevices.getUserMedia error: ",
+  //     error.message,
+  //     error.name
+  //   );
+  // };
+
+  // const applyFilter = () => {
+  //   const canvas = canvasRef.current;
+  //   const context = canvas.getContext("2d");
+
+  //   const drawFrame = () => {
+  //     if (localStreamRef.current.readyState === "playing") {
+  //       canvas.width = localStreamRef.current.videoWidth;
+  //       canvas.height = localStreamRef.current.videoHeight;
+  //       context.filter = selectedFilter === "blur" ? "blur(5px)" : "none";
+  //       context.drawImage(
+  //         localStreamRef.current,
+  //         0,
+  //         0,
+  //         canvas.width,
+  //         canvas.height
+  //       );
+  //     }
+  //     requestAnimationFrame(drawFrame);
+  //   };
+
+  //   drawFrame();
+
+  //   const filteredStream = canvas.captureStream(30); // 30 fps
+  //   filteredStreamRef.current.srcObject = filteredStream;
+
+  //   const videoTrack = filteredStream.getVideoTracks()[0];
+  //   if (videoTracks.current.length > 0) {
+  //     videoTracks.current.forEach((track) => track.stop());
+  //   }
+  //   videoTracks.current = [videoTrack];
+
+  //   const senders = myPeerConnection.getSenders();
+  //   senders.forEach((sender) => {
+  //     if (sender.track.kind === "video") {
+  //       sender.replaceTrack(videoTrack);
+  //     }
+  //   });
+  // };
 
   //  카메라 정보 받아오기 함수
   async function getCameras() {
@@ -172,12 +226,13 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
       //  아래의 if문과 이어서 확인 해주세요
       const currentCamera = stream.getVideoTracks()[0];
       cameras.forEach((camera) => {
-        cameraOption.current.value = camera.deviceId;
-        cameraOption.current.innerText = camera.label;
+        const option = document.createElement("option");
+        option.value = camera.deviceId;
+        option.innerText = camera.label;
         if (currentCamera.label === camera.label) {
-          cameraOption.current.selected = true;
+          option.selected = true;
         }
-        camerasSelect.current.appendChild(cameraOption.current);
+        camerasSelect.current.appendChild(option);
       });
     } catch (error) {
       console.log(error);
@@ -486,13 +541,17 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
           ref={localStreamRef}
         >
           내 비디오
-        </video>{" "}
+        </video>
+        {/* <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+        <video ref={filteredStreamRef} style={{ display: "none" }}></video> */}
         <ButtonWrapper>
           <ButtonMute ref={muteBtn} onClick={onClickMuteHandler}>
-            mute
+            <IconImg src={Mute} />
+            <TextWrapper4>mute</TextWrapper4>
           </ButtonMute>
           <ButtonCamera ref={cameraBtn} onClick={onClickCameraOffHandler}>
-            camera OFF
+            <IconImg src={VideoCamera} />
+            <TextWrapper4>camera OFF</TextWrapper4>
           </ButtonCamera>
           <select ref={camerasSelect} onInput={onInputCameraChange}>
             <option>기본</option>
@@ -505,7 +564,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
           </select>
         </ButtonWrapper>
       </div>
-      <div id="remoteStreamDiv">
+      <VideoWrapper>
         <video
           autoPlay
           playsInline
@@ -516,7 +575,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
         >
           상대방 비디오
         </video>
-      </div>
+      </VideoWrapper>
       <ButtonLeave onClick={leaveRoom}>
         <IconImg src={Icon} />
         <TextWrapper4>방 나가기</TextWrapper4>
