@@ -150,9 +150,9 @@ export default function Profile({ memberId }) {
         </div>
       </div>
       <ModalButtonContainer>
-        {/* <ModalButton onClick={() => setModalIsOpen(true)}>
+        {<ModalButton onClick={() => setModalIsOpen(true)}>
           프로필 편집
-        </ModalButton> */}
+        </ModalButton>}
         <ProfileEditModal
           modalIsOpen={modalIsOpen}
           setModalIsOpen={setModalIsOpen}
