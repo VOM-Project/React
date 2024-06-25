@@ -8,6 +8,7 @@ import Profile from "../components/HomepyPage/Profile.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
 import FCM from "../components/Notification/fcm.js";
+import Webpush from '../components/HomepyPage/Webpush.js';
 
 import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
@@ -58,25 +59,29 @@ export default function Homepy() {
   /*
    * Webpush
    */
-  const [data, setData] = useState([]); // API 응답 데이터 저장 상태
-  const [showModal, setShowModal] = useState(false); // 모달창 표시 여부 상태
-  const [searchNickname, setSearchNickname] = useState(""); //닉네임 검색
+  const [webpushData, setWebpushData] = useState([]); // API 응답 데이터 저장 상태
+  const [showModals, setShowModals] = useState(false); // 모달창 표시 여부 상태
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //     // Axios GET 요청 및 응답 처리
-  //     axios.get('http://13.125.102.76:8080/api/webpush/2', config)
-  //         .then(response => {
-  //             setData(response.data);
-  //             // 데이터가 있다면 모달창 표시
-  //             if (response.data.length > 0) {
-  //                 setShowModal(true);
-  //             }
-  //         })
-  //         .catch(error => {
-  //             console.error(error);
-  //         });
-  // }, []);
+  useEffect(() => {
+    axios.get(`/api/webpush/${myMemberId}`, config)
+      .then(response => {
+        setWebpushData(response.data);
+        setShowModals(new Array(response.data.length).fill(true));
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [myMemberId]);
+
+  const handleCloseModal = (index) => {
+    setShowModals(prevState => prevState.map((show, i) => (i === index ? false : show)));
+  }
+
+  const handleEnter = (webcamId) => {
+    navigate(`/webcam/${webcamId}`);
+    setShowModals(false);
+  };
 
   /* 웹캠 방 생성*/
   const handleCreateWebcam = () => {
@@ -95,60 +100,71 @@ export default function Homepy() {
       });
   };
   /*닉네임 검색 결과 페이지 호출 및 연결*/
-  const handleSearchNickname = (e) => {
-    if (e.key === "Enter") {
-      axios
-        .get(`/api/members/search?nickname=${searchNickname}`, config)
-        .then((res) => {
-          const isExisted = res.data.existed;
-          if (!isExisted) {
-            alert("존재하지 않은 유저입니다");
-            navigate(`/homepy/${memberId}`);
-          } else {
-            const searchMemberId = res.data.findMemberId;
-            const memberNickname = res.data.nickname;
-            const memberProfileImgUrl =
-              res.data.profileImgUrl === null
-                ? userImg
-                : res.data.profileImgUrl;
-            const memberEmail = res.data.email;
-            const memberBirth = res.data.birth;
-            const memberRegion = res.data.region;
+  // const handleSearchNickname = (e) => {
+  //   if (e.key === "Enter") {
+  //     axios
+  //       .get(`/api/members/search?nickname=${searchNickname}`, config)
+  //       .then((res) => {
+  //         const isExisted = res.data.existed;
+  //         if (!isExisted) {
+  //           alert("존재하지 않은 유저입니다");
+  //           navigate(`/homepy/${memberId}`);
+  //         } else {
+  //           const searchMemberId = res.data.findMemberId;
+  //           const memberNickname = res.data.nickname;
+  //           const memberProfileImgUrl =
+  //             res.data.profileImgUrl === null
+  //               ? userImg
+  //               : res.data.profileImgUrl;
+  //           const memberEmail = res.data.email;
+  //           const memberBirth = res.data.birth;
+  //           const memberRegion = res.data.region;
 
-            const searchResult = {
-              memberNickname,
-              memberProfileImgUrl,
-              memberEmail,
-              memberBirth,
-              memberRegion,
-            };
-            navigate(`/search/${searchMemberId}`, { state: searchResult });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
+  //           const searchResult = {
+  //             memberNickname,
+  //             memberProfileImgUrl,
+  //             memberEmail,
+  //             memberBirth,
+  //             memberRegion,
+  //           };
+  //           navigate(`/search/${searchMemberId}`, { state: searchResult });
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+  // };
   /*
    * Render
    */
   return (
     <div className="main">
       <FCM />
+      {webpushData.map((item, index) => (
+        <div key={index}>
+          {showModals[index] && (
+            <Webpush
+              onClose={() => handleCloseModal(index)}
+              onEnter={() => handleEnter(item.webcamId)}
+              fromMemberId={item.fromMemberId}
+            />
+          )}
+        </div>
+      ))}
       <div className="background">
         <header className="header">
           <div className="header-frame">
             <div className="header-search">
               <img className="search-svg" alt="Search" src={Search} />
-              <input
+              {/* <input
                 className="label"
                 type="text"
                 value={searchNickname}
                 onChange={(e) => setSearchNickname(e.target.value)}
                 onKeyDown={(e) => handleSearchNickname(e)}
                 placeholder="닉네임을 검색해보세요"
-              />
+              /> */}
             </div>
             <div className="header-notification">
               <img
