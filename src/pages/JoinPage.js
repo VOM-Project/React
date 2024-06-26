@@ -54,7 +54,7 @@ const ButtonCheck = styled.button`
   height: 30px;
   background-color: rgba(236, 129, 144, 0.8);
   position: relative;
-  bottom: 30px;
+  bottom: 10px;
   border-radius: 12px;
   border-color: rgba(236, 129, 144, 0.5);
   color: white;

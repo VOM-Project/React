@@ -14,6 +14,14 @@ const Label = styled.label`
   margin-bottom: 5px;
   position: relative;
   right: 10px;
+  bottom: 15px;
+`;
+
+const PExplain = styled.p`
+  position: relative;
+  bottom: 30px;
+  right: 102px;
+  font-size: 12px;
 `;
 
 const SelectBox = styled.select`
@@ -21,6 +29,34 @@ const SelectBox = styled.select`
   width: 100%;
   height: 30px;
   border-color: rgba(102, 102, 102, 0.5);
+  position: relative;
+  bottom: 30px;
+`;
+
+const KeywordBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  position: relative;
+  bottom: 35px;
+`;
+
+const Keyword = styled.div`
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 14px;
+`;
+const RemoveButton = styled.button`
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 8px;
+  position: relative;
+  left: 7px;
+  bottom: 10px;
 `;
 
 const InputKeyword = ({ keyword, setKeyword }) => {
@@ -30,9 +66,14 @@ const InputKeyword = ({ keyword, setKeyword }) => {
       setKeyword((prevList) => [...prevList, selectedKeyword]);
     }
   };
+  const handleRemoveKeyword = (kw) => {
+    setKeyword((prevList) => prevList.filter((item) => item !== kw));
+  };
+
   return (
     <Wrapper>
       <Label>관심키워드</Label>
+      <PExplain>3개를 선택하세요</PExplain>
       <SelectBox value={keyword} onChange={handleSelectKeyword} required>
         <option value="">선택하세요</option>
         <option value="공부">공부</option>
@@ -50,6 +91,16 @@ const InputKeyword = ({ keyword, setKeyword }) => {
         <option value="사진">사진</option>
         <option value="패션">패션</option>
       </SelectBox>
+      <KeywordBox>
+        {keyword.map((kw, index) => (
+          <Keyword key={index}>
+            {kw}
+            <RemoveButton onClick={() => handleRemoveKeyword(kw)}>
+              X
+            </RemoveButton>
+          </Keyword>
+        ))}
+      </KeywordBox>
     </Wrapper>
   );
 };

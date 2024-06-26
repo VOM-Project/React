@@ -8,7 +8,7 @@ import Profile from "../components/HomepyPage/Profile.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
 import FCM from "../components/Notification/fcm.js";
-import Webpush from '../components/HomepyPage/Webpush.js';
+import Webpush from "../components/HomepyPage/Webpush.js";
 
 import Search from "../assets/search.svg";
 import Ph_bell_light from "../assets/ph-bell-light.svg";
@@ -19,6 +19,7 @@ import LogoutButton from "../components/LoginPage/Logout.js";
 
 export default function Homepy() {
   const { memberId } = useParams();
+  const [searchNickname, setSearchNickname] = useState("");
 
   /*
    * Authorization
@@ -64,19 +65,22 @@ export default function Homepy() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`/api/webpush/${myMemberId}`, config)
-      .then(response => {
+    axios
+      .get(`/api/webpush/${myMemberId}`, config)
+      .then((response) => {
         setWebpushData(response.data);
         setShowModals(new Array(response.data.length).fill(true));
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, [myMemberId]);
 
   const handleCloseModal = (index) => {
-    setShowModals(prevState => prevState.map((show, i) => (i === index ? false : show)));
-  }
+    setShowModals((prevState) =>
+      prevState.map((show, i) => (i === index ? false : show))
+    );
+  };
 
   const handleEnter = (webcamId) => {
     navigate(`/webcam/${webcamId}`);
@@ -99,42 +103,43 @@ export default function Homepy() {
         console.log(err);
       });
   };
-  /*닉네임 검색 결과 페이지 호출 및 연결*/
-  // const handleSearchNickname = (e) => {
-  //   if (e.key === "Enter") {
-  //     axios
-  //       .get(`/api/members/search?nickname=${searchNickname}`, config)
-  //       .then((res) => {
-  //         const isExisted = res.data.existed;
-  //         if (!isExisted) {
-  //           alert("존재하지 않은 유저입니다");
-  //           navigate(`/homepy/${memberId}`);
-  //         } else {
-  //           const searchMemberId = res.data.findMemberId;
-  //           const memberNickname = res.data.nickname;
-  //           const memberProfileImgUrl =
-  //             res.data.profileImgUrl === null
-  //               ? userImg
-  //               : res.data.profileImgUrl;
-  //           const memberEmail = res.data.email;
-  //           const memberBirth = res.data.birth;
-  //           const memberRegion = res.data.region;
 
-  //           const searchResult = {
-  //             memberNickname,
-  //             memberProfileImgUrl,
-  //             memberEmail,
-  //             memberBirth,
-  //             memberRegion,
-  //           };
-  //           navigate(`/search/${searchMemberId}`, { state: searchResult });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }
-  // };
+  /*닉네임 검색 결과 페이지 호출 및 연결*/
+  const handleSearchNickname = (e) => {
+    if (e.key === "Enter") {
+      axios
+        .get(`/api/members/search?nickname=${searchNickname}`, config)
+        .then((res) => {
+          const isExisted = res.data.existed;
+          if (!isExisted) {
+            alert("존재하지 않은 유저입니다");
+            navigate(`/homepy/${memberId}`);
+          } else {
+            const searchMemberId = res.data.findMemberId;
+            const memberNickname = res.data.nickname;
+            const memberProfileImgUrl =
+              res.data.profileImgUrl === null
+                ? userImg
+                : res.data.profileImgUrl;
+            const memberEmail = res.data.email;
+            const memberBirth = res.data.birth;
+            const memberRegion = res.data.region;
+
+            const searchResult = {
+              memberNickname,
+              memberProfileImgUrl,
+              memberEmail,
+              memberBirth,
+              memberRegion,
+            };
+            navigate(`/search/${searchMemberId}`, { state: searchResult });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
   /*
    * Render
    */
@@ -157,14 +162,14 @@ export default function Homepy() {
           <div className="header-frame">
             <div className="header-search">
               <img className="search-svg" alt="Search" src={Search} />
-              {/* <input
+              <input
                 className="label"
                 type="text"
                 value={searchNickname}
                 onChange={(e) => setSearchNickname(e.target.value)}
                 onKeyDown={(e) => handleSearchNickname(e)}
                 placeholder="닉네임을 검색해보세요"
-              /> */}
+              />
             </div>
             <div className="header-notification">
               <img
