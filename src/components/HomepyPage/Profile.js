@@ -5,7 +5,7 @@ import styled from "styled-components";
 import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
-// import Touchpoint from "../HomepyPage/Touchpoint.js";
+import Touchpoint from "./Touchpoint.js";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -89,16 +89,45 @@ export default function Profile({ memberId }) {
    */
   const [touchpoints, setTouchpoints] = useState([]);
   const [showTouchpoints, setShowTouchpoints] = useState(false);
-
-  const handleButtonClick = async () => {
+  const localMemberId = localStorage.getItem("memberId");
+  const handleTouchpointButtonClick = async () => {
     try {
-      const response = await axios.get(`/api/touchpoint/${memberId}`, config);
-      setTouchpoints(response.data);
-      setShowTouchpoints(true);
+      if (memberId != localMemberId) {
+        axios.post(`/api/touchpoint/${memberId}`, null, {
+          params: {
+            from_member_id: localStorage.getItem("memberId")
+          }, headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          }
+        })
+          .then(response => {
+            if (response.status === 200) {
+              console.log('터치포인트가 성공적으로 전송되었습니다');
+              alert('터치포인트가 성공적으로 전송되었습니다');
+              // 성공적인 응답을 처리합니다
+            } else {
+              throw new Error('터치포인트 전송 실패');
+            }
+          })
+      } else {
+        axios.get(`/api/touchpoint/${memberId}`, config)
+          .then(response => {
+            setTouchpoints(response.data);
+            setShowTouchpoints(true);
+            alert('버튼 눌림');
+          })
+          .catch(error => {
+            console.error('오류:', error);
+          });
+      }
     } catch (error) {
       console.error("Error fetching touchpoints:", error);
     }
   };
+  const handleCloseTouchpoints = () => {
+    setShowTouchpoints(false);
+  }
+
 
   /*
    * Render
@@ -160,14 +189,12 @@ export default function Profile({ memberId }) {
         />
       </ModalButtonContainer>
       <div className="interaction">
-        <button className="button-white" onClick={handleButtonClick}>
+        <button className="button-white" onClick={handleTouchpointButtonClick}>
           <img className="svg-2" alt="heart-svg" src={Mdi_heart} />
           <div className="button-white-text">터치포인트</div>
         </button>
 
-        {/* {showTouchpoints && (
-                            <Touchpoint touchpoints={touchpoints} />
-                        )} */}
+        {showTouchpoints && <Touchpoint onClose={() => handleCloseTouchpoints()} touchpoints={touchpoints} />}
 
         <button className="button-pink">
           <img
