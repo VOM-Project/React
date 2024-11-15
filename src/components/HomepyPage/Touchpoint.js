@@ -1,19 +1,41 @@
 import React from "react";
-import "../../pages/homepy-style.css";
+import axios from "axios";
+import "./Touchpoint.css";
 import "../../pages/homepy-styleguide.css";
 
-export default function Touchpoint({ touchpoints }) {
+import Icon_24 from "../../assets/icon_24.svg";
+
+export default function Touchpoint({ onClose, touchpoints }) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+    };
+
+    async function getProfile(fromMemberId) {
+        await axios
+            .get(`/api/homepy/${fromMemberId}/profile`, config)
+            .then((response) => {
+                console.log(response.data);
+                return response.data.nickname;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     return (
-        <div className="frame">
+        <div className="touchpoint">
+            <img className="icon-modal" alt="Icon" src={Icon_24} onClick={onClose} />
             <div className="overlap-group">
                 <div className="menu">
                     {touchpoints.map((touchpoint, index) => (
                         <div key={index} className="menu-item">
                             <div className="div">
                                 <img className="profile-img" alt={`Profile of member ${touchpoint.fromMemberId}`} src={touchpoint.fromMemberProfileImgUrl} />
-                                <div className="text-wrapper">Member ID: {touchpoint.fromMemberId}</div>
-                                <div className="text-wrapper">Created At: {new Date(touchpoint.createdAt).toLocaleString()}</div>
-                                {/* <div className="text-wrapper">오수아</div> */}
+                                <div className="text-wrapper">Member ID: {(touchpoint.fromMemberId)}</div>
+                                <div className="text-wrapper">{new Date(touchpoint.createdAt).toLocaleString()}</div>
+                                <div className="text-wrapper"></div>
                             </div>
                         </div>
                     ))}
