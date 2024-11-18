@@ -61,7 +61,7 @@ export default function Homepy() {
    * Webpush
    */
   const [webpushData, setWebpushData] = useState([]); // API 응답 데이터 저장 상태
-  const [showModals, setShowModals] = useState(false); // 모달창 표시 여부 상태
+  const [showModals, setShowModals] = useState([]); // 모달창 표시 여부 상태
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function Homepy() {
 
   const handleEnter = (webcamId) => {
     navigate(`/webcam/${webcamId}`);
-    setShowModals(false);
+    setShowModals((prevState) => prevState.fill(false));
   };
 
   /* 웹캠 방 생성*/
@@ -152,7 +152,8 @@ export default function Homepy() {
             <Webpush
               onClose={() => handleCloseModal(index)}
               onEnter={() => handleEnter(item.webcamId)}
-              fromMemberId={item.fromMemberId}
+              fromMemberNickname={item.fromMemberNickname} // Dto에서 데이터 전달
+              createdAt={item.createdAt}
             />
           )}
         </div>

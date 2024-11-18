@@ -366,6 +366,9 @@ main .Frame59575 {
   border-color: var(--main);
   border-width: 1px;
   border-style: solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .modal .text-wrapper-modal {
@@ -397,10 +400,11 @@ main .Frame59575 {
   font-size: var(--body-md-regular-font-size);
   font-style: var(--body-md-regular-font-style);
   font-weight: var(--body-md-regular-font-weight);
-  left: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   letter-spacing: var(--body-md-regular-letter-spacing);
   line-height: var(--body-md-regular-line-height);
-  position: absolute;
   top: 93px;
   white-space: nowrap;
 }
