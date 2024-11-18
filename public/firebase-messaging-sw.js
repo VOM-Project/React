@@ -16,7 +16,7 @@ self.addEventListener("push", function (e) {
     const notificationOptions = {
         body: resultData.body,
         /* 웹 푸시 알림에 이미지가 삽입되었으면 한다면 */
-        // icon: resultData.image,
+        icon: resultData.image,
         tag: resultData.tag,
         ...resultData,
     };
@@ -27,7 +27,7 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (event) {
     // console.log("notification click");
-    const url = "/";
+    const url = "/homepy";
     event.notification.close();
     event.waitUntil(clients.openWindow(url));
 });
