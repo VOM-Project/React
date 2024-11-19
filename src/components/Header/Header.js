@@ -3,6 +3,8 @@ import Search from "../../assets/search.svg";
 import Ph_bell_light from "../../assets/ph-bell-light.svg";
 import LogoutButton from "../../components/LoginPage/Logout.js";
 
+import "./Header.css";
+
 function Header({ searchNickname, setSearchNickname, handleSearchNickname, profile_profileImgUrl }) {
     return (
         <header className="header">
