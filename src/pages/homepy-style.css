@@ -26,7 +26,7 @@
   background-color: var(--background);
   display: flex;
   height: 950px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .main .homepy {
@@ -90,75 +90,6 @@
   position: absolute;
   top: 29px;
 }
-
-.main .keyword {
-  align-items: flex-start;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
-}
-
-.main .text-wrapper-3 {
-  color: var(--title);
-  font-family: "Pretendard-SemiBold", Helvetica;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.54px;
-  line-height: 27px;
-  margin-top: -1px;
-  position: relative;
-  white-space: nowrap;
-  width: fit-content;
-}
-
-.main .frame-7 {
-  align-items: flex-start;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-}
-
-.main .frame-8 {
-  align-items: flex-start;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 8px;
-  position: relative;
-}
-
-.main .tag-feature-l-instance {
-  align-items: center;
-  align-self: stretch;
-  border: 1px solid;
-  border-color: var(--brown-30);
-  border-radius: 8px;
-  display: flex;
-  flex: 0 0 auto;
-  gap: 10px;
-  padding: 4px 16px;
-  position: relative;
-  width: fit-content;
-  height: fit-content;
-}
-
-.main .design-component-instance-node {
-  color: var(--black-80) !important;
-  font-family: "Pretendard-Medium", Helvetica;
-  font-size: 16px;
-  font-style: unset;
-  font-weight: 500;
-  letter-spacing: -0.48px;
-  line-height: 24px;
-}
-
-
-
-
-
 
 
 

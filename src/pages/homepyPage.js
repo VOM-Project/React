@@ -7,6 +7,7 @@ import "./homepy-styleguide.css";
 import Profile from "../components/HomepyPage/Profile.js";
 import Header from "../components/Header/Header.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
+import Keyword from "../components/HomepyPage/Keyword.js";
 import Album from "../components/HomepyPage/Album.js";
 import FCM from "../components/Notification/fcm.js";
 import Webpush from "../components/HomepyPage/Webpush.js";
@@ -168,53 +169,7 @@ export default function Homepy() {
           <div className="homepy">
             <div className="homepy-frame">
               <Greeting memberId={memberId} />
-              <div className="keyword">
-                <div className="text-wrapper-3">관심 키워드</div>
-                <div className="frame-7">
-                  <div className="frame-8">
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">#개발</div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">#IT</div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">#운동</div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">
-                        #테니스
-                      </div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">
-                        #맛집 탐방
-                      </div>
-                    </div>
-                  </div>
-                  <div className="frame-8">
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">
-                        #강아지
-                      </div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">#여행</div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">
-                        #영화 감상
-                      </div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">#산책</div>
-                    </div>
-                    <div className="tag-feature-l-instance">
-                      <div className="design-component-instance-node">#러닝</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Keyword />
               <Album memberId={memberId} />
             </div>
             <button className="button" onClick={handleCreateWebcam}>
