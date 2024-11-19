@@ -5,17 +5,15 @@ import "./homepy-style.css";
 import "./homepy-styleguide.css";
 
 import Profile from "../components/HomepyPage/Profile.js";
+import Header from "../components/Header/Header.js";
 import Greeting from "../components/HomepyPage/Greeting.js";
 import Album from "../components/HomepyPage/Album.js";
 import FCM from "../components/Notification/fcm.js";
 import Webpush from "../components/HomepyPage/Webpush.js";
 
-import Search from "../assets/search.svg";
-import Ph_bell_light from "../assets/ph-bell-light.svg";
 import Icon from "../assets/icon-50.svg";
 import userImg from "../assets/profile.png"; //기본프로필 이미지를 위함
 import { useNavigate, useParams } from "react-router-dom";
-import LogoutButton from "../components/LoginPage/Logout.js";
 
 export default function Homepy() {
   const { memberId } = useParams();
@@ -159,92 +157,71 @@ export default function Homepy() {
         </div>
       ))}
       <div className="background">
-        <header className="header">
-          <div className="header-frame">
-            <div className="header-search">
-              <img className="search-svg" alt="Search" src={Search} />
-              <input
-                className="label"
-                type="text"
-                value={searchNickname}
-                onChange={(e) => setSearchNickname(e.target.value)}
-                onKeyDown={(e) => handleSearchNickname(e)}
-                placeholder="닉네임을 검색해보세요"
-              />
-            </div>
-            <div className="header-notification">
-              <img
-                className="notification-svg"
-                alt="Ph bell light"
-                src={Ph_bell_light}
-              />
-            </div>
-            <img
-              className="header-profile"
-              alt="Mask group"
-              src={profile_profileImgUrl}
-            />
-            <LogoutButton />
-          </div>
-          <div className="header-home">VOM</div>
-        </header>
-        <Profile memberId={memberId} />
-        <div className="homepy">
-          <div className="homepy-frame">
-            <Greeting memberId={memberId} />
-            <div className="keyword">
-              <div className="text-wrapper-3">관심 키워드</div>
-              <div className="frame-7">
-                <div className="frame-8">
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">#개발</div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">#IT</div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">#운동</div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">
-                      #테니스
+        <Header
+          searchNickname={searchNickname}
+          setSearchNickname={setSearchNickname}
+          handleSearchNickname={handleSearchNickname}
+          profile_profileImgUrl={profile_profileImgUrl}
+        />
+        <div className="homepy-wrapper">
+          <Profile memberId={memberId} />
+          <div className="homepy">
+            <div className="homepy-frame">
+              <Greeting memberId={memberId} />
+              <div className="keyword">
+                <div className="text-wrapper-3">관심 키워드</div>
+                <div className="frame-7">
+                  <div className="frame-8">
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">#개발</div>
+                    </div>
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">#IT</div>
+                    </div>
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">#운동</div>
+                    </div>
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">
+                        #테니스
+                      </div>
+                    </div>
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">
+                        #맛집 탐방
+                      </div>
                     </div>
                   </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">
-                      #맛집 탐방
+                  <div className="frame-8">
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">
+                        #강아지
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="frame-8">
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">
-                      #강아지
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">#여행</div>
                     </div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">#여행</div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">
-                      #영화 감상
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">
+                        #영화 감상
+                      </div>
                     </div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">#산책</div>
-                  </div>
-                  <div className="tag-feature-l-instance">
-                    <div className="design-component-instance-node">#러닝</div>
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">#산책</div>
+                    </div>
+                    <div className="tag-feature-l-instance">
+                      <div className="design-component-instance-node">#러닝</div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <Album memberId={memberId} />
             </div>
-            <Album memberId={memberId} />
+            <button className="button" onClick={handleCreateWebcam}>
+              <img className="img-2" alt="Icon" src={Icon} />
+              <div className="text-wrapper-4">화상채팅 시작하기</div>
+            </button>
           </div>
-          <button className="button" onClick={handleCreateWebcam}>
-            <img className="img-2" alt="Icon" src={Icon} />
-            <div className="text-wrapper-4">화상채팅 시작하기</div>
-          </button>
         </div>
       </div>
     </div>

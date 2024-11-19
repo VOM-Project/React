@@ -3,7 +3,7 @@
     justify-content: center;
     background-color: #ffffff;
     border-radius: 20px;
-    height: 916px;
+    height: 800px;
     left: 42px;
     overflow: hidden;
     position: absolute;
@@ -168,7 +168,7 @@
     gap: 20px;
     left: 45px;
     position: absolute;
-    top: 821px;
+    top: 700px;
 }
 
 .profile .button-white {

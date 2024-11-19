@@ -3,15 +3,20 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
-  overflow-x: hidden;
+  align-items: center;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .main .background {
-  background-color: var(--background);
-  height: 1080px;
-  position: relative;
-  width: 100%;
+  background-color: rgba(213, 213, 213, 1);
+  height: 100vh;
+  width: 100vw;
+  /* min-width: 1080px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 /*
@@ -107,15 +112,26 @@
   top: 20px;
 }
 
+/*
+ * Homepy
+ */
+.main .homepy-wrapper {
+  background-color: var(--background);
+  display: flex;
+  height: 950px;
+  overflow: hidden;
+}
+
 .main .homepy {
   background-color: #ffffff;
   border-radius: 20px;
-  height: 916px;
+  height: 800px;
   left: 508px;
   overflow: hidden;
   position: absolute;
   top: 122px;
   width: 1368px;
+  overflow: hidden;
 }
 
 .main .homepy-frame {

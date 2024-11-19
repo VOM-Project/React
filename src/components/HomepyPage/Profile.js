@@ -20,7 +20,7 @@ import userImg from "../../assets/profile.png"; //기본프로필 이미지를 �
 const ModalButtonContainer = styled.div`
   display: inline-flex;
   position: relative;
-  top: 750px;
+  top: 630px;
   right: 95px;
   align-items: flex-start;
 `;
