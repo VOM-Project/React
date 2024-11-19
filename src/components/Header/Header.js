@@ -1,13 +1,14 @@
 import React from 'react'
 import Search from "../../assets/search.svg";
 import Ph_bell_light from "../../assets/ph-bell-light.svg";
-import LogoutButton from "../../components/LoginPage/Logout.js";
+import LogoutButton from "../../components/Header/Logout.js";
 
 import "./Header.css";
 
 function Header({ searchNickname, setSearchNickname, handleSearchNickname, profile_profileImgUrl }) {
     return (
         <header className="header">
+            <div className="header-home">VOM</div>
             <div className="header-frame">
                 <div className="header-search">
                     <img className="search-svg" alt="Search" src={Search} />
@@ -34,7 +35,6 @@ function Header({ searchNickname, setSearchNickname, handleSearchNickname, profi
                 />
                 <LogoutButton />
             </div>
-            <div className="header-home">VOM</div>
         </header>
     );
 }

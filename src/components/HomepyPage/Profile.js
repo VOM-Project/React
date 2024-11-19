@@ -20,7 +20,7 @@ import userImg from "../../assets/profile.png"; //기본프로필 이미지를 �
 const ModalButtonContainer = styled.div`
   display: inline-flex;
   position: relative;
-  top: 630px;
+  top: 100px;
   right: 95px;
   align-items: flex-start;
 `;
@@ -178,7 +178,7 @@ export default function Profile({ memberId }) {
           </div>
         </div>
       </div>
-      <ModalButtonContainer>
+      {/* <ModalButtonContainer>
         <ModalButton onClick={() => setModalIsOpen(true)}>
           프로필 편집
         </ModalButton>
@@ -187,7 +187,7 @@ export default function Profile({ memberId }) {
           setModalIsOpen={setModalIsOpen}
           memberId={memberId}
         />
-      </ModalButtonContainer>
+      </ModalButtonContainer> */}
       <div className="interaction">
         <button className="button-white" onClick={handleTouchpointButtonClick}>
           <img className="svg-2" alt="heart-svg" src={Mdi_heart} />
@@ -202,7 +202,7 @@ export default function Profile({ memberId }) {
             alt="people_svg"
             src={Ic_baseline_people_white}
           />
-          <div className="button-pink-text">봄봄 신청하기</div>
+          <div className="button-pink-text">봄봄 추가</div>
         </button>
       </div>
     </div>

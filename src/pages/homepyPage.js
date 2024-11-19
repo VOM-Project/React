@@ -157,14 +157,14 @@ export default function Homepy() {
           )}
         </div>
       ))}
+      <Header
+        searchNickname={searchNickname}
+        setSearchNickname={setSearchNickname}
+        handleSearchNickname={handleSearchNickname}
+        profile_profileImgUrl={profile_profileImgUrl}
+      />
       <div className="background">
-        <Header
-          searchNickname={searchNickname}
-          setSearchNickname={setSearchNickname}
-          handleSearchNickname={handleSearchNickname}
-          profile_profileImgUrl={profile_profileImgUrl}
-        />
-        <div className="homepy-wrapper">
+        <div className="body">
           <Profile memberId={memberId} />
           <div className="homepy">
             <div className="homepy-frame">
@@ -172,10 +172,10 @@ export default function Homepy() {
               <Keyword />
               <Album memberId={memberId} />
             </div>
-            <button className="button" onClick={handleCreateWebcam}>
+            {/* <button className="button" onClick={handleCreateWebcam}>
               <img className="img-2" alt="Icon" src={Icon} />
               <div className="text-wrapper-4">화상채팅 시작하기</div>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
