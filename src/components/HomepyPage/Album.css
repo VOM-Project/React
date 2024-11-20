@@ -1,14 +1,9 @@
 .album {
-    align-items: flex-start;
     border: 1px solid;
     border-color: var(--main);
     border-radius: 8px;
     display: flex;
-    flex: 0 0 auto;
     flex-direction: column;
-    margin-bottom: -1px;
-    margin-left: -1px;
-    margin-right: -1px;
     overflow: hidden;
     position: relative;
     width: 550px;
@@ -20,7 +15,6 @@
     height: 35px;
     overflow: hidden;
     position: relative;
-    width: 1288px;
     justify-content: flex-end;
     display: flex;
     align-items: center;
@@ -35,23 +29,19 @@
     letter-spacing: -0.54px;
     line-height: 27px;
     position: absolute;
-    top: 8px;
     white-space: nowrap;
 }
 
 .album .upload-button {
-
     background-color: transparent;
-    /* 버튼 배경색 투명하게 설정 */
     border: none;
-    /* 버튼 테두리 없음 */
     cursor: pointer;
-    /* 마우스 포인터 커서 변경 */
 }
 
 .album .svg {
     width: 30x;
     height: 30px;
+    padding: 0px 20px;
 }
 
 .album .content {
@@ -66,30 +56,21 @@
 .album .frame {
     display: flex;
     flex-wrap: wrap;
-    /* 추가됨 */
-    gap: 10px;
-    padding: 30px 31px;
-    /* 여백을 padding으로 변경 */
+    gap: 10px 20px;
+    padding: 10px 30px;
     overflow: auto;
-    /* 추가됨 */
 }
 
 .album .img-wrapper {
-    border-radius: 2px;
-    height: 402px;
+    height: 100px;
+    width: 100px;
     overflow: hidden;
     position: relative;
-    width: calc(33.33% - 20px);
-    /* 3개의 열로 나누기 위한 계산 */
     box-sizing: border-box;
-    /* 패딩과 보더를 포함하여 박스 크기 계산 */
 }
 
 .album .img {
-    height: 281px;
-    left: 0;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
-    position: absolute;
-    top: 0;
-    width: 402px;
 }

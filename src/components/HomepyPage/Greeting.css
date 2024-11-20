@@ -46,9 +46,7 @@
 }
 
 .greeting .textarea {
-    background-color: var(--third-40);
     border-radius: 0px 0px 8px 8px;
-    /* height: 156px; */
     position: relative;
     color: var(--black-80);
     font-family: var(--medium-12-font-family);
@@ -57,6 +55,6 @@
     padding: 0 30px;
     letter-spacing: -0.48px;
     line-height: 24px;
-    width: 98.5%;
+    width: 88%;
     height: 93%;
 }
