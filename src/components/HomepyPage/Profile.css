@@ -181,6 +181,7 @@
     overflow: hidden;
     padding: 16px 16px;
     position: relative;
+    cursor: pointer;
 }
 
 .profile .svg-2 {
@@ -219,6 +220,7 @@
     overflow: hidden;
     padding: 16px 16px;
     position: relative;
+    cursor: pointer;
 }
 
 .profile .button-pink-text {

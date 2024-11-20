@@ -5,7 +5,7 @@ import styled from "styled-components";
 import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
-import Touchpoint from "./Touchpoint.js";
+import TouchpointModal from "./TouchpointModal.js";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -44,7 +44,6 @@ export default function Profile({ memberId }) {
   const config = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      // Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
     },
   };
 
@@ -194,7 +193,12 @@ export default function Profile({ memberId }) {
           <div className="button-white-text">터치포인트</div>
         </button>
 
-        {showTouchpoints && <Touchpoint onClose={() => handleCloseTouchpoints()} touchpoints={touchpoints} />}
+        {showTouchpoints && (
+          <TouchpointModal
+            touchpoints={touchpoints} // 모달에 touchpoints 전달
+            onClose={() => setShowTouchpoints(false)} // 모달 닫기 핸들러
+          />
+        )}
 
         <button className="button-pink">
           <img
