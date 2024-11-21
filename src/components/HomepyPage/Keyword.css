@@ -1,0 +1,63 @@
+.keyword {
+    align-items: flex-start;
+    display: inline-flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+}
+
+.keyword .text-wrapper-3 {
+    color: var(--title);
+    font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-weight: var(--body-md-semibold-font-family);
+    letter-spacing: -0.54px;
+    line-height: 27px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.keyword .frame-7 {
+    align-items: flex-start;
+    display: inline-flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.keyword .frame-8 {
+    align-items: flex-start;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    position: relative;
+}
+
+.keyword .tag-feature-l-instance {
+    align-items: center;
+    align-self: stretch;
+    border: 1px solid;
+    border-color: var(--brown-30);
+    border-radius: 8px;
+    display: flex;
+    flex: 0 0 auto;
+    gap: 10px;
+    padding: 4px 16px;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.keyword .design-component-instance-node {
+    color: var(--black-80) !important;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 16px;
+    font-style: unset;
+    font-weight: 500;
+    letter-spacing: -0.48px;
+    line-height: 20px;
+}

@@ -1,26 +1,20 @@
 .greeting {
-    align-items: flex-start;
     border: 1px solid;
     border-color: var(--main);
     border-radius: 8px;
     display: flex;
-    flex: 0 0 auto;
     flex-direction: column;
-    margin-left: -1px;
-    margin-right: -1px;
-    margin-top: -1px;
     overflow: hidden;
     position: relative;
-    width: 1290px;
+    width: 550px;
 }
 
 .greeting .title {
     background-color: var(--sub-60);
     border-radius: 8px 8px 0px 0px;
-    height: 44px;
+    height: 35px;
     overflow: hidden;
     position: relative;
-    width: 1288px;
     justify-content: flex-end;
     display: flex;
     align-items: center
@@ -28,42 +22,39 @@
 
 .greeting .title-text {
     color: var(--brown);
-    font-family: "Pretendard-SemiBold", Helvetica;
-    font-size: 18px;
-    font-weight: 600;
+    font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-weight: var(--body-md-semibold-font-weight);
     left: 30px;
     letter-spacing: -0.54px;
     line-height: 27px;
     position: absolute;
-    top: 8px;
     white-space: nowrap;
 }
 
 .greeting .svg {
-    height: 30px;
-    width: 30px;
-    padding: 0px 12px;
+    height: 24px;
+    width: 24px;
+    padding: 0px 20px;
 }
 
 .greeting .content {
     background-color: var(--third-40);
     border-radius: 0px 0px 8px 8px;
-    height: 156px;
+    height: 50px;
     position: relative;
-    width: 1288px;
 }
 
 .greeting .textarea {
-    background-color: var(--third-40);
     border-radius: 0px 0px 8px 8px;
-    height: 156px;
     position: relative;
     color: var(--black-80);
-    font-family: "Pretendard-Medium", Helvetica;
-    font-size: 16px;
-    font-weight: 500;
+    font-family: var(--medium-12-font-family);
+    font-size: var(--medium-12-font-size);
+    font-weight: var(--medium-12-font-weight);
+    padding: 0 30px;
     letter-spacing: -0.48px;
     line-height: 24px;
-    width: 99.5%;
-    height: 95%;
+    width: 88%;
+    height: 93%;
 }

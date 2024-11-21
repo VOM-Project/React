@@ -5,7 +5,7 @@ import styled from "styled-components";
 import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
-import Touchpoint from "./Touchpoint.js";
+import TouchpointModal from "./TouchpointModal.js";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -20,7 +20,7 @@ import userImg from "../../assets/profile.png"; //기본프로필 이미지를 �
 const ModalButtonContainer = styled.div`
   display: inline-flex;
   position: relative;
-  top: 750px;
+  top: 100px;
   right: 95px;
   align-items: flex-start;
 `;
@@ -44,7 +44,6 @@ export default function Profile({ memberId }) {
   const config = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      // Authorization: `Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInN1YiI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3Nzg5ODA5LCJleHAiOjE3MjA0NjgyMDl9.dSVUDBi7AD6HKJqp5t-HIvsTHA97znaJvDVpBdbWSuM`,
     },
   };
 
@@ -114,7 +113,6 @@ export default function Profile({ memberId }) {
           .then(response => {
             setTouchpoints(response.data);
             setShowTouchpoints(true);
-            alert('버튼 눌림');
           })
           .catch(error => {
             console.error('오류:', error);
@@ -178,7 +176,7 @@ export default function Profile({ memberId }) {
           </div>
         </div>
       </div>
-      <ModalButtonContainer>
+      {/* <ModalButtonContainer>
         <ModalButton onClick={() => setModalIsOpen(true)}>
           프로필 편집
         </ModalButton>
@@ -187,14 +185,19 @@ export default function Profile({ memberId }) {
           setModalIsOpen={setModalIsOpen}
           memberId={memberId}
         />
-      </ModalButtonContainer>
+      </ModalButtonContainer> */}
       <div className="interaction">
         <button className="button-white" onClick={handleTouchpointButtonClick}>
           <img className="svg-2" alt="heart-svg" src={Mdi_heart} />
           <div className="button-white-text">터치포인트</div>
         </button>
 
-        {showTouchpoints && <Touchpoint onClose={() => handleCloseTouchpoints()} touchpoints={touchpoints} />}
+        {showTouchpoints && (
+          <TouchpointModal
+            touchpoints={touchpoints} // 모달에 touchpoints 전달
+            onClose={() => setShowTouchpoints(false)} // 모달 닫기 핸들러
+          />
+        )}
 
         <button className="button-pink">
           <img
@@ -202,7 +205,7 @@ export default function Profile({ memberId }) {
             alt="people_svg"
             src={Ic_baseline_people_white}
           />
-          <div className="button-pink-text">봄봄 신청하기</div>
+          <div className="button-pink-text">봄봄 추가</div>
         </button>
       </div>
     </div>

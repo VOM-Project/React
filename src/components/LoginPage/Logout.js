@@ -20,7 +20,7 @@ const Button = styled.button`
   border-radius: 25px;
   display: flex;
   align-items: center;
-  padding: 0px 30px;
+  padding: 0px 20px;
 `;
 
 function LogoutButton() {
