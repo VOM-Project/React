@@ -113,7 +113,6 @@ export default function Profile({ memberId }) {
           .then(response => {
             setTouchpoints(response.data);
             setShowTouchpoints(true);
-            alert('버튼 눌림');
           })
           .catch(error => {
             console.error('오류:', error);

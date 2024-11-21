@@ -171,11 +171,13 @@ export default function Homepy() {
               <Greeting memberId={memberId} />
               <Keyword />
               <Album memberId={memberId} />
+              <div className="button-frame">
+                <button className="button-pink" onClick={handleCreateWebcam}>
+                  <img className="img-2" alt="Icon" src={Icon} />
+                  <div className="text-wrapper-4">화상채팅 시작</div>
+                </button>
+              </div>
             </div>
-            {/* <button className="button" onClick={handleCreateWebcam}>
-              <img className="img-2" alt="Icon" src={Icon} />
-              <div className="text-wrapper-4">화상채팅 시작하기</div>
-            </button> */}
           </div>
         </div>
       </div>
