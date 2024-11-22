@@ -211,7 +211,7 @@ export default function Profile({ memberId }) {
               alt="people_svg"
               src={Ic_baseline_people_white}
             />
-            <div className="button-pink-text">봄봄 추가</div>
+            <div className="button-pink-text">봄봄 신청</div>
           </button>
         )}
       </div>
