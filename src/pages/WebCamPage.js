@@ -8,6 +8,7 @@ import Icon from "../assets/icon-50.svg";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
+import Profile from "../components/HomepyPage/Profile.js";
 import CalleProfile from "../components/WebCam/CalleeProfile.js";
 import axios from "axios";
 import "./webcam-style.css";
@@ -21,10 +22,14 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 const WrapperContainer = styled.div`
-  background-color: rgba(245, 225, 225, 1);
-  height: 1080px;
-  position: relative;
-  width: 1920px;
+background-color: beige;
+  // background-image: url("../assets/background.jpg");
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;
 const Header = styled.header`
   background-color: rgba(255, 255, 255, 1);
@@ -112,25 +117,45 @@ const TextWrapper = styled.div`
   top: 20px;
   white-space: nowrap;
 `;
-const Frame2 = styled.div`
+const Background = styled.div`
+  height: 90%;
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Body = styled.div`
+background-color: var(--background);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  height: 95%;
+  width: 60%;
+  min-width: 1020px;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+`;
+const Webcam = styled.div`
   background-color: #ffffff;
   border-radius: 20px;
-  height: 916px;
-  left: 508px;
+  height: 90%;
   overflow: hidden;
-  position: absolute;
-  top: 122px;
-  width: 1386px;
+  width: 60%;
+  min-width: 610px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
-const Frame3 = styled.div`
-  align-items: flex-start;
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 30px;
-  left: 30px;
-  position: absolute;
-  top: 40px;
+const WebcamFrame = styled.div`
+display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 95%;
+  width: 95%;
 `;
 const ButtonLeave = styled.button`
   all: unset;
@@ -182,7 +207,7 @@ function WebCamPage() {
   return (
     <Wrapper>
       <WrapperContainer>
-        <Header>
+        {/* <Header>
           <Frame>
             <InputNoLabel>
               <InputNoLabel2>
@@ -200,20 +225,25 @@ function WebCamPage() {
             />
           </Frame>
           <TextWrapper>VOM</TextWrapper>
-        </Header>
-        <Frame2>
-          <Frame3>
-            <PeerConfig
-              webcamId={webcamId}
+        </Header> */}
+        <Background>
+          <Body>
+            <Profile memberId={remoteMemberId} />
+            <Webcam>
+              <WebcamFrame>
+                <PeerConfig
+                  webcamId={webcamId}
+                  connectHeaders={connectHeaders}
+                  setRemoteMemberId={setRemoteMemberId}
+                />
+              </WebcamFrame>
+            </Webcam>
+            {/* <CalleProfile
+              remoteMemberId={remoteMemberId}
               connectHeaders={connectHeaders}
-              setRemoteMemberId={setRemoteMemberId}
-            />
-          </Frame3>
-        </Frame2>
-        <CalleProfile
-          remoteMemberId={remoteMemberId}
-          connectHeaders={connectHeaders}
-        />
+            /> */}
+          </Body>
+        </Background>
       </WrapperContainer>
     </Wrapper>
   );

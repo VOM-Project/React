@@ -63,6 +63,7 @@ export default function Profile({ memberId }) {
   }, []);
 
   async function getProfile() {
+    console.log("왜 안 됌?");
     await axios
       .get(`/api/homepy/${memberId}/profile`, config)
       .then((response) => {
