@@ -207,7 +207,7 @@ function WebCamPage() {
   return (
     <Wrapper>
       <WrapperContainer>
-        {/* <Header>
+        <Header>
           <Frame>
             <InputNoLabel>
               <InputNoLabel2>
@@ -225,10 +225,14 @@ function WebCamPage() {
             />
           </Frame>
           <TextWrapper>VOM</TextWrapper>
-        </Header> */}
+        </Header>
         <Background>
           <Body>
-            <Profile memberId={remoteMemberId} />
+            {remoteMemberId ? (
+              <Profile memberId={remoteMemberId} />
+            ) : (
+              <div>로딩 중...</div>
+            )}
             <Webcam>
               <WebcamFrame>
                 <PeerConfig

@@ -11,17 +11,15 @@ import Mute from "../../assets/microphone.png";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  // gap: 20px;
-  position: relative;
+  height: 95%;
+  width: 95%;
 `;
 
 const VideoWrapper = styled.div`
-background-color: blue;
   display: flex;
   position: relative;
-  // right: 70px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -80,11 +78,8 @@ const ButtonLeave = styled.button`
   gap: 10px;
   height: 55px;
   justify-content: center;
-  left: 800px;
   overflow: hidden;
   padding: 16px 24px;
-  position: absolute;
-  top: 900px;
 `;
 
 const IconImg = styled.img`
