@@ -21,6 +21,9 @@ const VideoWrapper = styled.div`
   display: flex;
   position: relative;
 `;
+const MyVideoWrapper = styled.div`
+transform: scaleX(-1);
+`;
 
 const ButtonWrapper = styled.div`
 background-color: pink;
@@ -559,7 +562,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
           <option value="blur">Blur</option>
         </select>
       </ButtonWrapper>
-      <VideoWrapper>
+      <MyVideoWrapper>
         {/* 내 비디오 */}
         <video
           id="localStream"
@@ -570,7 +573,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
           ref={localStreamRef}
         >
         </video>
-      </VideoWrapper>
+      </MyVideoWrapper>
       <ButtonLeave onClick={leaveRoom}>
         <IconImg src={Icon} />
         <TextWrapper4>방 나가기</TextWrapper4>
