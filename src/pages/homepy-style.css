@@ -27,6 +27,7 @@
   flex-direction: row;
   height: 95%;
   width: 60%;
+  min-width: 1020px;
   justify-content: space-evenly;
   align-items: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
@@ -38,6 +39,7 @@
   height: 90%;
   overflow: hidden;
   width: 60%;
+  min-width: 610px;
   display: flex;
   justify-content: center;
   align-items: center;
