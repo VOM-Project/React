@@ -26,7 +26,6 @@ transform: scaleX(-1);
 `;
 
 const ButtonWrapper = styled.div`
-background-color: pink;
   display: flex;
   flex-direction: row;
   gap: 10px;

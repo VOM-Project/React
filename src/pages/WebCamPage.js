@@ -15,15 +15,12 @@ import "./webcam-style.css";
 import PeerConfig from "../components/WebCam/PeerConfig.js";
 
 const Wrapper = styled.div`
-  background-color: #f5e1e1;
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
 `;
 const WrapperContainer = styled.div`
-background-color: beige;
-  // background-image: url("../assets/background.jpg");
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -207,7 +204,7 @@ function WebCamPage() {
   return (
     <Wrapper>
       <WrapperContainer>
-        <Header>
+        {/* <Header>
           <Frame>
             <InputNoLabel>
               <InputNoLabel2>
@@ -225,7 +222,7 @@ function WebCamPage() {
             />
           </Frame>
           <TextWrapper>VOM</TextWrapper>
-        </Header>
+        </Header> */}
         <Background>
           <Body>
             {remoteMemberId ? (
