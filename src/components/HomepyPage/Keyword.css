@@ -1,4 +1,6 @@
 .keyword {
+    width: 95%;
+    height: 18%;
     align-items: flex-start;
     display: inline-flex;
     flex: 0 0 auto;
