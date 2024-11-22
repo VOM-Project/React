@@ -35,9 +35,6 @@ const ModalButton = styled.button`
 `;
 
 export default function Profile({ memberId }) {
-  // var visitingMemberId = 1;
-  // var memberId = 1;
-
   /*
    * Authorization
    */
@@ -56,6 +53,10 @@ export default function Profile({ memberId }) {
   const [profile_email, setProfile_email] = useState();
   const [profile_birth, setProfile_birth] = useState();
   const [profile_region, setProfile_region] = useState();
+
+  /*
+   * Modal State
+   */
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
@@ -89,6 +90,7 @@ export default function Profile({ memberId }) {
   const [touchpoints, setTouchpoints] = useState([]);
   const [showTouchpoints, setShowTouchpoints] = useState(false);
   const localMemberId = localStorage.getItem("memberId");
+
   const handleTouchpointButtonClick = async () => {
     try {
       if (memberId != localMemberId) {
@@ -176,16 +178,8 @@ export default function Profile({ memberId }) {
           </div>
         </div>
       </div>
-      {/* <ModalButtonContainer>
-        <ModalButton onClick={() => setModalIsOpen(true)}>
-          프로필 편집
-        </ModalButton>
-        <ProfileEditModal
-          modalIsOpen={modalIsOpen}
-          setModalIsOpen={setModalIsOpen}
-          memberId={memberId}
-        />
-      </ModalButtonContainer> */}
+
+      {/* Interaction Section */}
       <div className="interaction">
         <button className="button-white" onClick={handleTouchpointButtonClick}>
           <img className="svg-2" alt="heart-svg" src={Mdi_heart} />
@@ -199,14 +193,27 @@ export default function Profile({ memberId }) {
           />
         )}
 
-        <button className="button-pink">
-          <img
-            className="svg-2"
-            alt="people_svg"
-            src={Ic_baseline_people_white}
-          />
-          <div className="button-pink-text">봄봄 추가</div>
-        </button>
+        {memberId === localMemberId ? (
+          <div>
+            <button className="button-pink" onClick={() => setModalIsOpen(true)}>
+              <div className="button-pink-text">프로필 편집</div>
+            </button>
+            <ProfileEditModal
+              modalIsOpen={modalIsOpen}
+              setModalIsOpen={setModalIsOpen}
+              memberId={memberId}
+            />
+          </div>
+        ) : (
+          <button className="button-pink">
+            <img
+              className="svg-2"
+              alt="people_svg"
+              src={Ic_baseline_people_white}
+            />
+            <div className="button-pink-text">봄봄 신청</div>
+          </button>
+        )}
       </div>
     </div>
   );

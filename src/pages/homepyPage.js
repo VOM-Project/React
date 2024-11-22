@@ -171,12 +171,16 @@ export default function Homepy() {
               <Greeting memberId={memberId} />
               <Keyword />
               <Album memberId={memberId} />
-              <div className="button-frame">
-                <button className="button-pink" onClick={handleCreateWebcam}>
-                  <img className="img-2" alt="Icon" src={Icon} />
-                  <div className="text-wrapper-4">화상채팅 시작</div>
-                </button>
-              </div>
+
+              {/* 상대방 홈피에서만 화상채팅 버튼 표시 */}
+              {memberId != myMemberId &&
+                <div className="button-frame">
+                  <button className="button-pink" onClick={handleCreateWebcam}>
+                    <img className="img-2" alt="Icon" src={Icon} />
+                    <div className="text-wrapper-4">화상채팅 시작</div>
+                  </button>
+                </div>
+              }
             </div>
           </div>
         </div>
