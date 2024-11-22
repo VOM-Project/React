@@ -6,7 +6,8 @@
     flex-direction: column;
     overflow: hidden;
     position: relative;
-    width: 550px;
+    width: 95%;
+    height: 35%;
 }
 
 .album .title {

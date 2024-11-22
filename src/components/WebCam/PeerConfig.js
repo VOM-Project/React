@@ -11,18 +11,18 @@ import Mute from "../../assets/microphone.png";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 20px;
-  position: relative;
-  bottom: 100px;
-  left: 400px;
+  height: 95%;
+  width: 95%;
 `;
 
 const VideoWrapper = styled.div`
   display: flex;
   position: relative;
-  right: 70px;
+`;
+const MyVideoWrapper = styled.div`
+transform: scaleX(-1);
 `;
 
 const ButtonWrapper = styled.div`
@@ -80,11 +80,8 @@ const ButtonLeave = styled.button`
   gap: 10px;
   height: 55px;
   justify-content: center;
-  left: 800px;
   overflow: hidden;
   padding: 16px 24px;
-  position: absolute;
-  top: 900px;
 `;
 
 const IconImg = styled.img`
@@ -338,7 +335,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
   const connectSocket = () => {
     const socket = new SockJS("https://localhost:8080/signaling");
     client.current = Stomp.over(socket);
-    client.current.debug = () => {}; //디버그 안보이게
+    client.current.debug = () => { }; //디버그 안보이게
     client.current.connect(connectHeaders, () => {
       console.log("2. Connected to WebRTC 시그널링 server");
       // 소켓 연결 설정 완료 후에 피어 간 연결 설정
@@ -531,51 +528,51 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
 
   return (
     <Wrapper>
-      <div>
+      <VideoWrapper>
+        {/* 상대방 비디오 */}
+        <video
+          autoPlay
+          playsInline
+          width={500}
+          // height={300}
+          controls
+          ref={remoteStreamRef}
+        >
+        </video>
+      </VideoWrapper>
+      {/* <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+        <video ref={filteredStreamRef} style={{ display: "none" }}></video> */}
+      <ButtonWrapper>
+        <ButtonMute ref={muteBtn} onClick={onClickMuteHandler}>
+          <IconImg src={Mute} />
+          <TextWrapper4>mute</TextWrapper4>
+        </ButtonMute>
+        <ButtonCamera ref={cameraBtn} onClick={onClickCameraOffHandler}>
+          <IconImg src={VideoCamera} />
+          <TextWrapper4>camera OFF</TextWrapper4>
+        </ButtonCamera>
+        <select ref={camerasSelect} onInput={onInputCameraChange}>
+          <option>기본</option>
+          <option ref={cameraOption} value="device" />
+        </select>
+        <label for="filter">필터 설정 </label>
+        <select value={selectedFilter} onChange={handleFilterChange}>
+          <option value="none">None</option>
+          <option value="blur">Blur</option>
+        </select>
+      </ButtonWrapper>
+      <MyVideoWrapper>
+        {/* 내 비디오 */}
         <video
           id="localStream"
           autoPlay
           playsInline
-          width={500}
-          height={500}
+          width={200}
+          // height={400}
           ref={localStreamRef}
         >
-          내 비디오
         </video>
-        {/* <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
-        <video ref={filteredStreamRef} style={{ display: "none" }}></video> */}
-        <ButtonWrapper>
-          <ButtonMute ref={muteBtn} onClick={onClickMuteHandler}>
-            <IconImg src={Mute} />
-            <TextWrapper4>mute</TextWrapper4>
-          </ButtonMute>
-          <ButtonCamera ref={cameraBtn} onClick={onClickCameraOffHandler}>
-            <IconImg src={VideoCamera} />
-            <TextWrapper4>camera OFF</TextWrapper4>
-          </ButtonCamera>
-          <select ref={camerasSelect} onInput={onInputCameraChange}>
-            <option>기본</option>
-            <option ref={cameraOption} value="device" />
-          </select>
-          <label for="filter">필터 설정 </label>
-          <select value={selectedFilter} onChange={handleFilterChange}>
-            <option value="none">None</option>
-            <option value="blur">Blur</option>
-          </select>
-        </ButtonWrapper>
-      </div>
-      <VideoWrapper>
-        <video
-          autoPlay
-          playsInline
-          width={500}
-          height={500}
-          controls
-          ref={remoteStreamRef}
-        >
-          상대방 비디오
-        </video>
-      </VideoWrapper>
+      </MyVideoWrapper>
       <ButtonLeave onClick={leaveRoom}>
         <IconImg src={Icon} />
         <TextWrapper4>방 나가기</TextWrapper4>
