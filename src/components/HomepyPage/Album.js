@@ -97,24 +97,16 @@ export default function Album({ memberId }) {
             <div className="album">
                 <div className="title">
                     <div className="title-text">앨범</div>
-                    <button
-                        className="upload-button"
-                        type="button"
-                        onClick={() => setShowUploadModal(true)}
-                    >
-                        <img className="svg" alt="upload-svg" src={ph_plus_fill} />
-                    </button>
+                    {memberId === localStorage.getItem("memberId") && (
+                        <button
+                            className="upload-button"
+                            type="button"
+                            onClick={() => setShowUploadModal(true)}
+                        >
+                            <img className="svg" alt="upload-svg" src={ph_plus_fill} />
+                        </button>
+                    )}
                 </div>
-                {/* <form onSubmit={uploadFiles}>
-                    <input
-                        className='file-input'
-                        type="file" multiple
-                        onChange={handleUpload} />
-                    <button className='upload-button' type="submit">
-                        <img className="svg"
-                            alt="upload-svg" src={ph_plus_fill} />
-                    </button>
-                </form> */}
                 <div className="content">
                     <div className="frame">
                         {images.map((image) => (
