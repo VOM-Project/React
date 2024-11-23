@@ -8,7 +8,7 @@ function Toast({ setToast, text }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setToast(false);
-        }, 15000000000000);
+        }, 1500);
         return () => {
             clearTimeout(timer);
         };

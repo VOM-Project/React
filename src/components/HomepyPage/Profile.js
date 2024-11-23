@@ -198,7 +198,9 @@ export default function Profile({ memberId }) {
           </button>
         )}
       </div>
-      {showToast && <Toast setToast={setShowToast} text="박서현 님에게 관심을 보냈습니다" />}
+      {showToast && <Toast setToast={setShowToast} text={`
+    ${profile_nickname} 님에게 터치포인트를 보냈습니다.
+  `} />}
     </div>
   );
 }
