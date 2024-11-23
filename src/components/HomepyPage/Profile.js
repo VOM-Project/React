@@ -112,7 +112,30 @@ export default function Profile({ memberId }) {
   }
 
   /*
-   * Vomvom
+   * VomvomList
+   */
+  const [vomvomList, setVomvomList] = useState([]); // 친구 목록 상태 추가
+  const [showVomvomList, setShowVomvomList] = useState(false); // 친구 목록 표시 상태 추가
+
+  const handleVomvomList = () => {
+    axios
+      .get(`/api/vomvom`, config)
+      .then((response) => {
+        setVomvomList(response.data.memberDtoList || []); // 응답 데이터 저장
+        setShowVomvomList(true); // 친구 목록 표시
+      })
+      .catch((error) => {
+        console.error("Error fetching vomvom list:", error);
+      });
+  };
+
+  // 봄봄 친구 목록 닫기 핸들러 - 추가된 부분
+  const handleCloseVomvomList = () => {
+    setShowVomvomList(false); // 친구 목록 숨기기
+  };
+
+  /*
+   * VomvomToast
    */
   const [showVomvomToast, setShowVomvomToast] = useState(false);
 
@@ -149,7 +172,7 @@ export default function Profile({ memberId }) {
         />
         <div className="pink-frame">
           <div className="profile-name">{profile_nickname}</div>
-          <div className="vomvom">
+          <div className="vomvom" onClick={handleVomvomList}>
             <div className="vomvom-label">
               <img
                 className="people-svg"
@@ -227,6 +250,28 @@ export default function Profile({ memberId }) {
         `} />
         )}
       </div>
+
+      {showVomvomList && (
+        <div className="vomvom-list">
+          <h3>봄봄 친구 목록</h3>
+          <button className="close-button" onClick={handleCloseVomvomList}>
+            닫기
+          </button>
+          <ul>
+            {vomvomList.map((friend, index) => (
+              <li key={index} className="vomvom-list-item">
+                <img
+                  src={friend.profileUrl}
+                  alt={`${friend.nickname}'s profile`}
+                  className="vomvom-list-img"
+                />
+                <span>{friend.nickname}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {showTouchpointToast && <Toast setToast={setShowTouchpointToast} text={`
     ${profile_nickname} 님에게 터치포인트를 보냈습니다.
   `} />}
