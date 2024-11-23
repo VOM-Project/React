@@ -66,19 +66,20 @@ export default function Greeting({ memberId }) {
     <div className="greeting">
       <div className="title">
         <div className="title-text">인사말</div>
-        <img
-          className="svg"
-          alt="edit-svg"
-          src={mingcute_edit_line}
-          onClick={() => {
-            if (isEditing) {
-              updateGreeting(); // 인사말 업데이트
-            } else {
-              setIsEditing(true); // 편집 모드로 전환
-            }
-          }}
-          style={{ cursor: "pointer" }}
-        />
+        {memberId === localStorage.getItem("memberId") && (
+          <img
+            className="svg"
+            alt="edit-svg"
+            src={mingcute_edit_line}
+            onClick={() => {
+              if (isEditing) {
+                updateGreeting(); // 인사말 업데이트
+              } else {
+                setIsEditing(true); // 편집 모드로 전환
+              }
+            }}
+          />
+        )}
       </div>
       <div className="content">
         {isEditing ? (

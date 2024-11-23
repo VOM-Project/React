@@ -203,7 +203,7 @@ function WebCamPage() {
 
   return (
     <Wrapper>
-      <WrapperContainer>
+      <div className="wrapper-container">
         {/* <Header>
           <Frame>
             <InputNoLabel>
@@ -245,7 +245,7 @@ function WebCamPage() {
             /> */}
           </Body>
         </Background>
-      </WrapperContainer>
+      </div>
     </Wrapper>
   );
 }
