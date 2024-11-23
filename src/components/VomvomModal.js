@@ -20,9 +20,10 @@ export default function VomvomModal({
                 <button className="pink-button" onClick={onAccept}>
                     수락
                 </button>
-                <button className="white-button" onClick={onReject}>
+                <button className="white-button" onClick={onClose}>
                     거절
                 </button>
+                {/* 거절 기능 추가 */}
             </div>
         </div>
     );

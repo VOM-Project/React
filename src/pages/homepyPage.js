@@ -86,8 +86,21 @@ export default function Homepy() {
 
   // 수락 버튼 클릭 처리
   const handleAcceptRequest = (nickname) => {
-    alert(`${nickname} 님의 요청을 수락했습니다.`);
-    // TODO: 수락 API 호출 추가
+    const data = { nickname }; // body에 nickname 포함
+
+    axios
+      .post(`/api/vomvom/accept`, data, config)
+      .then((response) => {
+        console.log(`${nickname} 님의 요청을 수락했습니다.`);
+        setVomvomRequests((prevRequests) =>
+          prevRequests.filter((request) => request.nickname !== nickname)
+        );
+        setShowVomvomModals((prevState) => prevState.slice(0, -1));
+      })
+      .catch((error) => {
+        console.error("Error accepting request:", error);
+        alert("요청을 수락하는 중 오류가 발생했습니다.");
+      });
   };
 
   // 거절 버튼 클릭 처리
