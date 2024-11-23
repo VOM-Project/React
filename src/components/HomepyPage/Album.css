@@ -75,3 +75,94 @@
     width: 100%;
     object-fit: cover;
 }
+
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-upload {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    height: 300px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.modal-upload h3 {
+    margin-bottom: 15px;
+}
+
+.file-input {
+    margin: 10px 0;
+}
+
+.preview {
+    margin: 10px 0;
+}
+
+.preview-img {
+    max-width: 100%;
+    max-height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pink-button,
+.white-button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.pink-button {
+    background-color: var(--main);
+    color: white;
+}
+
+.white-button {
+    border: 1px solid;
+    border-color: var(--main);
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+}
+
+
+
+.modal-image {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    height: 400px;
+    width: 400px;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.modal-image .button-frame {
+    display: flex;
+    justify-content: center;
+}

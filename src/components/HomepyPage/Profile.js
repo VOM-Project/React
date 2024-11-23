@@ -6,6 +6,7 @@ import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
 import TouchpointModal from "./TouchpointModal.js";
+import Toast from "../Toast";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -17,22 +18,6 @@ import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg"
 import ProfileEditModal from "./ProfileEditModal";
 import userImg from "../../assets/profile.png"; //기본프로필 이미지를 위함
 
-const ModalButtonContainer = styled.div`
-  display: inline-flex;
-  position: relative;
-  top: 100px;
-  right: 95px;
-  align-items: flex-start;
-`;
-
-const ModalButton = styled.button`
-  color: white;
-  background-color: rgba(236, 129, 144, 1);
-  border-radius: 8px;
-  border-color: rgba(236, 129, 144, 0.2);
-  width: 150px;
-  height: 50px;
-`;
 
 export default function Profile({ memberId }) {
   /*
@@ -58,6 +43,7 @@ export default function Profile({ memberId }) {
    * Modal State
    */
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     getProfile();
@@ -97,15 +83,12 @@ export default function Profile({ memberId }) {
         axios.post(`/api/touchpoint/${memberId}`, null, {
           params: {
             from_member_id: localStorage.getItem("memberId")
-          }, headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-          }
+          }, headers: config.headers,
         })
           .then(response => {
             if (response.status === 200) {
               console.log('터치포인트가 성공적으로 전송되었습니다');
-              alert('터치포인트가 성공적으로 전송되었습니다');
-              // 성공적인 응답을 처리합니다
+              setShowToast(true);
             } else {
               throw new Error('터치포인트 전송 실패');
             }
@@ -215,6 +198,9 @@ export default function Profile({ memberId }) {
           </button>
         )}
       </div>
+      {showToast && <Toast setToast={setShowToast} text={`
+    ${profile_nickname} 님에게 터치포인트를 보냈습니다.
+  `} />}
     </div>
   );
 }

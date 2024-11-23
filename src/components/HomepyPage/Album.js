@@ -7,7 +7,6 @@ import "../../pages/homepy-styleguide.css";
 import ph_plus_fill from "../../assets/ph_plus-fill.svg";
 
 
-// const FileUpload = ({ memberId }) => {
 export default function Album({ memberId }) {
 
     /**
@@ -20,7 +19,6 @@ export default function Album({ memberId }) {
     };
 
     /* 사진 조회 */
-    // 상태 관리: 이미지 목록
     const [images, setImages] = useState([]);
 
     useEffect(() => {
@@ -34,30 +32,38 @@ export default function Album({ memberId }) {
     }, [memberId]);
 
     /* 사진 등록 */
-    const [files, setFiles] = useState([]);
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState("");
+    const [showUploadModal, setShowUploadModal] = useState(false);
 
     const handleUpload = (e) => {
-        setFiles(Array.from(e.target.files));
-    }
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setPreview(URL.createObjectURL(selectedFile));
+        }
+    };
 
     const uploadFiles = (e) => {
         e.preventDefault();
+        if (!file) {
+            alert("업로드할 파일을 선택해주세요.");
+            return;
+        }
+
         const formData = new FormData();
-
-        files.forEach((file, index) => {
-            formData.append(`file`, file);
-        });
-
-        console.log(Array.from(formData.entries()));
+        formData.append(`file`, file);
 
         axios.post(`/api/album/${memberId}/new`, formData, {
             headers: {
-                // 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         })
             .then((res) => {
                 console.log(res.data);
+                setShowUploadModal(false);
+                setFile(null);
+                setPreview("");
                 window.location.reload();
             }).catch((err) => {
                 console.log('Error response data:', err.response.data);
@@ -69,7 +75,7 @@ export default function Album({ memberId }) {
     /* 사진 삭제 */
     const handleDelete = (id) => {
         axios.delete(`/api/album/${memberId}/${id}/delete`, config)
-            .then(response => {
+            .then((response) => {
                 // 서버 응답이 성공적이면 상태 업데이트
                 const updatedImages = images.filter(image => image.id !== id);
                 setImages(updatedImages);
@@ -79,6 +85,10 @@ export default function Album({ memberId }) {
             });
     };
 
+    /* 이미지 모달 상태 */
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [showImageModal, setShowImageModal] = useState(false);
+
     /*
      * Render
      */
@@ -87,27 +97,110 @@ export default function Album({ memberId }) {
             <div className="album">
                 <div className="title">
                     <div className="title-text">앨범</div>
-                    <form onSubmit={uploadFiles}>
-                        <input
-                            className='file-input'
-                            type="file" multiple
-                            onChange={handleUpload} />
-                        <button className='upload-button' type="submit">
-                            <img className="svg"
-                                alt="upload-svg" src={ph_plus_fill} />
-                        </button>
-                    </form>
+                    <button
+                        className="upload-button"
+                        type="button"
+                        onClick={() => setShowUploadModal(true)}
+                    >
+                        <img className="svg" alt="upload-svg" src={ph_plus_fill} />
+                    </button>
                 </div>
+                {/* <form onSubmit={uploadFiles}>
+                    <input
+                        className='file-input'
+                        type="file" multiple
+                        onChange={handleUpload} />
+                    <button className='upload-button' type="submit">
+                        <img className="svg"
+                            alt="upload-svg" src={ph_plus_fill} />
+                    </button>
+                </form> */}
                 <div className="content">
                     <div className="frame">
                         {images.map((image) => (
-                            <div key={image.id} className="img-wrapper">
-                                <img src={image.img_url} alt={`Image ${image.id}`} className="img" onClick={() => handleDelete(image.id)} />
+                            <div key={image.id} className="img-wrapper" onClick={() => {
+                                setSelectedImage(image); // 선택된 이미지 데이터 설정
+                                setShowImageModal(true);
+                            }}>
+                                <img src={image.img_url} alt={`Image ${image.id}`} className="img" />
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
+            </div >
+
+            {/* 업로드 모달 */}
+            {showUploadModal && (
+                <div className="modal-backdrop">
+                    <div className="modal-upload">
+                        <h3>사진 업로드</h3>
+                        <form onSubmit={uploadFiles}>
+                            <input
+                                className="file-input"
+                                type="file"
+                                onChange={handleUpload}
+                                accept="image/*"
+                            />
+
+                            {/* 미리보기 */}
+                            {preview && (
+                                <div className="preview">
+                                    <img src={preview} alt="Preview" className="preview-img" />
+                                </div>
+                            )}
+
+                            <button className="pink-button" type="submit">
+                                업로드
+                            </button>
+                            <button
+                                className="white-button"
+                                type="button"
+                                onClick={() => {
+                                    setShowUploadModal(false);
+                                    setFile(null);
+                                    setPreview("");
+                                }}
+                            >
+                                취소
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* 이미지 모달 */}
+            {showImageModal && selectedImage && (
+                <div className="modal-backdrop">
+                    <div className="modal-image">
+                        <img
+                            src={selectedImage.img_url}
+                            alt={`Selected Image`}
+                            className="modal-img"
+                        />
+                        <div className="button-frame">
+                            <button
+                                className="white-button"
+                                onClick={() => setShowImageModal(false)}
+                            >
+                                닫기
+                            </button>
+
+                            {/* 삭제 버튼 (memberId가 동일한 경우에만 표시) */}
+                            {memberId === localStorage.getItem("memberId") && (
+                                <button
+                                    className="pink-button"
+                                    onClick={() => {
+                                        handleDelete(selectedImage.id); // 이미지 삭제
+                                        setShowImageModal(false); // 모달 닫기
+                                    }}
+                                >
+                                    삭제
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
