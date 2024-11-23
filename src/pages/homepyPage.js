@@ -10,6 +10,7 @@ import Greeting from "../components/HomepyPage/Greeting.js";
 import Keyword from "../components/HomepyPage/Keyword.js";
 import Album from "../components/HomepyPage/Album.js";
 import FCM from "../components/Notification/fcm.js";
+import VomvomModal from "../components/VomvomModal.js";
 import Webpush from "../components/HomepyPage/Webpush.js";
 
 import Icon from "../assets/icon-50.svg";
@@ -187,38 +188,16 @@ export default function Homepy() {
 
       {/* Vomvom 요청 모달 */}
       {vomvomRequests.map((request, index) => (
-        <div key={index}>
-          {showVomvomModals[index] && (
-            <div className="vomvom-modal">
-              <div className="modal-content">
-                <img
-                  src={request.profileUrl}
-                  alt={`${request.nickname}'s profile`}
-                  className="modal-profile-img"
-                />
-                <p>{`${request.nickname} 님께서 봄봄 요청을 보냈습니다.`}</p>
-                <button
-                  className="accept-button"
-                  onClick={() => handleAcceptRequest(request.nickname)}
-                >
-                  수락
-                </button>
-                <button
-                  className="reject-button"
-                  onClick={() => handleRejectRequest(request.nickname)}
-                >
-                  거절
-                </button>
-                <button
-                  className="close-button"
-                  onClick={() => handleCloseVomvomModal(index)}
-                >
-                  닫기
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+        showVomvomModals[index] && (
+          <VomvomModal
+            key={index}
+            profileUrl={request.profileUrl}
+            nickname={request.nickname}
+            onAccept={() => handleAcceptRequest(request.nickname)}
+            onReject={() => handleRejectRequest(request.nickname)}
+            onClose={() => handleCloseVomvomModal(index)}
+          />
+        )
       ))}
 
       {/* Webpush 모달 */}
