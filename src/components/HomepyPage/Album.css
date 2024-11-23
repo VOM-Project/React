@@ -139,3 +139,39 @@
     background-color: white;
     color: black;
 }
+
+
+
+.modal-image {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-img {
+    max-width: 100%;
+    max-height: 300px;
+    margin-bottom: 20px;
+}
+
+.close-button,
+.delete-button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.close-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-button {
+    background-color: #4caf50;
+    color: white;
+}

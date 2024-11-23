@@ -34,7 +34,7 @@ export default function Album({ memberId }) {
     /* 사진 등록 */
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState("");
-    const [showModal, setShowModal] = useState(false);
+    const [showUploadModal, setShowUploadModal] = useState(false);
 
     const handleUpload = (e) => {
         const selectedFile = e.target.files[0];
@@ -61,7 +61,7 @@ export default function Album({ memberId }) {
         })
             .then((res) => {
                 console.log(res.data);
-                setShowModal(false);
+                setShowUploadModal(false);
                 setFile(null);
                 setPreview("");
                 window.location.reload();
@@ -85,6 +85,10 @@ export default function Album({ memberId }) {
             });
     };
 
+    /* 이미지 모달 상태 */
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [showImageModal, setShowImageModal] = useState(false);
+
     /*
      * Render
      */
@@ -96,7 +100,7 @@ export default function Album({ memberId }) {
                     <button
                         className="upload-button"
                         type="button"
-                        onClick={() => setShowModal(true)}
+                        onClick={() => setShowUploadModal(true)}
                     >
                         <img className="svg" alt="upload-svg" src={ph_plus_fill} />
                     </button>
@@ -114,16 +118,19 @@ export default function Album({ memberId }) {
                 <div className="content">
                     <div className="frame">
                         {images.map((image) => (
-                            <div key={image.id} className="img-wrapper">
-                                <img src={image.img_url} alt={`Image ${image.id}`} className="img" onClick={() => handleDelete(image.id)} />
+                            <div key={image.id} className="img-wrapper" onClick={() => {
+                                setSelectedImage(image); // 선택된 이미지 데이터 설정
+                                setShowImageModal(true);
+                            }}>
+                                <img src={image.img_url} alt={`Image ${image.id}`} className="img" />
                             </div>
                         ))}
                     </div>
                 </div>
             </div >
 
-            {/* 모달창 렌더링 */}
-            {showModal && (
+            {/* 업로드 모달 */}
+            {showUploadModal && (
                 <div className="modal-backdrop">
                     <div className="modal">
                         <h3>사진 업로드</h3>
@@ -149,7 +156,7 @@ export default function Album({ memberId }) {
                                 className="close-button"
                                 type="button"
                                 onClick={() => {
-                                    setShowModal(false);
+                                    setShowUploadModal(false);
                                     setFile(null);
                                     setPreview("");
                                 }}
@@ -157,6 +164,38 @@ export default function Album({ memberId }) {
                                 취소
                             </button>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* 이미지 모달 */}
+            {showImageModal && selectedImage && (
+                <div className="modal-backdrop">
+                    <div className="modal-image">
+                        <img
+                            src={selectedImage.img_url}
+                            alt={`Selected Image`}
+                            className="modal-img"
+                        />
+                        <button
+                            className="close-button"
+                            onClick={() => setShowImageModal(false)}
+                        >
+                            닫기
+                        </button>
+
+                        {/* 삭제 버튼 (memberId가 동일한 경우에만 표시) */}
+                        {memberId === localStorage.getItem("memberId") && (
+                            <button
+                                className="delete-button"
+                                onClick={() => {
+                                    handleDelete(selectedImage.id); // 이미지 삭제
+                                    setShowImageModal(false); // 모달 닫기
+                                }}
+                            >
+                                삭제
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
