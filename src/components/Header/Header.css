@@ -87,6 +87,7 @@
     border-color: var(--brown-30);
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .header .logout-button {
@@ -97,4 +98,5 @@
     display: flex;
     align-items: center;
     padding: 0px 20px;
+    cursor: pointer;
 }
