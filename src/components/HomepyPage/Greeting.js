@@ -78,7 +78,6 @@ export default function Greeting({ memberId }) {
                 setIsEditing(true); // 편집 모드로 전환
               }
             }}
-            style={{ cursor: "pointer" }}
           />
         )}
       </div>
