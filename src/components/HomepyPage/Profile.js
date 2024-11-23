@@ -43,7 +43,7 @@ export default function Profile({ memberId }) {
    * Modal State
    */
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [showToast, setShowToast] = useState(true);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     getProfile();
