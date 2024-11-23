@@ -6,6 +6,7 @@ import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
 import TouchpointModal from "./TouchpointModal.js";
+import Toast from "../Toast";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -17,27 +18,8 @@ import Ic_baseline_people_white from "../../assets/ic-baseline-people-white.svg"
 import ProfileEditModal from "./ProfileEditModal";
 import userImg from "../../assets/profile.png"; //기본프로필 이미지를 위함
 
-const ModalButtonContainer = styled.div`
-  display: inline-flex;
-  position: relative;
-  top: 100px;
-  right: 95px;
-  align-items: flex-start;
-`;
-
-const ModalButton = styled.button`
-  color: white;
-  background-color: rgba(236, 129, 144, 1);
-  border-radius: 8px;
-  border-color: rgba(236, 129, 144, 0.2);
-  width: 150px;
-  height: 50px;
-`;
 
 export default function Profile({ memberId }) {
-  // var visitingMemberId = 1;
-  // var memberId = 1;
-
   /*
    * Authorization
    */
@@ -56,7 +38,12 @@ export default function Profile({ memberId }) {
   const [profile_email, setProfile_email] = useState();
   const [profile_birth, setProfile_birth] = useState();
   const [profile_region, setProfile_region] = useState();
+
+  /*
+   * Modal State
+   */
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showToast, setShowToast] = useState(true);
 
   useEffect(() => {
     getProfile();
@@ -89,21 +76,19 @@ export default function Profile({ memberId }) {
   const [touchpoints, setTouchpoints] = useState([]);
   const [showTouchpoints, setShowTouchpoints] = useState(false);
   const localMemberId = localStorage.getItem("memberId");
+
   const handleTouchpointButtonClick = async () => {
     try {
       if (memberId != localMemberId) {
         axios.post(`/api/touchpoint/${memberId}`, null, {
           params: {
             from_member_id: localStorage.getItem("memberId")
-          }, headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-          }
+          }, headers: config.headers,
         })
           .then(response => {
             if (response.status === 200) {
               console.log('터치포인트가 성공적으로 전송되었습니다');
-              alert('터치포인트가 성공적으로 전송되었습니다');
-              // 성공적인 응답을 처리합니다
+              setShowToast(true);
             } else {
               throw new Error('터치포인트 전송 실패');
             }
@@ -176,16 +161,8 @@ export default function Profile({ memberId }) {
           </div>
         </div>
       </div>
-      {/* <ModalButtonContainer>
-        <ModalButton onClick={() => setModalIsOpen(true)}>
-          프로필 편집
-        </ModalButton>
-        <ProfileEditModal
-          modalIsOpen={modalIsOpen}
-          setModalIsOpen={setModalIsOpen}
-          memberId={memberId}
-        />
-      </ModalButtonContainer> */}
+
+      {/* Interaction Section */}
       <div className="interaction">
         <button className="button-white" onClick={handleTouchpointButtonClick}>
           <img className="svg-2" alt="heart-svg" src={Mdi_heart} />
@@ -199,15 +176,29 @@ export default function Profile({ memberId }) {
           />
         )}
 
-        <button className="button-pink">
-          <img
-            className="svg-2"
-            alt="people_svg"
-            src={Ic_baseline_people_white}
-          />
-          <div className="button-pink-text">봄봄 추가</div>
-        </button>
+        {memberId === localMemberId ? (
+          <div>
+            <button className="button-pink" onClick={() => setModalIsOpen(true)}>
+              <div className="button-pink-text">프로필 편집</div>
+            </button>
+            <ProfileEditModal
+              modalIsOpen={modalIsOpen}
+              setModalIsOpen={setModalIsOpen}
+              memberId={memberId}
+            />
+          </div>
+        ) : (
+          <button className="button-pink">
+            <img
+              className="svg-2"
+              alt="people_svg"
+              src={Ic_baseline_people_white}
+            />
+            <div className="button-pink-text">봄봄 신청</div>
+          </button>
+        )}
       </div>
+      {showToast && <Toast setToast={setShowToast} text="박서현 님에게 관심을 보냈습니다" />}
     </div>
   );
 }

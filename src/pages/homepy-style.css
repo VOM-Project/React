@@ -157,56 +157,6 @@ main .Frame59575 {
   height: 17px;
 }
 
-.main .toast {
-  align-items: center;
-  background-color: var(--balck-60);
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  left: 752px;
-  padding: 10px 16px;
-  position: absolute;
-  top: 60px;
-  width: 416px;
-}
-
-.main .frame-2-toast {
-  align-items: center;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 8px;
-  justify-content: center;
-  position: relative;
-}
-
-.main .mdi-heart-toast {
-  height: 20px;
-  position: relative;
-  width: 20px;
-}
-
-.main .div-wrapper-toast {
-  align-items: center;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 4px;
-  position: relative;
-}
-
-.main .text-wrapper-2-toast {
-  color: var(--whitewhite);
-  font-family: "Pretendard-Medium", Helvetica;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.56px;
-  line-height: normal;
-  margin-top: -1px;
-  position: relative;
-  width: fit-content;
-}
-
 .modal {
   background-color: var(--white);
   border-radius: 24px;
