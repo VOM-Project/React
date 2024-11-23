@@ -5,7 +5,7 @@ import styled from "styled-components";
 import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
-import TouchpointModal from "./TouchpointModal.js";
+import TouchpointList from "../TouchpointList.js";
 import Toast from "../Toast";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
@@ -194,7 +194,7 @@ export default function Profile({ memberId }) {
         </button>
 
         {showTouchpoints && (
-          <TouchpointModal
+          <TouchpointList
             touchpoints={touchpoints} // 모달에 touchpoints 전달
             onClose={() => setShowTouchpoints(false)} // 모달 닫기 핸들러
           />

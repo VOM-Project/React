@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import userImg from "../../assets/profile.png"; // 기본 프로필 이미지
+import userImg from "../assets/profile.png"; // 기본 프로필 이미지
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -98,27 +98,27 @@ const CreatedAt = styled.div`
   position: relative;
 `;
 
-export default function TouchpointModal({ touchpoints, onClose }) {
-    return (
-        <ModalOverlay>
-            <ModalContainer>
-                <ModalHeader>
-                    <ModalTitle>Touchpoints</ModalTitle>
-                    <CloseButton onClick={onClose}>&times;</CloseButton>
-                </ModalHeader>
-                <List>
-                    {touchpoints.slice().reverse().map((point, index) => (
-                        <ListItem key={index}>
-                            <ProfileImg
-                                src={point.fromMemberProfileImgUrl || userImg} // 기본 이미지 fallback
-                                alt="profile"
-                            />
-                            <FromMemberId>{point.fromMemberNickname}</FromMemberId>
-                            <CreatedAt>{new Date(point.createdAt).toISOString().slice(0, 16).replace('T', ' ')}</CreatedAt>
-                        </ListItem>
-                    ))}
-                </List>
-            </ModalContainer>
-        </ModalOverlay>
-    );
+export default function TouchpointList({ touchpoints, onClose }) {
+  return (
+    <ModalOverlay>
+      <ModalContainer>
+        <ModalHeader>
+          <ModalTitle>Touchpoints</ModalTitle>
+          <CloseButton onClick={onClose}>&times;</CloseButton>
+        </ModalHeader>
+        <List>
+          {touchpoints.slice().reverse().map((point, index) => (
+            <ListItem key={index}>
+              <ProfileImg
+                src={point.fromMemberProfileImgUrl || userImg} // 기본 이미지 fallback
+                alt="profile"
+              />
+              <FromMemberId>{point.fromMemberNickname}</FromMemberId>
+              <CreatedAt>{new Date(point.createdAt).toISOString().slice(0, 16).replace('T', ' ')}</CreatedAt>
+            </ListItem>
+          ))}
+        </List>
+      </ModalContainer>
+    </ModalOverlay>
+  );
 }
