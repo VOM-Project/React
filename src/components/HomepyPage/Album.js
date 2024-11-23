@@ -132,7 +132,7 @@ export default function Album({ memberId }) {
             {/* 업로드 모달 */}
             {showUploadModal && (
                 <div className="modal-backdrop">
-                    <div className="modal">
+                    <div className="modal-upload">
                         <h3>사진 업로드</h3>
                         <form onSubmit={uploadFiles}>
                             <input
@@ -149,11 +149,11 @@ export default function Album({ memberId }) {
                                 </div>
                             )}
 
-                            <button className="submit-button" type="submit">
+                            <button className="pink-button" type="submit">
                                 업로드
                             </button>
                             <button
-                                className="close-button"
+                                className="white-button"
                                 type="button"
                                 onClick={() => {
                                     setShowUploadModal(false);
@@ -177,25 +177,27 @@ export default function Album({ memberId }) {
                             alt={`Selected Image`}
                             className="modal-img"
                         />
-                        <button
-                            className="close-button"
-                            onClick={() => setShowImageModal(false)}
-                        >
-                            닫기
-                        </button>
-
-                        {/* 삭제 버튼 (memberId가 동일한 경우에만 표시) */}
-                        {memberId === localStorage.getItem("memberId") && (
+                        <div className="button-frame">
                             <button
-                                className="delete-button"
-                                onClick={() => {
-                                    handleDelete(selectedImage.id); // 이미지 삭제
-                                    setShowImageModal(false); // 모달 닫기
-                                }}
+                                className="white-button"
+                                onClick={() => setShowImageModal(false)}
                             >
-                                삭제
+                                닫기
                             </button>
-                        )}
+
+                            {/* 삭제 버튼 (memberId가 동일한 경우에만 표시) */}
+                            {memberId === localStorage.getItem("memberId") && (
+                                <button
+                                    className="pink-button"
+                                    onClick={() => {
+                                        handleDelete(selectedImage.id); // 이미지 삭제
+                                        setShowImageModal(false); // 모달 닫기
+                                    }}
+                                >
+                                    삭제
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
