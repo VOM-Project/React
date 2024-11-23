@@ -32,20 +32,27 @@ export default function Album({ memberId }) {
     }, [memberId]);
 
     /* 사진 등록 */
-    const [files, setFiles] = useState([]);
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState("");
     const [showModal, setShowModal] = useState(false);
 
     const handleUpload = (e) => {
-        setFiles(Array.from(e.target.files));
-    }
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setPreview(URL.createObjectURL(selectedFile));
+        }
+    };
 
     const uploadFiles = (e) => {
         e.preventDefault();
-        const formData = new FormData();
+        if (!file) {
+            alert("업로드할 파일을 선택해주세요.");
+            return;
+        }
 
-        files.forEach((file, index) => {
-            formData.append(`file`, file);
-        });
+        const formData = new FormData();
+        formData.append(`file`, file);
 
         axios.post(`/api/album/${memberId}/new`, formData, {
             headers: {
@@ -55,7 +62,8 @@ export default function Album({ memberId }) {
             .then((res) => {
                 console.log(res.data);
                 setShowModal(false);
-                setFiles([]);
+                setFile(null);
+                setPreview("");
                 window.location.reload();
             }).catch((err) => {
                 console.log('Error response data:', err.response.data);
@@ -123,16 +131,28 @@ export default function Album({ memberId }) {
                             <input
                                 className="file-input"
                                 type="file"
-                                multiple // 여러 파일을 선택할 수 있도록 설정
                                 onChange={handleUpload}
+                                accept="image/*"
                             />
+
+                            {/* 미리보기 */}
+                            {preview && (
+                                <div className="preview">
+                                    <img src={preview} alt="Preview" className="preview-img" />
+                                </div>
+                            )}
+
                             <button className="submit-button" type="submit">
                                 업로드
                             </button>
                             <button
                                 className="close-button"
                                 type="button"
-                                onClick={() => setShowModal(false)} // 모달 닫기 버튼
+                                onClick={() => {
+                                    setShowModal(false);
+                                    setFile(null);
+                                    setPreview("");
+                                }}
                             >
                                 취소
                             </button>
