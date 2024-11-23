@@ -57,10 +57,49 @@ export default function Homepy() {
   }
 
   /*
-   * Webpush
+  * Vomvom 요청 처리
+  */
+  const [vomvomRequests, setVomvomRequests] = useState([]); // Vomvom 요청 데이터를 저장
+  const [showVomvomModals, setShowVomvomModals] = useState([]); // 각 요청별 모달창 상태
+
+  useEffect(() => {
+    // Vomvom 요청 가져오기
+    axios
+      .get(`/api/vomvom/request`, config)
+      .then((response) => {
+        const requests = response.data.memberDtoList || []; // memberDtoList를 가져옴
+        setVomvomRequests(requests);
+        setShowVomvomModals(new Array(requests.length).fill(true)); // 요청 개수만큼 모달 상태 초기화
+      })
+      .catch((error) => {
+        console.error("Error fetching vomvom requests:", error);
+      });
+  }, []);
+
+  // 모달창 닫기 처리
+  const handleCloseVomvomModal = (index) => {
+    setShowVomvomModals((prevState) =>
+      prevState.map((show, i) => (i === index ? false : show))
+    );
+  };
+
+  // 수락 버튼 클릭 처리
+  const handleAcceptRequest = (nickname) => {
+    alert(`${nickname} 님의 요청을 수락했습니다.`);
+    // TODO: 수락 API 호출 추가
+  };
+
+  // 거절 버튼 클릭 처리
+  const handleRejectRequest = (nickname) => {
+    alert(`${nickname} 님의 요청을 거절했습니다.`);
+    // TODO: 거절 API 호출 추가
+  };
+
+  /*
+   * WebcamModal
    */
   const [webpushData, setWebpushData] = useState([]); // API 응답 데이터 저장 상태
-  const [showModals, setShowModals] = useState([]); // 모달창 표시 여부 상태
+  const [showWebcamModals, setShowWebcamModals] = useState([]); // 모달창 표시 여부 상태
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,7 +107,7 @@ export default function Homepy() {
       .get(`/api/webpush/${myMemberId}`, config)
       .then((response) => {
         setWebpushData(response.data);
-        setShowModals(new Array(response.data.length).fill(true));
+        setShowWebcamModals(new Array(response.data.length).fill(true));
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -76,14 +115,14 @@ export default function Homepy() {
   }, [myMemberId]);
 
   const handleCloseModal = (index) => {
-    setShowModals((prevState) =>
+    setShowWebcamModals((prevState) =>
       prevState.map((show, i) => (i === index ? false : show))
     );
   };
 
   const handleEnter = (webcamId) => {
     navigate(`/webcam/${webcamId}`);
-    setShowModals((prevState) => prevState.fill(false));
+    setShowWebcamModals((prevState) => prevState.fill(false));
   };
 
   /* 웹캠 방 생성*/
@@ -145,9 +184,47 @@ export default function Homepy() {
   return (
     <div className="main">
       <FCM />
+
+      {/* Vomvom 요청 모달 */}
+      {vomvomRequests.map((request, index) => (
+        <div key={index}>
+          {showVomvomModals[index] && (
+            <div className="vomvom-modal">
+              <div className="modal-content">
+                <img
+                  src={request.profileUrl}
+                  alt={`${request.nickname}'s profile`}
+                  className="modal-profile-img"
+                />
+                <p>{`${request.nickname} 님께서 봄봄 요청을 보냈습니다.`}</p>
+                <button
+                  className="accept-button"
+                  onClick={() => handleAcceptRequest(request.nickname)}
+                >
+                  수락
+                </button>
+                <button
+                  className="reject-button"
+                  onClick={() => handleRejectRequest(request.nickname)}
+                >
+                  거절
+                </button>
+                <button
+                  className="close-button"
+                  onClick={() => handleCloseVomvomModal(index)}
+                >
+                  닫기
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Webpush 모달 */}
       {webpushData.map((item, index) => (
         <div key={index}>
-          {showModals[index] && (
+          {showWebcamModals[index] && (
             <Webpush
               onClose={() => handleCloseModal(index)}
               onEnter={() => handleEnter(item.webcamId)}
