@@ -27,7 +27,7 @@ const ResultProfileInfoContainer = styled.div`
 `;
 const ResultNicknameWrapper = styled.div`
   /* border-width: 0; */
-  background-color: rgba(247, 204, 212, 0.2);
+  // background-color: rgba(247, 204, 212, 0.2);
   width: 340px;
   height: 51px;
   border-radius: 8px;
@@ -89,7 +89,6 @@ const ResultRegionImgContainer = styled.div`
   position: relative;
 `;
 const ResultMemberRegion = styled.div`
-  width: 60px;
   height: 24px;
 `;
 function SearchResult({
