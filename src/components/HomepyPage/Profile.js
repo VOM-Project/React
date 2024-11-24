@@ -7,6 +7,7 @@ import "../../pages/homepy-styleguide.css";
 
 import TouchpointList from "../TouchpointList.js";
 import Toast from "../Toast";
+import VomvomList from "../VomvomList.js";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -121,7 +122,8 @@ export default function Profile({ memberId }) {
     axios
       .get(`/api/vomvom`, config)
       .then((response) => {
-        setVomvomList(response.data.memberDtoList || []); // 응답 데이터 저장
+        console.log(response.data.memberDtoList);
+        setVomvomList(response.data.memberDtoList); // 응답 데이터 저장
         setShowVomvomList(true); // 친구 목록 표시
       })
       .catch((error) => {
@@ -252,24 +254,10 @@ export default function Profile({ memberId }) {
       </div>
 
       {showVomvomList && (
-        <div className="vomvom-list">
-          <h3>봄봄 친구 목록</h3>
-          <button className="close-button" onClick={handleCloseVomvomList}>
-            닫기
-          </button>
-          <ul>
-            {vomvomList.map((friend, index) => (
-              <li key={index} className="vomvom-list-item">
-                <img
-                  src={friend.profileUrl}
-                  alt={`${friend.nickname}'s profile`}
-                  className="vomvom-list-img"
-                />
-                <span>{friend.nickname}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <VomvomList
+          vomvomList={vomvomList}
+          onClose={handleCloseVomvomList}
+        />
       )}
 
       {showTouchpointToast && <Toast setToast={setShowTouchpointToast} text={`
