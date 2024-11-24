@@ -10,140 +10,139 @@ import axios from "axios";
 import userImg from "../assets/profile.png"; //기본프로필 이미지를 위함
 
 const Wrapper = styled.div`
-  background-color: #f5e1e1;
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
 `;
 const WrapperContainer = styled.div`
-  background-color: rgba(245, 225, 225, 1);
-  height: 1080px;
-  position: relative;
-  width: 1920px;
-`;
-const Header = styled.header`
-  background-color: rgba(255, 255, 255, 1);
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-color: rgba(196, 200, 212, 0.5);
-  border-left-style: none;
-  border-right-style: none;
-  border-top-style: none;
-  height: 80px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-`;
-
-const Frame = styled.div`
+  background-image: url("../assets/background.jpg");
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
-  left: 1458px;
-  position: absolute;
-  top: 16px;
+  width: 100vw;
+  height: 100vh;
 `;
-const InputNoLabel = styled.div`
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  position: relative;
+// const Header = styled.header`
+//   background-color: rgba(255, 255, 255, 1);
+//   border-bottom-style: solid;
+//   border-bottom-width: 1px;
+//   border-color: rgba(196, 200, 212, 0.5);
+//   border-left-style: none;
+//   border-right-style: none;
+//   border-top-style: none;
+//   height: 80px;
+//   left: 0;
+//   position: absolute;
+//   top: 0;
+//   width: 100%;
+// `;
+
+// const Frame = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 20px;
+//   left: 1458px;
+//   position: absolute;
+//   top: 16px;
+// `;
+// const InputNoLabel = styled.div`
+//   align-items: flex-start;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 4px;
+//   position: relative;
+//   width: 100%;
+// `;
+
+// const InputNoLabel2 = styled.div`
+//   align-items: flex-start;
+//   align-self: stretch;
+//   border: 1px solid;
+//   border-color: var(--brown-30);
+//   border-radius: 40px;
+//   display: flex;
+//   flex: 0 0 auto;
+//   gap: 8px;
+//   padding: 12px 16px;
+//   position: relative;
+//   width: 270px;
+// `;
+// const Label = styled.input`
+//   color: rgba(84, 69, 73, 0.3);
+//   flex: 1;
+//   font-family: "Pretendard-Regular", Helvetica;
+//   font-size: 14px;
+//   font-weight: 400;
+//   height: 24px;
+//   letter-spacing: 0;
+//   line-height: 24px;
+//   margin-top: -1px;
+//   position: relative;
+//   white-space: nowrap;
+//   border-width: 0;
+// `;
+// const InputNoLabel3 = styled.div`
+//   align-items: center;
+//   align-self: stretch;
+//   border: 1px solid;
+//   border-color: rgba(84, 69, 73, 0.3);
+//   border-radius: 40px;
+//   display: flex;
+//   flex: 0 0 auto;
+//   gap: 10px;
+//   padding: 9px 18px;
+//   position: relative;
+//   width: fit-content;
+//   height: fit-content;
+// `;
+// const TextWrapper = styled.div`
+//   color: rgba(236, 129, 144, 1);
+//   font-family: "Pretendard-Bold", Helvetica;
+//   font-size: 32px;
+//   font-weight: 700;
+//   height: 38px;
+//   left: 42px;
+//   letter-spacing: 0;
+//   line-height: normal;
+//   position: absolute;
+//   top: 20px;
+//   white-space: nowrap;
+// `;
+
+const Background = styled.div`
+  height: 90%;
   width: 100%;
-`;
-
-const InputNoLabel2 = styled.div`
-  align-items: flex-start;
-  align-self: stretch;
-  border: 1px solid;
-  border-color: var(--brown-30);
-  border-radius: 40px;
+  margin-top: 60px;
   display: flex;
-  flex: 0 0 auto;
-  gap: 8px;
-  padding: 12px 16px;
-  position: relative;
-  width: 270px;
-`;
-const Label = styled.input`
-  color: rgba(84, 69, 73, 0.3);
-  flex: 1;
-  font-family: "Pretendard-Regular", Helvetica;
-  font-size: 14px;
-  font-weight: 400;
-  height: 24px;
-  letter-spacing: 0;
-  line-height: 24px;
-  margin-top: -1px;
-  position: relative;
-  white-space: nowrap;
-  border-width: 0;
-`;
-const InputNoLabel3 = styled.div`
+  justify-content: center;
   align-items: center;
-  align-self: stretch;
-  border: 1px solid;
-  border-color: rgba(84, 69, 73, 0.3);
-  border-radius: 40px;
-  display: flex;
-  flex: 0 0 auto;
-  gap: 10px;
-  padding: 9px 18px;
-  position: relative;
-  width: fit-content;
-  height: fit-content;
 `;
-const TextWrapper = styled.div`
-  color: rgba(236, 129, 144, 1);
-  font-family: "Pretendard-Bold", Helvetica;
-  font-size: 32px;
-  font-weight: 700;
-  height: 38px;
-  left: 42px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 20px;
-  white-space: nowrap;
-`;
-
-const Frame2 = styled.div`
-  background-color: #ffffff;
+const Body = styled.div`
+  // background-color: var(--background);
   border-radius: 20px;
-  height: 1500px;
-  left: 50px;
-  overflow: hidden;
-  position: absolute;
-  top: 122px;
-  width: 1850px;
+  display: flex;
+  flex-direction: row;
+  height: 95%;
+  width: 60%;
+  min-width: 1020px;
+  justify-content: space-evenly;
+  align-items: center;
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 `;
-const Frame3 = styled.div`
-  align-items: flex-start;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 40px;
-  left: 40px;
-  position: absolute;
-  top: 40px;
-`;
-const Frame4 = styled.div`
+const MemberResult = styled.div`
+  background-color: white;
   border: 1px solid;
   border-color: rgba(236, 129, 144, 1);
   border-radius: 8px;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  margin-left: -1px;
-  margin-right: -1px;
-  margin-top: -1px;
   overflow: hidden;
   position: relative;
-  top: 50px;
-  left: 10px;
-  width: 1236px;
+  width: 90%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 `;
 const DivWrapper = styled.div`
   background-color: rgba(247, 204, 212, 0.6);
@@ -178,7 +177,8 @@ const Frame5 = styled.div`
   border-radius: 0px 0px 8px 8px;
   height: 156px;
   position: relative;
-  width: 1288px;
+  width: 100%;
+  padding: 10px 20px;
 `;
 const PWrapper = styled.p`
   color: rgba(0, 0, 0, 0.8);
@@ -215,11 +215,12 @@ const ButtonHomepy = styled.button`
   gap: 10px;
   height: 55px;
   justify-content: center;
-  left: 1050px;
+  left: 700px;
   overflow: hidden;
   padding: 16px 24px;
   position: absolute;
   bottom: 10px;
+  cursor: pointer;
 `;
 
 function SearchPage() {
@@ -298,7 +299,7 @@ function SearchPage() {
   return (
     <Wrapper>
       <WrapperContainer>
-        <Header>
+        {/* <Header>
           <Frame>
             <InputNoLabel>
               <InputNoLabel2>
@@ -323,10 +324,10 @@ function SearchPage() {
             />
           </Frame>
           <TextWrapper>VOM</TextWrapper>
-        </Header>
-        <Frame2>
-          <Frame3>
-            <Frame4>
+        </Header> */}
+        <Background>
+          <Body>
+            <MemberResult>
               <DivWrapper>
                 <TextWrapper2>검색결과</TextWrapper2>
                 <FrameA></FrameA>
@@ -340,13 +341,13 @@ function SearchPage() {
                   memberBirth={memberBirth}
                   memberRegion={memberRegion}
                 />
+                <ButtonHomepy onClick={handleOnButtonClick}>
+                  <TextWrapper4>homepy보러가기</TextWrapper4>
+                </ButtonHomepy>
               </Frame5>
-              <ButtonHomepy onClick={handleOnButtonClick}>
-                <TextWrapper4>homepy보러가기</TextWrapper4>
-              </ButtonHomepy>
-            </Frame4>
-          </Frame3>
-        </Frame2>
+            </MemberResult>
+          </Body>
+        </Background>
       </WrapperContainer>
     </Wrapper>
   );

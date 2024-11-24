@@ -305,7 +305,10 @@ function ProfileEditModal({ modalIsOpen, setModalIsOpen, memberId }) {
           </NicknameWrapper>
         </div>
         <CheckButtonContainer>
-          <CheckButton onClick={() => setModalIsOpen(false)}>
+          <CheckButton onClick={() => {
+            setModalIsOpen(false);
+            window.location.reload();
+          }}>
             <b>확인</b>
           </CheckButton>
         </CheckButtonContainer>
