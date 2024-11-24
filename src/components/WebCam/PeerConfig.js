@@ -333,7 +333,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
 
   //웹소켓 연결을 위한 함수
   const connectSocket = () => {
-    const socket = new SockJS("https://localhost:8080/signaling");
+    const socket = new SockJS("http://52.79.109.10:8080/signaling");
     client.current = Stomp.over(socket);
     client.current.debug = () => { }; //디버그 안보이게
     client.current.connect(connectHeaders, () => {
