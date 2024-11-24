@@ -220,6 +220,7 @@ const ButtonHomepy = styled.button`
   padding: 16px 24px;
   position: absolute;
   bottom: 10px;
+  cursor: pointer;
 `;
 
 function SearchPage() {
