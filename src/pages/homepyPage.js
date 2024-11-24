@@ -96,6 +96,7 @@ export default function Homepy() {
           prevRequests.filter((request) => request.nickname !== nickname)
         );
         setShowVomvomModals((prevState) => prevState.slice(0, -1));
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error accepting request:", error);
