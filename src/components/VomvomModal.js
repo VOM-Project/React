@@ -1,5 +1,6 @@
 import React from "react";
 import "./VomvomModal.css";
+import userImg from "../assets/profile.png";
 
 export default function VomvomModal({
     profileUrl,
@@ -12,7 +13,7 @@ export default function VomvomModal({
         <div className="vomvom-modal">
             <div className="modal-content">
                 <img
-                    src={profileUrl}
+                    src={profileUrl || userImg}
                     alt={`${nickname}'s profile`}
                     className="modal-profile-img"
                 />
