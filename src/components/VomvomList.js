@@ -1,6 +1,7 @@
 import React from "react";
+import "./VomvomList.css"; // 스타일 파일 (선택사항)
 import styled from "styled-components";
-import userImg from "../../assets/profile.png"; // 기본 프로필 이미지
+import userImg from "../assets/profile.png";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -98,23 +99,43 @@ const CreatedAt = styled.div`
   position: relative;
 `;
 
-export default function TouchpointModal({ touchpoints, onClose }) {
+export default function VomvomList({ vomvomList, onClose }) {
+    // return (
+    //     <div className="vomvom-list">
+    //         <h3>봄봄 친구 목록</h3>
+    //         <button className="close-button" onClick={onClose}>
+    //             닫기
+    //         </button>
+    //         <ul>
+    //             {vomvomList.map((friend, index) => (
+    //                 <li key={index} className="vomvom-list-item">
+    //                     <img
+    //                         src={friend.profileUrl}
+    //                         alt={`${friend.nickname}'s profile`}
+    //                         className="vomvom-list-img"
+    //                     />
+    //                     <span>{friend.nickname}</span>
+    //                 </li>
+    //             ))}
+    //         </ul>
+    //     </div>
+    // );
     return (
         <ModalOverlay>
             <ModalContainer>
                 <ModalHeader>
-                    <ModalTitle>Touchpoints</ModalTitle>
+                    <ModalTitle>VOMVOM</ModalTitle>
                     <CloseButton onClick={onClose}>&times;</CloseButton>
                 </ModalHeader>
                 <List>
-                    {touchpoints.slice().reverse().map((point, index) => (
+                    {vomvomList.map((vomvom, index) => (
                         <ListItem key={index}>
                             <ProfileImg
-                                src={point.fromMemberProfileImgUrl || userImg} // 기본 이미지 fallback
+                                src={vomvom.profileUrl || userImg} // 기본 이미지 fallback
                                 alt="profile"
                             />
-                            <FromMemberId>{point.fromMemberNickname}</FromMemberId>
-                            <CreatedAt>{new Date(point.createdAt).toISOString().slice(0, 16).replace('T', ' ')}</CreatedAt>
+                            <FromMemberId>{vomvom.nickname}</FromMemberId>
+                            {/* <CreatedAt>{new Date(point.createdAt).toISOString().slice(0, 16).replace('T', ' ')}</CreatedAt> */}
                         </ListItem>
                     ))}
                 </List>

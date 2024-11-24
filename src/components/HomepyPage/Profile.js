@@ -5,8 +5,9 @@ import styled from "styled-components";
 import "./Profile.css";
 import "../../pages/homepy-styleguide.css";
 
-import TouchpointModal from "./TouchpointModal.js";
+import TouchpointList from "../TouchpointList.js";
 import Toast from "../Toast";
+import VomvomList from "../VomvomList.js";
 
 import Ic_baseline_people from "../../assets/ic-baseline-people.svg";
 import Ic_outline_email from "../../assets/ic-outline-email.svg";
@@ -43,7 +44,6 @@ export default function Profile({ memberId }) {
    * Modal State
    */
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     getProfile();
@@ -75,6 +75,7 @@ export default function Profile({ memberId }) {
    */
   const [touchpoints, setTouchpoints] = useState([]);
   const [showTouchpoints, setShowTouchpoints] = useState(false);
+  const [showTouchpointToast, setShowTouchpointToast] = useState(false);
   const localMemberId = localStorage.getItem("memberId");
 
   const handleTouchpointButtonClick = async () => {
@@ -88,7 +89,7 @@ export default function Profile({ memberId }) {
           .then(response => {
             if (response.status === 200) {
               console.log('터치포인트가 성공적으로 전송되었습니다');
-              setShowToast(true);
+              setShowTouchpointToast(true);
             } else {
               throw new Error('터치포인트 전송 실패');
             }
@@ -111,6 +112,54 @@ export default function Profile({ memberId }) {
     setShowTouchpoints(false);
   }
 
+  /*
+   * VomvomList
+   */
+  const [vomvomList, setVomvomList] = useState([]); // 친구 목록 상태 추가
+  const [showVomvomList, setShowVomvomList] = useState(false); // 친구 목록 표시 상태 추가
+
+  const handleVomvomList = () => {
+    axios
+      .get(`/api/vomvom`, config)
+      .then((response) => {
+        console.log(response.data.memberDtoList);
+        setVomvomList(response.data.memberDtoList); // 응답 데이터 저장
+        setShowVomvomList(true); // 친구 목록 표시
+      })
+      .catch((error) => {
+        console.error("Error fetching vomvom list:", error);
+      });
+  };
+
+  // 봄봄 친구 목록 닫기 핸들러 - 추가된 부분
+  const handleCloseVomvomList = () => {
+    setShowVomvomList(false); // 친구 목록 숨기기
+  };
+
+  /*
+   * VomvomToast
+   */
+  const [showVomvomToast, setShowVomvomToast] = useState(false);
+
+  const handleRequestVomvom = async () => {
+    const data = {
+      toMemberId: memberId,
+      nickname: profile_nickname,
+    };
+
+    try {
+      const response = await axios.post(
+        "/api/vomvom/request",
+        data,
+        config
+      );
+      setShowVomvomToast(true);
+      console.log("Vomvom request sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending Vomvom request:", error);
+    }
+  };
+
 
   /*
    * Render
@@ -125,7 +174,7 @@ export default function Profile({ memberId }) {
         />
         <div className="pink-frame">
           <div className="profile-name">{profile_nickname}</div>
-          <div className="vomvom">
+          <div className="vomvom" onClick={handleVomvomList}>
             <div className="vomvom-label">
               <img
                 className="people-svg"
@@ -170,7 +219,7 @@ export default function Profile({ memberId }) {
         </button>
 
         {showTouchpoints && (
-          <TouchpointModal
+          <TouchpointList
             touchpoints={touchpoints} // 모달에 touchpoints 전달
             onClose={() => setShowTouchpoints(false)} // 모달 닫기 핸들러
           />
@@ -188,7 +237,7 @@ export default function Profile({ memberId }) {
             />
           </div>
         ) : (
-          <button className="button-pink">
+          <button className="button-pink" onClick={handleRequestVomvom}>
             <img
               className="svg-2"
               alt="people_svg"
@@ -197,8 +246,21 @@ export default function Profile({ memberId }) {
             <div className="button-pink-text">봄봄 신청</div>
           </button>
         )}
+        {showVomvomToast && (
+          <Toast setToast={setShowVomvomToast} text={`
+          ${profile_nickname} 님에게 봄봄 신청을 보냈습니다.
+        `} />
+        )}
       </div>
-      {showToast && <Toast setToast={setShowToast} text={`
+
+      {showVomvomList && (
+        <VomvomList
+          vomvomList={vomvomList}
+          onClose={handleCloseVomvomList}
+        />
+      )}
+
+      {showTouchpointToast && <Toast setToast={setShowTouchpointToast} text={`
     ${profile_nickname} 님에게 터치포인트를 보냈습니다.
   `} />}
     </div>
