@@ -50,7 +50,7 @@
     border-radius: 0px 0px 8px 8px;
     flex-grow: 1;
     position: relative;
-    width: 550px;
+    width: 100%;
     overflow: auto;
 }
 
