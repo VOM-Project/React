@@ -10,14 +10,16 @@
 }
 
 .keyword .text-wrapper-3 {
-    color: var(--title);
+    color: var(--brown);
     font-family: var(--body-md-semibold-font-family);
     font-size: var(--body-md-semibold-font-size);
-    font-weight: var(--body-md-semibold-font-family);
-    letter-spacing: -0.54px;
+    font-style: var(--body-md-semibold-font-style);
+    font-weight: var(--body-md-semibold-font-weight);
+    letter-spacing: var(--body-md-semibold-letter-spacing);
     line-height: 27px;
     margin-top: -1px;
     position: relative;
+    left: 10px;
     white-space: nowrap;
     width: fit-content;
 }
@@ -56,10 +58,10 @@
 
 .keyword .design-component-instance-node {
     color: var(--black-80) !important;
-    font-family: "Pretendard-Medium", Helvetica;
-    font-size: 16px;
-    font-style: unset;
-    font-weight: 500;
-    letter-spacing: -0.48px;
+    font-family: var(--body-sm-regular-font-family);
+    font-size: var(--body-sm-regular-font-size);
+    font-style: var(--body-sm-regular-font-style);
+    font-weight: var(--body-sm-regular-font-weight);
+    letter-spacing: var(--body-sm-regular-letter-spacing);
     line-height: 20px;
 }

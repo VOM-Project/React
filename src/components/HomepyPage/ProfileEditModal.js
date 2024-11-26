@@ -49,7 +49,7 @@ const ProfileImagevalue = styled.img`
 `;
 
 const ImgBtn = styled.button`
-  width: 150px;
+  width: 100px;
   height: 50px;
   border-radius: 10px;
   background-color: rgba(236, 129, 144, 1);
@@ -57,6 +57,13 @@ const ImgBtn = styled.button`
   /* margin: 5px; */
   /* margin-top: 20px; */
   border-color: rgba(236, 129, 144, 0.2);
+  font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-style: var(--body-md-semibold-font-style);
+    font-weight: var(--body-md-semibold-font-weight);
+    letter-spacing: var(--body-md-semibold-letter-spacing);
+    line-height: var(--body-md-semibold-line-height);
+    cursor: pointer;
 `;
 const ProfileNicknameInput = styled.input`
   width: 70%;
@@ -86,12 +93,11 @@ const imgSectionLeft = styled.div`
 // `;
 
 const NicknamePContainer = styled.div`
-  flex-direction: column;
   display: flex;
+  width: 100%;
   justify-content: flex-start;
   position: relative;
   top: 40px;
-  right: 180px;
 `;
 
 const Label = styled.p`
@@ -119,14 +125,20 @@ const CheckButtonContainer = styled.div`
 const CheckButton = styled.button`
   position: relative;
   top: 70px;
-  width: 150px;
+  width: 100px;
   height: 50px;
   border-radius: 10px;
   background-color: rgba(236, 129, 144, 1);
   color: white;
-  margin: 5px;
   margin-top: 20px;
   border-color: rgba(236, 129, 144, 0.2);
+  font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-style: var(--body-md-semibold-font-style);
+    font-weight: var(--body-md-semibold-font-weight);
+    letter-spacing: var(--body-md-semibold-letter-spacing);
+    line-height: var(--body-md-semibold-line-height);
+    cursor: pointer;
 `;
 
 Modal.setAppElement("#root");

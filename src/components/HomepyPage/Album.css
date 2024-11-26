@@ -48,9 +48,9 @@
 .album .content {
     background-color: var(--third-40);
     border-radius: 0px 0px 8px 8px;
-    height: 160px;
+    flex-grow: 1;
     position: relative;
-    width: 550px;
+    width: 100%;
     overflow: auto;
 }
 

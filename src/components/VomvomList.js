@@ -36,8 +36,8 @@ const ModalHeader = styled.div`
 
 const ModalTitle = styled.h2`
 color: var(--main);
-  font-family: var(--body-md-semi bold-font-family);
-  font-size: var(--body-md-semi bold-font-size);
+  font-family: var(--body-md-semibold-font-family);
+  font-size: 18pt;
   font-style: var(--body-md-semibold-font-style);
   font-weight: var(--body-md-semi bold-font-weight);
   letter-spacing: var(--body-md-semibold-letter-spacing);
@@ -78,12 +78,12 @@ const ProfileImg = styled.img`
 const FromMemberId = styled.div`
   color: var(--graysubtitle);
   flex: 1;
-  font-family: var(--body-sm-regular-font-family);
-  font-size: var(--body-sm-regular-font-size);
-  font-style: var(--body-sm-regular-font-style);
-  font-weight: var(--body-sm-regular-font-weight);
-  letter-spacing: var(--body-sm-regular-letter-spacing);
-  line-height: var(--body-sm-regular-line-height);
+  font-family: var(--body-md-semibold-font-family);
+  font-size: var(--body-md-semibold-font-size);
+  font-style: var(--body-md-semibold-font-style);
+  font-weight: var(--body-md-semibold-font-weight);
+  letter-spacing: var(--body-md-semibold-letter-spacing);
+  line-height: var(--body-md-semibold-line-height);
   position: relative;
 `;
 
@@ -100,46 +100,46 @@ const CreatedAt = styled.div`
 `;
 
 export default function VomvomList({ vomvomList, onClose }) {
-    // return (
-    //     <div className="vomvom-list">
-    //         <h3>봄봄 친구 목록</h3>
-    //         <button className="close-button" onClick={onClose}>
-    //             닫기
-    //         </button>
-    //         <ul>
-    //             {vomvomList.map((friend, index) => (
-    //                 <li key={index} className="vomvom-list-item">
-    //                     <img
-    //                         src={friend.profileUrl}
-    //                         alt={`${friend.nickname}'s profile`}
-    //                         className="vomvom-list-img"
-    //                     />
-    //                     <span>{friend.nickname}</span>
-    //                 </li>
-    //             ))}
-    //         </ul>
-    //     </div>
-    // );
-    return (
-        <ModalOverlay>
-            <ModalContainer>
-                <ModalHeader>
-                    <ModalTitle>VOMVOM</ModalTitle>
-                    <CloseButton onClick={onClose}>&times;</CloseButton>
-                </ModalHeader>
-                <List>
-                    {vomvomList.map((vomvom, index) => (
-                        <ListItem key={index}>
-                            <ProfileImg
-                                src={vomvom.profileUrl || userImg} // 기본 이미지 fallback
-                                alt="profile"
-                            />
-                            <FromMemberId>{vomvom.nickname}</FromMemberId>
-                            {/* <CreatedAt>{new Date(point.createdAt).toISOString().slice(0, 16).replace('T', ' ')}</CreatedAt> */}
-                        </ListItem>
-                    ))}
-                </List>
-            </ModalContainer>
-        </ModalOverlay>
-    );
+  // return (
+  //     <div className="vomvom-list">
+  //         <h3>봄봄 친구 목록</h3>
+  //         <button className="close-button" onClick={onClose}>
+  //             닫기
+  //         </button>
+  //         <ul>
+  //             {vomvomList.map((friend, index) => (
+  //                 <li key={index} className="vomvom-list-item">
+  //                     <img
+  //                         src={friend.profileUrl}
+  //                         alt={`${friend.nickname}'s profile`}
+  //                         className="vomvom-list-img"
+  //                     />
+  //                     <span>{friend.nickname}</span>
+  //                 </li>
+  //             ))}
+  //         </ul>
+  //     </div>
+  // );
+  return (
+    <ModalOverlay>
+      <ModalContainer>
+        <ModalHeader>
+          <ModalTitle>VOMVOM</ModalTitle>
+          <CloseButton onClick={onClose}>&times;</CloseButton>
+        </ModalHeader>
+        <List>
+          {vomvomList.map((vomvom, index) => (
+            <ListItem key={index}>
+              <ProfileImg
+                src={vomvom.profileUrl || userImg} // 기본 이미지 fallback
+                alt="profile"
+              />
+              <FromMemberId>{vomvom.nickname}</FromMemberId>
+              {/* <CreatedAt>{new Date(point.createdAt).toISOString().slice(0, 16).replace('T', ' ')}</CreatedAt> */}
+            </ListItem>
+          ))}
+        </List>
+      </ModalContainer>
+    </ModalOverlay>
+  );
 }

@@ -14,7 +14,7 @@ const ResultProfileImg = styled.img`
   position: relative;
   width: 100px;
   left: 10px;
-  top: 25px;
+  top: 10px;
 `;
 
 const ResultProfileInfoContainer = styled.div`
@@ -33,9 +33,16 @@ const ResultNicknameWrapper = styled.div`
   border-radius: 8px;
   border-color: rgba(247, 204, 212, 0.2);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
   left: 10px;
+  color: var(--brown);
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.54px;
+    line-height: 27px;
+    margin-top: -1px;
 `;
 
 const ResultEmailWrapper = styled.div`
@@ -44,6 +51,13 @@ const ResultEmailWrapper = styled.div`
   justify-content: space-between;
   width: 320px;
   height: 24px;
+  color: var(--balck-60);
+    font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-weight: var(--body-md-semibold-font-weight);
+    letter-spacing: var(--body-md-semibold-letter-spacing);
+    line-height: 24px;
+    margin-top: -1px;
 `;
 const ResultEmailImgContainer = styled.div`
   display: flex;
@@ -53,8 +67,8 @@ const ResultEmailImgContainer = styled.div`
   position: relative;
 `;
 const ResultMemberEmail = styled.div`
-  width: 146px;
   height: 24px;
+  text-align: right;
 `;
 const ResultBirthWrapper = styled.div`
   display: flex;
@@ -62,6 +76,13 @@ const ResultBirthWrapper = styled.div`
   justify-content: space-between;
   width: 320px;
   height: 24px;
+  color: var(--balck-60);
+    font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-weight: var(--body-md-semibold-font-weight);
+    letter-spacing: var(--body-md-semibold-letter-spacing);
+    line-height: 24px;
+    margin-top: -1px;
 `;
 const ResultBirthImgContainer = styled.div`
   display: flex;
@@ -71,8 +92,8 @@ const ResultBirthImgContainer = styled.div`
   position: relative;
 `;
 const ResultMemberBirth = styled.div`
-  width: 83px;
   height: 24px;
+  text-align: right;
 `;
 const ResultRegionWrapper = styled.div`
   display: flex;
@@ -80,6 +101,13 @@ const ResultRegionWrapper = styled.div`
   justify-content: space-between;
   width: 320px;
   height: 24px;
+  color: var(--balck-60);
+    font-family: var(--body-md-semibold-font-family);
+    font-size: var(--body-md-semibold-font-size);
+    font-weight: var(--body-md-semibold-font-weight);
+    letter-spacing: var(--body-md-semibold-letter-spacing);
+    line-height: 24px;
+    margin-top: -1px;
 `;
 const ResultRegionImgContainer = styled.div`
   display: flex;
@@ -90,6 +118,7 @@ const ResultRegionImgContainer = styled.div`
 `;
 const ResultMemberRegion = styled.div`
   height: 24px;
+  text-align: right;
 `;
 function SearchResult({
   memberNickname,
