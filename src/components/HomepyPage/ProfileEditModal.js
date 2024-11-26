@@ -63,6 +63,7 @@ const ImgBtn = styled.button`
     font-weight: var(--body-md-semibold-font-weight);
     letter-spacing: var(--body-md-semibold-letter-spacing);
     line-height: var(--body-md-semibold-line-height);
+    cursor: pointer;
 `;
 const ProfileNicknameInput = styled.input`
   width: 70%;
@@ -137,6 +138,7 @@ const CheckButton = styled.button`
     font-weight: var(--body-md-semibold-font-weight);
     letter-spacing: var(--body-md-semibold-letter-spacing);
     line-height: var(--body-md-semibold-line-height);
+    cursor: pointer;
 `;
 
 Modal.setAppElement("#root");
