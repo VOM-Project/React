@@ -35,8 +35,8 @@ const ModalHeader = styled.div`
 
 const ModalTitle = styled.h2`
 color: var(--main);
-  font-family: var(--body-md-semi bold-font-family);
-  font-size: var(--body-md-semi bold-font-size);
+  font-family: var(--body-md-semibold-font-family);
+  font-size: 18pt;
   font-style: var(--body-md-semibold-font-style);
   font-weight: var(--body-md-semi bold-font-weight);
   letter-spacing: var(--body-md-semibold-letter-spacing);
@@ -77,12 +77,12 @@ const ProfileImg = styled.img`
 const FromMemberId = styled.div`
   color: var(--graysubtitle);
   flex: 1;
-  font-family: var(--body-sm-regular-font-family);
-  font-size: var(--body-sm-regular-font-size);
-  font-style: var(--body-sm-regular-font-style);
-  font-weight: var(--body-sm-regular-font-weight);
-  letter-spacing: var(--body-sm-regular-letter-spacing);
-  line-height: var(--body-sm-regular-line-height);
+  font-family: var(--body-md-semibold-font-family);
+  font-size: var(--body-md-semibold-font-size);
+  font-style: var(--body-md-semibold-font-style);
+  font-weight: var(--body-md-semibold-font-weight);
+  letter-spacing: var(--body-md-semibold-letter-spacing);
+  line-height: var(--body-md-semibold-line-height);
   position: relative;
 `;
 
