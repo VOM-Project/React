@@ -173,9 +173,9 @@ const FrameA = styled.div`
   margin-right: 20px;
 `;
 const Frame5 = styled.div`
-  background-color: rgba(244, 234, 230, 0.4);
+  background-color: var(--third-40);
   border-radius: 0px 0px 8px 8px;
-  height: 156px;
+  flex-grow: 1;
   position: relative;
   width: 100%;
   padding: 10px 20px;
@@ -197,7 +197,7 @@ const TextWrapper4 = styled.div`
   font-family: "Pretendard", Helvetica;
   font-size: 16px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.48px;
   line-height: 120.00000476837158%;
   position: relative;
@@ -213,7 +213,7 @@ const ButtonHomepy = styled.button`
   box-sizing: border-box;
   display: inline-flex;
   gap: 10px;
-  height: 55px;
+  height: 40px;
   justify-content: center;
   left: 700px;
   overflow: hidden;
@@ -342,7 +342,7 @@ function SearchPage() {
                   memberRegion={memberRegion}
                 />
                 <ButtonHomepy onClick={handleOnButtonClick}>
-                  <TextWrapper4>homepy보러가기</TextWrapper4>
+                  <TextWrapper4>홈피 보러가기</TextWrapper4>
                 </ButtonHomepy>
               </Frame5>
             </MemberResult>
