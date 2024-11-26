@@ -40,7 +40,7 @@ const ButtonMute = styled.button`
   box-sizing: border-box;
   display: inline-flex;
   gap: 10px;
-  height: 55px;
+  height: 40px;
   overflow: hidden;
   justify-content: center;
   /* left: 1200px; */
@@ -49,6 +49,7 @@ const ButtonMute = styled.button`
   /* position: absolute; */
   /* bottom: 10px; */
   /* top: 800px; */
+  cursor: pointer;
 `;
 
 const ButtonCamera = styled.button`
@@ -59,7 +60,7 @@ const ButtonCamera = styled.button`
   box-sizing: border-box;
   display: inline-flex;
   gap: 10px;
-  height: 55px;
+  height: 40px;
   overflow: hidden;
   justify-content: center;
   /* left: 1200px; */
@@ -68,6 +69,7 @@ const ButtonCamera = styled.button`
   /* position: absolute; */
   /* bottom: 10px; */
   /* top: 800px; */
+  cursor: pointer;
 `;
 
 const ButtonLeave = styled.button`
@@ -78,10 +80,12 @@ const ButtonLeave = styled.button`
   box-sizing: border-box;
   display: inline-flex;
   gap: 10px;
-  height: 55px;
-  justify-content: center;
+  height: 40px;
+  justify-content: flex-end;
   overflow: hidden;
-  padding: 16px 24px;
+  padding: 0px 24px;
+  margin-left: 350px;
+  cursor: pointer;
 `;
 
 const IconImg = styled.img`
@@ -555,7 +559,7 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
           <option>기본</option>
           <option ref={cameraOption} value="device" />
         </select>
-        <label for="filter">필터 설정 </label>
+        <label for="filter">필터</label>
         <select value={selectedFilter} onChange={handleFilterChange}>
           <option value="none">None</option>
           <option value="blur">Blur</option>
@@ -573,10 +577,12 @@ function PeerConfig({ webcamId, connectHeaders, setRemoteMemberId }) {
         >
         </video>
       </MyVideoWrapper>
-      <ButtonLeave onClick={leaveRoom}>
-        <IconImg src={Icon} />
-        <TextWrapper4>방 나가기</TextWrapper4>
-      </ButtonLeave>
+      <div style={{ color: 'blue' }}>
+        <ButtonLeave onClick={leaveRoom}>
+          <IconImg src={Icon} />
+          <TextWrapper4>방 나가기</TextWrapper4>
+        </ButtonLeave>
+      </div>
     </Wrapper>
   );
 }
