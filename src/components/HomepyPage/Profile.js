@@ -197,14 +197,14 @@ export default function Profile({ memberId }) {
           <div className="item">
             <div className="item-label">
               <img className="svg" alt="birthday-svg" src={Mingcute_birthday} />
-              <div className="item-label">생년월일</div>
+              <div className="item-label-text">생년월일</div>
             </div>
             <div className="item-value">{profile_birth}</div>
           </div>
           <div className="item">
             <div className="item-label">
               <img className="svg" alt="location-svg" src={Mingcute_location} />
-              <div className="item-label">지역</div>
+              <div className="item-label-text">지역</div>
             </div>
             <div className="item-value">{profile_region}</div>
           </div>
